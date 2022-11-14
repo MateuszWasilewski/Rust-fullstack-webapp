@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 common = { path = "../common"}
-backed-api = { path = "../backend-api"}
+backend-api = { path = "../backend-api"}
