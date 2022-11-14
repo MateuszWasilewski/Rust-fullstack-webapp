@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 common = { path = "../common"}
 backend-api = { path = "../backend-api"}
+yew = "0.19"

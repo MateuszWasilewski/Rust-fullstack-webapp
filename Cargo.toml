@@ -6,3 +6,7 @@ members = [
     "common",
     "backend-api",
 ]
+
+default-members = [
+    "backend"
+]
