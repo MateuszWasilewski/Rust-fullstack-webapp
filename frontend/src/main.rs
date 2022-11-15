@@ -1,16 +1,10 @@
 extern crate yew;
-use yew::prelude::*;
 
-#[function_component(App)]
-fn app() -> Html {
-    html! {
-        <>
-            <h1>{ "Hello World" }</h1>
-            <h2>{ "More text" }</h2>
-        </>
-    }
-}
+mod page;
+mod wasm;
+
+use wasm::log as log;
 
 fn main() {
-    yew::start_app::<App>();
+    yew::start_app::<page::App>();
 }

@@ -1,0 +1,13 @@
+.main-page {
+    background-color: white;
+    inset: 0px;
+    position: absolute;
+}
+
+.header {
+    background-color: grey;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    text-align: center;
+}
