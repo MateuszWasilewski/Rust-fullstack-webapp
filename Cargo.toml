@@ -10,3 +10,6 @@ members = [
 default-members = [
     "backend"
 ]
+
+[profile.dev.package."*"]
+opt-level = 2
