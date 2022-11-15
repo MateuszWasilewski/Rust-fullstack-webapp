@@ -1,6 +1,7 @@
 use yew::{Component, Html, html, Context, classes};
 
 mod navbar;
+mod footer;
 
 pub struct App {
     counter: u32
@@ -33,15 +34,12 @@ impl Component for App {
                 <navbar::Navbar />
                 { self.counter }
 
-                <div class={classes!("body")}>
+                <div class={classes!("content")}>
                     <h2>{ "More text" }</h2>
 
                 </div>
 
-                <div class={classes!("footer")}>
-                    <h2>{ "More text" }</h2>
-
-                </div>
+                <footer::Footer />
             </div>
         }
     }
