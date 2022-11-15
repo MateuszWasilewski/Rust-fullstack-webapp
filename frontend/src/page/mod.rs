@@ -1,6 +1,6 @@
 use yew::{Component, Html, html, Context, classes};
 
-mod header;
+mod navbar;
 
 pub struct App {
     counter: u32
@@ -30,7 +30,7 @@ impl Component for App {
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div class={classes!("main-page")}>
-                <header::Header />
+                <navbar::Navbar />
                 { self.counter }
 
                 <div class={classes!("body")}>

@@ -1,19 +1,19 @@
 use yew::{Component, Html, html, Context, classes};
 use super::super::log;
 
-pub struct Header {
+pub struct Navbar {
 }
 
 pub enum Msg {
     PlusOne
 }
 
-impl Component for Header {
+impl Component for Navbar {
     type Message = Msg;
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Header { }
+        Navbar { }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
