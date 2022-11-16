@@ -1,14 +1,10 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+use common::animal::Animal;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn get_animal() -> Animal {
+    let mut animal = Animal::new();
+    let photo = common::animal::photo::Photo::new();
+    animal.add_photo(photo);
+
+    animal
 }

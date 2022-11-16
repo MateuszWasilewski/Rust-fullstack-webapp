@@ -29,6 +29,8 @@ impl Component for App {
     }
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
+        let animal = backend_api::get_animal();
+
         html! {
             <div class={classes!("main-page")}>
                 <navbar::Navbar />
@@ -36,6 +38,10 @@ impl Component for App {
 
                 <div class={classes!("content")}>
                     <h2>{ "More text" }</h2>
+
+                //<p> 
+                    {animal.get_photo_count()}
+                //</p>
 
                 </div>
 
