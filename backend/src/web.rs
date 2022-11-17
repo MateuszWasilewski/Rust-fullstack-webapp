@@ -5,6 +5,7 @@ use rocket::Route;
 pub fn get_routes() -> Vec<Route> {
     routes![
         index,
+        animal_list_index,
         any_file
     ]
 }
@@ -12,6 +13,11 @@ pub fn get_routes() -> Vec<Route> {
 #[get("/")]
 async fn index() -> io::Result<NamedFile> {
     NamedFile::open("frontend/dist/index.html").await
+}
+
+#[get("/animal-list")]
+async fn animal_list_index() -> io::Result<NamedFile> {
+    index().await
 }
 
 #[get("/<file>")]

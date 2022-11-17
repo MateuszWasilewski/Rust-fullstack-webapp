@@ -10,3 +10,4 @@ common = { path = "../common"}
 backend-api = { path = "../backend-api"}
 yew = "0.19"
 wasm-bindgen = "0.2.83"
+yew-router = "0.16"
