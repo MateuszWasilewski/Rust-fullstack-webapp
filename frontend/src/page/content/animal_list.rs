@@ -15,10 +15,10 @@ fn animal_tags() -> Html {
                 { "id osobnika" }
             </div>
             <div class="col">
-                { "linia" }
+                { "nr miotu" }
             </div>
             <div class="col">
-                { "data urodzenia" }
+                { "fenotyp" }
             </div>
             <div class="col">
                 { "status" }
@@ -40,19 +40,19 @@ fn animal_to_html(animal: &Animal) -> Html{
                 { format!("{}", animal.id) }
             </div>
             <div class="col">
-                { format!("{}", animal.id) }
+                { format!("{}", animal.miot) }
             </div>
             <div class="col">
-                { format!("{}", animal.id) }
+                { format!("{}", animal.fenotyp) }
             </div>
             <div class="col">
-                { format!("{}", animal.id) }
+                { format!("{:?}", animal.status) }
             </div>
             <div class="col">
-                { format!("{}", animal.id) }
+                { format!("{}", animal.father) }
             </div>
             <div class="col">
-                { format!("{}", animal.id) }
+                { format!("{}", animal.mother) }
             </div>
         </div>
     }

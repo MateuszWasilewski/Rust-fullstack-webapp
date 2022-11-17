@@ -2,28 +2,25 @@ pub mod photo;
 
 use photo::Photo;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum AnimalStatus {
     Alive,
     Dead,
-    Unknown
+    Unknown,
+    Adopted
 }
 
 pub struct Animal {
     pub id: String,
-    status: AnimalStatus,
-    photos: Vec<photo::Photo>
+    pub status: AnimalStatus,
+    pub photos: Vec<photo::Photo>,
+    pub miot: u32,
+    pub mother: String,
+    pub father: String,
+    pub fenotyp: String
 }
 
 impl Animal {
-    pub fn new() -> Self {
-        Animal {
-            id: "unknown".to_owned(),
-            status: AnimalStatus::Unknown,
-            photos: vec![]
-        }
-    }
-
     pub fn add_photo(&mut self, photo: Photo) {
         self.photos.push(photo);
     }

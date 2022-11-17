@@ -1,22 +1,36 @@
+use common::{animal::Animal, animal::AnimalStatus};
 
-use common::{animal::Animal, Photo};
 
-pub fn get_animal() -> Animal {
-    let mut animal = Animal::new();
-    let photo = common::animal::photo::Photo::new();
-    animal.add_photo(photo);
-
-    animal
+pub fn get_animal_by_id(id: String) -> Option<Animal> {
+    let animals = get_all_animal();
+    for animal in animals {
+        if animal.id == id {
+            return Some(animal)
+        }
+    }
+    None
 }
 
 pub fn get_all_animal() -> Vec<Animal> {
-    let mut result = vec![
-        Animal::new(),
-        Animal::new(),
-        Animal::new(),
+    let animal_vec: Vec<Animal> = vec! [
+        Animal {
+            id: "65.M12".to_owned(),
+            photos: vec![],
+            status: AnimalStatus::Alive,
+            miot: 65,
+            mother: "24.F4".to_owned(),
+            father: "28.M3".to_owned(),
+            fenotyp: "broken tricolor LH czerwone oczy".to_owned()
+        },
+        Animal {
+            id: "66.F3".to_owned(),
+            photos: vec![],
+            status: AnimalStatus::Adopted,
+            miot: 66,
+            mother: "30.F4".to_owned(),
+            father: "4.M2".to_owned(),
+            fenotyp: "pearl".to_owned()
+        }
     ];
-    let photo = Photo::new();
-    result[0].add_photo(photo);
-
-    result
+    animal_vec
 }
