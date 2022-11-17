@@ -19,6 +19,6 @@ fn switch(route: &Routes) -> Html {
     match route {
         Routes::Home => html! { <h1>{"Home"} </h1> },
         Routes::List => html! { <AnimalList /> },
-        Routes::NotFound => html! { <h2> {"404 Not Found"} </h2>}
-    }
+        Routes::GoToAnimal { id: _ } => html!{ <h1> {"Animal page"} </h1> }
+    } 
 }
