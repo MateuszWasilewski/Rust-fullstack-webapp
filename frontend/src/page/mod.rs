@@ -1,14 +1,15 @@
-use yew::{Component, Html, html, Context, classes};
+use yew::{Component, Html, html, Context};
 
 mod navbar;
 mod footer;
+mod content;
 
 pub struct App {
-    counter: u32
 }
 
 pub enum Msg {
-    Update
+    Update,
+    //GoToMouse{id: u64}
 }
 
 impl Component for App {
@@ -16,37 +17,32 @@ impl Component for App {
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        App { counter: 0}
+        App { }
     }
 
     fn update(&mut self, _ctx: &yew::Context<Self>, _msg: Self::Message) -> bool {
         match _msg {
             Msg::Update => {
-                self.counter += 1;
                 true
             }
+            //Msg::GoToMouse { id } => {
+            //    self.mouse_id = id;
+            //    true
+            //}
         }
     }
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
-        let animal = backend_api::get_animal();
-
         html! {
-            <div class={classes!("main-page")}>
+            <>
                 <navbar::Navbar />
-                { self.counter }
-
-                <div class={classes!("content")}>
-                    <h2>{ "More text" }</h2>
-
-                //<p> 
-                    {animal.get_photo_count()}
-                //</p>
-
+                
+                <div class="container">
+                    <content::AnimalList />
                 </div>
 
-                <footer::Footer />
-            </div>
-        }
+                //<footer::Footer />
+            </>
+        }     
     }
 }

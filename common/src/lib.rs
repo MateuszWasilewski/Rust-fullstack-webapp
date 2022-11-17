@@ -2,3 +2,5 @@
 
 pub mod animal;
 
+pub use animal::Animal;
+pub use animal::photo::Photo;

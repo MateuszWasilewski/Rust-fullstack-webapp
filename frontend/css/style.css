@@ -1,9 +1,6 @@
-.main-page {
-    background-color: white;
-    inset: 0px;
-    position: absolute;
-    min-height: 100%;
-}
+html * {
+    font-family: Arial !important;
+} 
 
 .header {
     background-color: grey;

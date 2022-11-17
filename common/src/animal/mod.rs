@@ -3,13 +3,14 @@ pub mod photo;
 use photo::Photo;
 
 #[derive(Debug)]
-enum AnimalStatus {
+pub enum AnimalStatus {
     Alive,
     Dead,
     Unknown
 }
 
 pub struct Animal {
+    pub id: String,
     status: AnimalStatus,
     photos: Vec<photo::Photo>
 }
@@ -17,6 +18,7 @@ pub struct Animal {
 impl Animal {
     pub fn new() -> Self {
         Animal {
+            id: "unknown".to_owned(),
             status: AnimalStatus::Unknown,
             photos: vec![]
         }
