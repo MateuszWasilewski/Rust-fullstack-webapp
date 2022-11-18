@@ -1,4 +1,4 @@
-use common::animal::{Animal, AnimalStatus, Litter};
+use common::{animal::{Animal, AnimalStatus, Litter}, Photo};
 
 
 pub fn get_animal_by_id(id: &str) -> Option<Animal> {
@@ -15,7 +15,16 @@ pub fn get_all_animal() -> Vec<Animal> {
     let animal_vec: Vec<Animal> = vec! [
         Animal {
             id: "65.M12".to_owned(),
-            photos: vec![],
+            photos: vec![
+                Photo {
+                    path: "mouse_img.JPG".to_owned(),
+                    author: Some("Edward".to_owned())
+                },
+                Photo {
+                    path: "46M4.JPG".to_owned(),
+                    author: None
+                }
+            ],
             status: AnimalStatus::Alive,
             litter: Some(Litter { 
                 id: 65,

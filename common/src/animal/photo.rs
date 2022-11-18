@@ -1,9 +1,8 @@
 
 #[derive(PartialEq)]
 pub struct Photo {
-    path: String,
-    author: Option<String>,
-    place: Option<String>
+    pub path: String,
+    pub author: Option<String>,
 }
 
 impl Photo {
@@ -11,7 +10,6 @@ impl Photo {
         Photo {
             path: "/path/".to_owned(),
             author: None,
-            place: None
         }
     }
 }
