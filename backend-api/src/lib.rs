@@ -1,5 +1,5 @@
 use common::{animal::{Animal, AnimalStatus, Litter}, Photo};
-
+use chrono::NaiveDate;
 
 pub fn get_animal_by_id(id: &str) -> Option<Animal> {
     let animals = get_all_animal();
@@ -29,7 +29,8 @@ pub fn get_all_animal() -> Vec<Animal> {
             litter: Some(Litter { 
                 id: 65,
                 mother: "24.F4".to_owned(),
-                father: "28.M3".to_owned()
+                father: "28.M3".to_owned(),
+                birth_date: NaiveDate::parse_from_str("27-08-2022", "%d-%m-%Y").unwrap()
             }),
             fenotyp: "broken tricolor LH czerwone oczy".to_owned()
         },
@@ -40,7 +41,8 @@ pub fn get_all_animal() -> Vec<Animal> {
             litter: Some(Litter { 
                 id: 66,
                 mother: "30.F4".to_owned(),
-                father: "4.M2".to_owned()
+                father: "4.M2".to_owned(),
+                birth_date: NaiveDate::parse_from_str("27-08-2022", "%d-%m-%Y").unwrap()
             }),
             fenotyp: "pearl".to_owned()
         },

@@ -1,6 +1,5 @@
 pub mod photo;
-
-use photo::Photo;
+use chrono::NaiveDate;
 
 #[derive(PartialEq, Debug)]
 pub enum AnimalStatus {
@@ -21,15 +20,6 @@ pub struct Animal {
 pub struct Litter {
     pub id: u32,
     pub mother: String,
-    pub father: String
-}
-
-impl Animal {
-    pub fn add_photo(&mut self, photo: Photo) {
-        self.photos.push(photo);
-    }
-
-    pub fn get_photo_count(&self) -> usize {
-        self.photos.len()
-    }
+    pub father: String,
+    pub birth_date: NaiveDate
 }

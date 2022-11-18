@@ -19,8 +19,6 @@ pub fn get_navbar() -> Html {
     };
     let go_to_animal_list = get_link(Routes::List, "Animal List");
 
-    let go_to_selected_animal = get_link(Routes::GoToAnimal { id: "66.F3".to_owned() }, "Selected animal");
-
     html! {
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
@@ -28,7 +26,6 @@ pub fn get_navbar() -> Html {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="navbar-nav">
                         {go_to_animal_list}
-                        {go_to_selected_animal}
                     </div>
                 </div>
             </div>
