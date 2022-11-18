@@ -6,7 +6,9 @@ pub fn get_routes() -> Vec<Route> {
     routes![
         index,
         animal_list_index,
-        any_file
+        animal_page,
+        any_page_file,
+        get_photo
     ]
 }
 
@@ -20,8 +22,19 @@ async fn animal_list_index() -> io::Result<NamedFile> {
     index().await
 }
 
+#[get("/animal/<_animal_id>")]
+async fn animal_page(_animal_id: &str) -> io::Result<NamedFile> {
+    index().await
+}
+
 #[get("/<file>")]
-async fn any_file(file: &str) -> io::Result<NamedFile> {
-    let path = format!("{}{}", "frontend/dist/", file);
+async fn any_page_file(file: &str) -> io::Result<NamedFile> {
+    let path = format!("frontend/dist/{}", file);
+    NamedFile::open(path.as_str()).await
+}
+
+#[get("/photo/<file>")]
+async fn get_photo(file: &str) -> io::Result<NamedFile> {
+    let path = format!("photos/{}", file);
     NamedFile::open(path.as_str()).await
 }

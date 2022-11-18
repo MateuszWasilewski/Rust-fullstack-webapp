@@ -1,4 +1,5 @@
 
+#[derive(PartialEq)]
 pub struct Photo {
     path: String,
     author: Option<String>,

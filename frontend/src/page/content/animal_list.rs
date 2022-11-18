@@ -1,12 +1,7 @@
 use yew::{html, Html, function_component};
 
 use common::Animal;
-use crate::page::routes::get_blue_link;
-use crate::page::Routes;
-
-fn unwrap_string(text: &Option<String>) -> String {
-    text.clone().unwrap_or("--".to_owned())
-}
+use crate::page::routes::get_animal_link;
 
 fn animal_tags() -> Html {
     html! {
@@ -33,14 +28,19 @@ fn animal_tags() -> Html {
     }
 }
 
-fn animal_to_html(animal: &Animal) -> Html{
+fn animal_to_html(animal: &Animal) -> Html {
+    let litter = &animal.litter;
+
     html! {
         <div class="row border-top">
             <div class="col">
-                {get_blue_link(Routes::GoToAnimal{id: animal.id.clone()}, &animal.id)}
+                {get_animal_link(&animal.id)}
             </div>
             <div class="col">
-                { format!("{}", animal.miot) }
+                { format!("{}", match litter {
+                    Some(litter) => litter.id.to_string(),
+                    None => "--".to_owned()
+                }) }
             </div>
             <div class="col">
                 { format!("{}", animal.fenotyp) }
@@ -49,10 +49,16 @@ fn animal_to_html(animal: &Animal) -> Html{
                 { format!("{:?}", animal.status) }
             </div>
             <div class="col">
-                { format!("{}", unwrap_string(&animal.father) ) }
+                { match litter {
+                    Some(litter) => get_animal_link(&litter.father),
+                    None => html! { {{"--".to_owned()}} }
+                } }
             </div>
             <div class="col">
-                { format!("{}", unwrap_string(&animal.mother)) }
+                { match litter {
+                    Some(litter) => get_animal_link(&litter.mother),
+                    None => html! { {{"--".to_owned()}} }
+                } }
             </div>
         </div>
     }

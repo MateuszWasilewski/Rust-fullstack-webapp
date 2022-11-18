@@ -2,7 +2,7 @@ pub mod photo;
 
 use photo::Photo;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(PartialEq, Debug)]
 pub enum AnimalStatus {
     Alive,
     Dead,
@@ -15,9 +15,13 @@ pub struct Animal {
     pub fenotyp: String,
     pub status: AnimalStatus,
     pub photos: Vec<photo::Photo>,
-    pub miot: u32,
-    pub mother: Option<String>,
-    pub father: Option<String>,
+    pub litter: Option<Litter>,
+}
+
+pub struct Litter {
+    pub id: u32,
+    pub mother: String,
+    pub father: String
 }
 
 impl Animal {
