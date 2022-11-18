@@ -12,12 +12,12 @@ pub enum AnimalStatus {
 
 pub struct Animal {
     pub id: String,
+    pub fenotyp: String,
     pub status: AnimalStatus,
     pub photos: Vec<photo::Photo>,
     pub miot: u32,
-    pub mother: String,
-    pub father: String,
-    pub fenotyp: String
+    pub mother: Option<String>,
+    pub father: Option<String>,
 }
 
 impl Animal {

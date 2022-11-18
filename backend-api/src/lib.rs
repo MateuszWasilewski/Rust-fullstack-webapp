@@ -18,8 +18,8 @@ pub fn get_all_animal() -> Vec<Animal> {
             photos: vec![],
             status: AnimalStatus::Alive,
             miot: 65,
-            mother: "24.F4".to_owned(),
-            father: "28.M3".to_owned(),
+            mother: Some("24.F4".to_owned()),
+            father: Some("28.M3".to_owned()),
             fenotyp: "broken tricolor LH czerwone oczy".to_owned()
         },
         Animal {
@@ -27,9 +27,18 @@ pub fn get_all_animal() -> Vec<Animal> {
             photos: vec![],
             status: AnimalStatus::Adopted,
             miot: 66,
-            mother: "30.F4".to_owned(),
-            father: "4.M2".to_owned(),
+            mother: Some("30.F4".to_owned()),
+            father: Some("4.M2".to_owned()),
             fenotyp: "pearl".to_owned()
+        },
+        Animal {
+            id: "84.M1".to_owned(),
+            photos: vec![],
+            status: AnimalStatus::Alive,
+            miot: 84,
+            mother: None,
+            father: None,
+            fenotyp: "agouti".to_owned()
         }
     ];
     animal_vec

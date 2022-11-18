@@ -4,6 +4,10 @@ use common::Animal;
 use crate::page::routes::get_blue_link;
 use crate::page::Routes;
 
+fn unwrap_string(text: &Option<String>) -> String {
+    text.clone().unwrap_or("--".to_owned())
+}
+
 fn animal_tags() -> Html {
     html! {
         <div class="row fst-italic">
@@ -45,10 +49,10 @@ fn animal_to_html(animal: &Animal) -> Html{
                 { format!("{:?}", animal.status) }
             </div>
             <div class="col">
-                { format!("{}", animal.father) }
+                { format!("{}", unwrap_string(&animal.father) ) }
             </div>
             <div class="col">
-                { format!("{}", animal.mother) }
+                { format!("{}", unwrap_string(&animal.mother)) }
             </div>
         </div>
     }
