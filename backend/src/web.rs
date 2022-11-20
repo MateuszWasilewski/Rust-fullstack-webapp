@@ -6,6 +6,7 @@ pub fn get_routes() -> Vec<Route> {
     routes![
         index,
         animal_list_index,
+        phenotypes,
         animal_page,
         any_page_file,
         get_photo
@@ -19,6 +20,11 @@ async fn index() -> io::Result<NamedFile> {
 
 #[get("/animal-list")]
 async fn animal_list_index() -> io::Result<NamedFile> {
+    index().await
+}
+
+#[get("/phenotypes")]
+async fn phenotypes() -> io::Result<NamedFile> {
     index().await
 }
 

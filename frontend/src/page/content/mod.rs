@@ -3,9 +3,11 @@ use yew_router::prelude::{Switch};
 
 mod animal_list;
 mod animal;
+mod phenotypes;
 
 use animal_list::AnimalList;
 use animal::Animal;
+use phenotypes::Phenotypes;
 use super::routes::Routes;
 
 #[function_component(Content)]
@@ -24,6 +26,7 @@ fn switch(route: &Routes) -> Html {
         Routes::List => html! { <AnimalList /> },
         Routes::GoToAnimal{ id } => html! { 
             <Animal animal_id={id.clone()} /> 
-        }
+        },
+        Routes::Phenotypes => html! { <Phenotypes /> }
     } 
 }

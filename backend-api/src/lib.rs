@@ -1,4 +1,4 @@
-use common::{animal::{Animal, AnimalStatus, Litter}, Photo};
+use common::{animal::{Animal, AnimalStatus, Litter}, Photo, Phenotype};
 use chrono::NaiveDate;
 
 pub fn get_animal_by_id(id: &str) -> Option<Animal> {
@@ -55,4 +55,35 @@ pub fn get_all_animal() -> Vec<Animal> {
         }
     ];
     animal_vec
+}
+
+pub fn get_genes() -> Vec<String> {
+    vec! [
+        "A".to_owned(),
+        "ASIP2".to_owned(),
+        "TYRP1".to_owned(),
+        "TYRP2"	.to_owned(),
+        "TYR".to_owned(),
+        "TYR2".to_owned(),
+        "MYO5A".to_owned(),
+        "MYO5A2".to_owned(),
+        "OCA2".to_owned(),
+        "OCA3".to_owned(),
+    ]
+}
+
+pub fn get_phenotypes() -> Vec<Phenotype> {
+    vec! [
+        Phenotype {
+            phenotype: "agouti".to_owned(),
+            variant: "ticked".to_owned(),
+            genes: [
+                ("A".to_owned(), "A".to_owned()),
+                ("TYRP1".to_owned(), "B".to_owned()),
+                ("TYR".to_owned(), "C".to_owned()),
+                ("MYO5A".to_owned(), "D".to_owned()),
+                ("OCA2".to_owned(), "P".to_owned())
+            ].into_iter().collect()
+        }
+    ]
 }

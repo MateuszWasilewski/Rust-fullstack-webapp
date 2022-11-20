@@ -2,14 +2,6 @@ html * {
     font-family: Arial !important;
 } 
 
-.header {
-    background-color: grey;
-    display: inline-block;
-    vertical-align: top;
-    width: 100%;
-    text-align: center;
-}
-
 .footer {
     background-color: gray;
     display: inline-block;

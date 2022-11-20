@@ -8,7 +8,9 @@ pub enum Routes {
     #[at("/animal-list")]
     List,
     #[at("/animal/:id")]
-    GoToAnimal {id: String}
+    GoToAnimal {id: String},
+    #[at("/phenotypes")]
+    Phenotypes
 }
 
 
