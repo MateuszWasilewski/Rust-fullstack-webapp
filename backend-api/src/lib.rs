@@ -1,4 +1,4 @@
-use common::{animal::{Animal, AnimalStatus, Litter}, Photo, Phenotype};
+use common::{animal::{Animal, AnimalStatus, Litter, Gender}, Photo, Phenotype};
 use chrono::NaiveDate;
 
 pub fn get_animal_by_id(id: &str) -> Option<Animal> {
@@ -25,6 +25,7 @@ pub fn get_all_animal() -> Vec<Animal> {
                     author: None
                 }
             ],
+            gender: Gender::Male,
             status: AnimalStatus::Alive,
             litter: Some(Litter { 
                 id: 65,
@@ -32,26 +33,31 @@ pub fn get_all_animal() -> Vec<Animal> {
                 father: "28.M3".to_owned(),
                 birth_date: NaiveDate::parse_from_str("27-08-2022", "%d-%m-%Y").unwrap()
             }),
-            fenotyp: "broken tricolor LH czerwone oczy".to_owned()
+            fenotyp: "broken tricolor LH czerwone oczy".to_owned(),
+            genes: None
         },
         Animal {
             id: "66.F3".to_owned(),
             photos: vec![],
             status: AnimalStatus::Adopted,
+            gender: Gender::Female,
             litter: Some(Litter { 
                 id: 66,
                 mother: "30.F4".to_owned(),
                 father: "4.M2".to_owned(),
                 birth_date: NaiveDate::parse_from_str("27-08-2022", "%d-%m-%Y").unwrap()
             }),
-            fenotyp: "pearl".to_owned()
+            fenotyp: "pearl".to_owned(),
+            genes: None
         },
         Animal {
             id: "84.M1".to_owned(),
+            gender: Gender::Male,
             photos: vec![],
             status: AnimalStatus::Alive,
             litter: None,
-            fenotyp: "agouti".to_owned()
+            fenotyp: "agouti".to_owned(),
+            genes: None
         }
     ];
     animal_vec

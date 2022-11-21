@@ -1,6 +1,7 @@
 use yew::{function_component, html, Html, Properties};
 
 use common::Animal as AnimalStruct;
+use common::animal::Gender;
 
 use crate::page::routes::get_animal_link;
 
@@ -20,7 +21,12 @@ fn get_animal_page(animal: &AnimalStruct) -> Html {
 
     let mut data = vec![
         (html!{"id"}, get_animal_link(animal.id.as_str())),
-        (html!{"płeć"}, html!{""}),
+        (html!{"płeć"}, html!{
+            match animal.gender {
+                Gender::Male => "M",
+                Gender::Female => "F"
+            }
+        }),
         (html!{"fenotyp"}, html!{ &animal.fenotyp }),
         //(html!{"kolor oka"}, html! {""}),
         //(html!{"włos"}, html! {""}),
