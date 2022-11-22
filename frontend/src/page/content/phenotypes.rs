@@ -53,7 +53,7 @@ fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> Html {
             Some(gene_value) => gene_value,
             None => "."
         };
-        genotype.push_str(gene_str);
+        genotype.push_str(&format!(" {gene_str}"));
     }
     fields.push(genotype);
 

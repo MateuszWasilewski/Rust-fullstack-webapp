@@ -57,7 +57,7 @@ fn get_animal_page(animal: &AnimalStruct) -> Html {
 
     html! {
         <>
-            <h2> { format!("Information about: {}", animal.id)} </h2>
+            <h2> { format!("Informacje o myszy: {}", animal.id)} </h2>
             <div class="clearfix">
                 { photos }
                 { data }

@@ -1,6 +1,7 @@
 use yew::{html, Html, function_component};
 
 use common::Animal;
+use common::animal::AnimalStatus;
 use crate::page::routes::get_animal_link;
 
 fn animal_tags() -> Html {
@@ -12,7 +13,7 @@ fn animal_tags() -> Html {
             <div class="col">
                 { "nr miotu" }
             </div>
-            <div class="col">
+            <div class="col-3">
                 { "fenotyp" }
             </div>
             <div class="col">
@@ -42,11 +43,16 @@ fn animal_to_html(animal: &Animal) -> Html {
                     None => "--".to_owned()
                 }) }
             </div>
-            <div class="col">
+            <div class="col-3">
                 { format!("{}", animal.fenotyp) }
             </div>
             <div class="col">
-                { format!("{:?}", animal.status) }
+                { match &animal.status {
+                    AnimalStatus::Alive => "zwierzętarnia",
+                    AnimalStatus::Dead => "martwy",
+                    AnimalStatus::Unknown => "nieznany",
+                    AnimalStatus::Adopted => "adopcja"
+                } }
             </div>
             <div class="col">
                 { match litter {
@@ -71,7 +77,7 @@ pub fn get_animal_list() -> Html {
 
     html! {
         <>
-            <h2>{ "Start Animal List" }</h2>
+            <h2>{ "Lista Myszy" }</h2>
 
             <div id="animal_list">
                 {animal_tags()}
