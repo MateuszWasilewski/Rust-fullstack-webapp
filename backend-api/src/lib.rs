@@ -366,7 +366,7 @@ pub fn get_phenotypes() -> Vec<Phenotype> {
             variant: "ticked".to_owned(),
             genes: [
                 ("ASIP".to_owned(), "A".to_owned()),
-                ("ASIP2".to_owned(), "At".to_owned()),
+                ("ASIP2".to_owned(), "at".to_owned()),
                 ("TYRP1".to_owned(), "b".to_owned()),
                 ("TYRP2".to_owned(), "b".to_owned()),
                 ("TYR".to_owned(), "C".to_owned()),
@@ -383,17 +383,6 @@ pub fn get_phenotypes() -> Vec<Phenotype> {
                 ("TYR".to_owned(), "C".to_owned()),
                 ("MYO5A".to_owned(), "d".to_owned()),
                 ("MYO5A2".to_owned(), "d".to_owned()),
-                ("OCA2".to_owned(), "P".to_owned()),
-            ].into_iter().collect()
-        },
-        Phenotype {
-            phenotype: "blue agouti".to_owned(),
-            variant: "ticked".to_owned(),
-            genes: [
-                ("ASIP".to_owned(), "A".to_owned()),
-                ("TYRP1".to_owned(), "B".to_owned()),
-                ("TYR".to_owned(), "C".to_owned()),
-                ("MYO5A".to_owned(), "D".to_owned()),
                 ("OCA2".to_owned(), "P".to_owned()),
             ].into_iter().collect()
         },

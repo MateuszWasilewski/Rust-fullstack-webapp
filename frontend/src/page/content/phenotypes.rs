@@ -35,8 +35,8 @@ fn get_table_fields(fields: &Vec<String>) -> Html {
 
 fn gene_tags() -> Html {
     let tags = vec![
-        "variant".to_owned(),
-        "phenotype".to_owned(),
+        "wariant".to_owned(),
+        "fenotyp".to_owned(),
         "genotyp".to_owned()
     ];
     get_table_tags(&tags)
@@ -55,6 +55,7 @@ fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> Html {
         };
         genotype.push_str(&format!(" {gene_str}"));
     }
+
     fields.push(genotype);
 
     get_table_fields(&fields)
@@ -68,7 +69,7 @@ pub fn get_phenotypes() -> Html {
     let phenotypes_list = phenotypes.iter().map(|phenotype| phenotype_list(&genes, phenotype)).collect::<Html>();
     html! {
         <>
-            <h1>{"Phenotypes List"} </h1>
+            <h1>{"Lista Fenotypów"} </h1>
             { gene_tags() }
             { phenotypes_list }
         </>
