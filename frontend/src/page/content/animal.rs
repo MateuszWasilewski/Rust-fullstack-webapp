@@ -3,15 +3,20 @@ use yew::{function_component, html, Html, Properties};
 use common::Animal as AnimalStruct;
 use common::animal::Gender;
 
-use crate::page::routes::get_animal_link;
+use crate::page::routes::AnimalLink;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
     pub animal_id: String
 }
 
+fn get_animal_link(id: &str) -> Html {
+    html! {
+        <AnimalLink id={id.to_owned()} />
+    }
+}
 
-fn get_animal_page(animal: &AnimalStruct) -> Html {
+fn animal_page(animal: &AnimalStruct) -> Html {
     let photos = animal.photos.iter().map( |photo| {
         let image_path = format!("/photo/{}", photo.path);
         html! {
@@ -72,7 +77,7 @@ pub fn get_animal_page(props: &Props) -> Html {
 
     match animal {
         Some(animal) => {
-            get_animal_page(&animal)
+            animal_page(&animal)
         },
         None => html! {
             <h2> { format!("Animal with given id {} could not be found", &props.animal_id)} </h2>

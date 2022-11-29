@@ -1,47 +1,41 @@
 use yew::MouseEvent;
 use yew::{html, function_component, Callback, Html};
-use yew_router::prelude::{use_history};
-use yew_router::history::History;
 
 use super::Routes;
-use super::routes::get_link;
+use yew_router::prelude::use_navigator;
+use super::routes::Link;
+use super::routes::LinkProps;
+
+#[function_component(NavLink)]
+fn get_navlink(props: &LinkProps) -> Html {
+    let props = props.clone();
+    html! {
+        <div class="navbar-nav">
+            <Link ..props/>
+        </div>
+    }
+}
 
 #[function_component(Navbar)]
 pub fn get_navbar() -> Html {
-    let history = use_history().unwrap();
+    let navigator = use_navigator().unwrap();
     let go_home_button = {
-        let history = history.clone();
-        let onclick = Callback::once(move |_: MouseEvent|
-            history.push(Routes::Home));
+        let navigator = navigator.clone();
+        let onclick = Callback::from(move |_: MouseEvent|
+            navigator.push(&Routes::Home));
         html! {
             <a class="navbar-brand" href="javascript:void(0);" onclick={onclick}>{"Baza Myszy"}</a>
         }   
     };
-    let go_to_animal_list = get_link(Routes::List, "Lista Myszy");
-    let go_to_phenotypes = get_link(Routes::Phenotypes, "Lista Fenotypów");
-    let go_to_litters = get_link(Routes::Phenotypes, "Lista Miotów");
-
-
-    let navbar_options = vec! [
-        html! {go_to_animal_list},
-        html! {go_to_phenotypes},
-        html! {go_to_litters}
-    ].into_iter().map(|nav_link| {
-        html! {
-            <>
-                <div class="navbar-nav">
-                    {nav_link}
-                </div>
-            </>
-        }
-    } ).collect::<Html>();
-
+    
     html! {
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
                 {go_home_button}
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    {navbar_options}
+                    <NavLink target={Routes::AnimalList} link_name={"Lista Myszy"}/>
+                    <NavLink target={Routes::Phenotypes} link_name={"Lista Fenotypów"}/>
+                    <NavLink target={Routes::AnimalList} link_name={"Lista Miotów"}/>
                 </div>
                 
                 <form class="d-flex mx-auto" role="search">

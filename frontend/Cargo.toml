@@ -8,6 +8,5 @@ edition = "2021"
 [dependencies]
 common = { path = "../common"}
 backend-api = { path = "../backend-api"}
-yew = "0.19"
-wasm-bindgen = "0.2.83"
-yew-router = "0.16"
+yew = { version = "0.20.0", features = ["csr"] }
+yew-router = "0.17"

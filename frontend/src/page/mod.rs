@@ -1,8 +1,7 @@
-use yew::{html, function_component};
+use yew::{html, function_component, Html};
 use yew_router::BrowserRouter;
 
 mod navbar;
-mod footer;
 mod content;
 mod routes;
 
@@ -17,8 +16,6 @@ pub fn get_app() -> Html {
             <BrowserRouter>
                 <Navbar />
                 <Content />
-                
-                //<footer::Footer />
             </BrowserRouter>
         </>
     }   

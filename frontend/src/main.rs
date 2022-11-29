@@ -1,9 +1,8 @@
-extern crate yew;
+use yew::Renderer;
 
 mod page;
-mod wasm;
 mod common;
 
 fn main() {
-    yew::start_app::<page::App>();
+    Renderer::<page::App>::new().render();
 }

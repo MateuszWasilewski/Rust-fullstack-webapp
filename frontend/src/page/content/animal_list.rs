@@ -2,7 +2,13 @@ use yew::{html, Html, function_component};
 
 use common::Animal;
 use common::animal::AnimalStatus;
-use crate::page::routes::get_animal_link;
+use crate::page::routes::AnimalLink;
+
+fn get_animal_link(id: &str) -> Html {
+    html! {
+        <AnimalLink id={id.to_owned()} />
+    }
+}
 
 fn animal_tags() -> Html {
     html! {
