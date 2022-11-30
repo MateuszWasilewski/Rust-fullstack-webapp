@@ -1,4 +1,2 @@
 
-mod table;
-mod table_with_tags;
-
+pub mod table;

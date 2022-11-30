@@ -1,51 +1,18 @@
 use yew::{function_component, html, Html};
+use crate::common::table::{RowProps, TableWithTags};
 
-
-fn get_table_tags(tags: &Vec<String>) -> Html {
-    let tags = tags.iter().map(|tag| {
-        html! {
-            <div class="col">
-                {tag}
-            </div>
-        }
-    } ).collect::<Html>();
-
-    html! {
-        <div class="row fst-italic">
-            {tags}
-        </div>
-    }
+fn gene_tags() -> RowProps {
+    vec![
+        "wariant".into(),
+        "fenotyp".into(),
+        "genotyp".into()
+    ]
 }
 
-fn get_table_fields(fields: &Vec<String>) -> Html {
-    let html_fields = fields.iter().map(|field| {
-        html! {
-            <div class="col">
-                {field}
-            </div>
-        }
-    }).collect::<Html>();
-
-    html! {
-        <div class="row border-top">
-            { html_fields }
-        </div>
-    }
-}
-
-fn gene_tags() -> Html {
-    let tags = vec![
-        "wariant".to_owned(),
-        "fenotyp".to_owned(),
-        "genotyp".to_owned()
-    ];
-    get_table_tags(&tags)
-}
-
-fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> Html {
-    let mut fields = vec! [];
-    fields.push(phenotype.variant.clone());
-    fields.push(phenotype.phenotype.clone());
+fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> RowProps {
+    let mut fields: Vec<Html> = vec! [];
+    fields.push(phenotype.variant.clone().into());
+    fields.push(phenotype.phenotype.clone().into());
 
     let mut genotype = String::new();
     for gene in genes {
@@ -56,9 +23,9 @@ fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> Html {
         genotype.push_str(&format!(" {gene_str}"));
     }
 
-    fields.push(genotype);
+    fields.push(genotype.into());
 
-    get_table_fields(&fields)
+    fields
 }
 
 #[function_component(Phenotypes)]
@@ -66,12 +33,12 @@ pub fn get_phenotypes() -> Html {
     let genes = backend_api::get_genes();
     let phenotypes = backend_api::get_phenotypes();
 
-    let phenotypes_list = phenotypes.iter().map(|phenotype| phenotype_list(&genes, phenotype)).collect::<Html>();
+    let phenotypes_list: Vec<RowProps> = phenotypes.iter().map(|phenotype| 
+        phenotype_list(&genes, phenotype)).collect();
     html! {
         <>
             <h1>{"Lista Fenotypów"} </h1>
-            { gene_tags() }
-            { phenotypes_list }
+            <TableWithTags tags={gene_tags()} data={phenotypes_list} />
         </>
     }
 }
