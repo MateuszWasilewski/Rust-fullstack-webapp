@@ -4,6 +4,7 @@ mod genes;
 
 pub fn get_api_routes() -> Vec<Route> {
     routes![
-        genes::genes_list
+        genes::genes_list,
+        genes::get_phenotypes,
     ]
 }

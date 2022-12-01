@@ -40,9 +40,11 @@ impl Component for Phenotypes {
     fn create(ctx: &yew::Context<Self>) -> Self {
         ctx.link().send_future(async move {
             let genes = backend_api::get_genes().await?;
-            let phenotypes = backend_api::get_phenotypes();
-            let phenotypes_list: Vec<RowProps> = phenotypes.iter().map(|phenotype| 
-                phenotype_list(&genes, phenotype)).collect();
+            let phenotypes = backend_api::get_phenotypes().await?;
+            let phenotypes_list: Vec<RowProps> = phenotypes
+                .iter()
+                .map(|phenotype| phenotype_list(&genes, phenotype))
+                .collect();
 
             Ok(html! {
                 <TableWithTags tags={gene_tags()} data={phenotypes_list} />
