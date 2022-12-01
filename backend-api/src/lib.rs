@@ -1,5 +1,8 @@
 use common::{animal::{Animal, AnimalStatus, Litter, Gender}, Photo, Phenotype};
 use chrono::NaiveDate;
+use anyhow::Result;
+
+static BASE_URL: &str = "http://127.0.0.1:8000";
 
 pub fn get_animal_by_id(id: &str) -> Option<Animal> {
     let animals = get_all_animal();
@@ -260,19 +263,14 @@ pub fn get_all_animal() -> Vec<Animal> {
     animal_vec
 }
 
-pub fn get_genes() -> Vec<String> {
-    vec! [
-        "ASIP".to_owned(),
-        "ASIP2".to_owned(),
-        "TYRP1".to_owned(),
-        "TYRP2"	.to_owned(),
-        "TYR".to_owned(),
-        "TYR2".to_owned(),
-        "MYO5A".to_owned(),
-        "MYO5A2".to_owned(),
-        "OCA2".to_owned(),
-        "OCA3".to_owned(),
-    ]
+pub async fn get_genes() -> Result<Vec<String>> {
+    let url = reqwest::Url::parse(BASE_URL)?;
+    let url = url.join("/api/genes-list")?;
+
+    let response = reqwest::get(url).await?;
+    let parsed = response.json::<Vec<String>>().await?;
+
+    Ok(parsed)
 }
 
 pub fn get_phenotypes() -> Vec<Phenotype> {

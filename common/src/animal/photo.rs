@@ -1,5 +1,7 @@
+use serde::{Serialize, Deserialize};
 
-#[derive(PartialEq)]
+
+#[derive(Serialize, Deserialize)]
 pub struct Photo {
     pub path: String,
     pub author: Option<String>,

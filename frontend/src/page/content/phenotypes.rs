@@ -1,5 +1,6 @@
-use yew::{function_component, html, Html};
+use yew::{html, Html, Component};
 use crate::common::table::{RowProps, TableWithTags};
+use anyhow::Result;
 
 fn gene_tags() -> RowProps {
     vec![
@@ -28,17 +29,53 @@ fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> RowProp
     fields
 }
 
-#[function_component(Phenotypes)]
-pub fn get_phenotypes() -> Html {
-    let genes = backend_api::get_genes();
-    let phenotypes = backend_api::get_phenotypes();
+pub struct Phenotypes {
+    table: Html
+}
 
-    let phenotypes_list: Vec<RowProps> = phenotypes.iter().map(|phenotype| 
-        phenotype_list(&genes, phenotype)).collect();
-    html! {
-        <>
-            <h1>{"Lista Fenotypów"} </h1>
-            <TableWithTags tags={gene_tags()} data={phenotypes_list} />
-        </>
+impl Component for Phenotypes {
+    type Message = Result<Html>;
+    type Properties = ();
+
+    fn create(ctx: &yew::Context<Self>) -> Self {
+        ctx.link().send_future(async move {
+            let genes = backend_api::get_genes().await?;
+            let phenotypes = backend_api::get_phenotypes();
+            let phenotypes_list: Vec<RowProps> = phenotypes.iter().map(|phenotype| 
+                phenotype_list(&genes, phenotype)).collect();
+
+            Ok(html! {
+                <TableWithTags tags={gene_tags()} data={phenotypes_list} />
+            })
+        });
+        Phenotypes { table: html!{} }
+    }
+
+    fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
+        let new_table = match msg {
+            Ok(data) => data,
+            Err(err) => html! {
+                <>
+                    <h4> {"Received error"}</h4>
+                    {err}
+                </>
+            },
+        };
+        if new_table != self.table {
+            self.table = new_table;
+            true
+        }
+        else {
+            false
+        }
+    }
+
+    fn view(&self, _ctx: &yew::Context<Self>) -> Html {
+        html! {
+            <>
+                <h1>{"Lista Fenotypów"} </h1>
+                { self.table.clone() }
+            </>
+        }
     }
 }

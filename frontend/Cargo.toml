@@ -10,3 +10,4 @@ common = { path = "../common"}
 backend-api = { path = "../backend-api"}
 yew = { version = "0.20.0", features = ["csr"] }
 yew-router = "0.17"
+anyhow = "1.0.66"

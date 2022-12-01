@@ -4,6 +4,7 @@ use std::sync::Mutex;
 
 mod web;
 mod state;
+mod api;
 
 #[launch]
 fn rocket() -> _ {
@@ -16,6 +17,7 @@ fn rocket() -> _ {
 
     rocket::build()
         .mount("/", web::get_routes())
+        .mount("/api", api::get_api_routes())
         .mount("/counter", routes![state::get_counter])
         .manage(app_state)
     //.mount("/public", FileServer::from("frontend/dist/"))
