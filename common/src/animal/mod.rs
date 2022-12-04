@@ -3,5 +3,7 @@ pub mod genes;
 
 mod compressed;
 mod full;
+mod animal_data;
 
-pub use full::{Animal, AnimalStatus, Gender, Litter};
+pub use full::Animal;
+pub use animal_data::{AnimalStatus, Gender, Litter};
