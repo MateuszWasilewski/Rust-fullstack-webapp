@@ -17,16 +17,15 @@ COPY . .
 RUN \
     --mount=type=cache,target=/usr/build/target \
     cargo build --release --target=aarch64-unknown-linux-gnu && \
-    cp target/release/backend backend-app
+    cp target/aarch64-unknown-linux-gnu/release/backend backend-app
 
 # build frontend
 RUN \
     --mount=type=cache,target=/usr/build/target \
-    cd frontend --release && \
-    trunk build
+    cd frontend && \
+    trunk build --release
 
-FROM --platform=linux/arm64/v8 alpine:3.17.0 as release
-#FROM --platform=linux/arm64/v8 debian:stable-slim  as release
+FROM --platform=linux/aarch64 ubuntu:22.04 as release
 
 WORKDIR /usr/bin
 COPY --from=build /usr/build/backend-app .

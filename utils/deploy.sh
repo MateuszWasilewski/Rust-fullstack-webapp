@@ -12,8 +12,10 @@ sudo DOCKER_BUILDKIT=1 docker save -o /home/mateusz/Documents/Code/Rust/fullstac
 sudo chown mateusz image.tar
 scp -i $SSH_ID $IMAGE ubuntu@$VM_IP:~/images/
 
-#ssh -i $SSH_ID ubuntu@$VM_IP
+ssh -i $SSH_ID ubuntu@$VM_IP \
+    "sudo docker load -i images/$IMAGE; \
+    sudo docker run -a stdout -a stderr -p 80:8000 fullstack-webapp"
 # on VM
-#sudo docker load -i images/$IMAGE $APP_NAME
-
+#sudo docker load -i images/image.tar
+#sudo docker run -p 80:8000 fullstack-webapp
 #logout

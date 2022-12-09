@@ -1,3 +1,3 @@
 # !bin/bash
-# --platform linux/arm/v8
+# --platform linux/aarch64
 sudo DOCKER_BUILDKIT=1 docker build -t fullstack-webapp .
