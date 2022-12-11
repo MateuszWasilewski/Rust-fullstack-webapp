@@ -13,9 +13,10 @@ sudo chown mateusz image.tar
 scp -i $SSH_ID $IMAGE ubuntu@$VM_IP:~/images/
 rm $IMAGE
 
-ssh -i $SSH_ID ubuntu@$VM_IP \
-    "sudo docker load -i images/$IMAGE; \
-    sudo docker run -a stdout -a stderr -p 80:8000 fullstack-webapp"
+ssh -i $SSH_ID ubuntu@$VM_IP " \
+    sudo docker image rm -f $APP_NAME:latest; \
+    sudo docker load -i images/$IMAGE; \
+    sudo docker run -d -p 80:8000 fullstack-webapp"
 # on VM
 #sudo docker load -i images/image.tar
 #sudo docker run -p 80:8000 fullstack-webapp

@@ -1,13 +1,29 @@
-use std::sync::Mutex;
 
-#[macro_use] extern crate rocket;
+#[macro_use] 
+extern crate rocket;
+extern crate dotenv_codegen;
+
+use std::sync::Mutex;
+use sqlx::postgres::PgPoolOptions;
+use dotenv_codegen::dotenv;
 
 mod web;
 mod state;
 mod api;
 
+static DB_URL: &str = dotenv!("DATABASE_URL");
+
 #[launch]
-fn rocket() -> _ {
+async fn rocket() -> _ {
+    let pool = PgPoolOptions::new()
+        .max_connections(8)
+        .connect(DB_URL).await
+        .unwrap();
+    sqlx::migrate!("../db/migrations")
+        .run(&pool)
+        .await
+        .unwrap();
+
     let mut app_state = state::GlobalState {
         counter: 0,
         global_counter: Mutex::new(0)
