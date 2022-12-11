@@ -11,6 +11,7 @@ APP_NAME=fullstack-webapp
 sudo DOCKER_BUILDKIT=1 docker save -o /home/mateusz/Documents/Code/Rust/fullstack-webapp/$IMAGE $APP_NAME
 sudo chown mateusz image.tar
 scp -i $SSH_ID $IMAGE ubuntu@$VM_IP:~/images/
+rm $IMAGE
 
 ssh -i $SSH_ID ubuntu@$VM_IP \
     "sudo docker load -i images/$IMAGE; \

@@ -2,7 +2,8 @@ use common::{animal::{Animal, AnimalStatus, Litter, Gender}, Photo, Phenotype};
 use chrono::NaiveDate;
 use anyhow::Result;
 
-static BASE_URL: &str = "http://127.0.0.1:8000";
+//static BASE_URL: &str = "http://127.0.0.1:8000";
+static BASE_URL: &str = "http://138.2.182.80:80";
 
 pub fn get_animal_by_id(id: &str) -> Option<Animal> {
     let animals = get_all_animal();
