@@ -1,15 +1,18 @@
 use common::{animal::{Animal, AnimalStatus, Litter, Gender}, Photo, Phenotype};
 use chrono::NaiveDate;
 use anyhow::Result;
+use dotenv_codegen::dotenv;
 
 #[macro_use]
 extern crate anyhow;
 
-//static BASE_URL: &str = "http://127.0.0.1:8000";
-static BASE_URL: &str = "http://138.2.182.80:80";
+#[cfg(debug_assertions)]
+static BASE_URL: &str = dotenv!("LOCAL_SERVER_IP");
+#[cfg(not(debug_assertions))]
+static BASE_URL: &str = dotenv!("CLOUD_SERVER_IP");
 
 pub async fn get_animal_by_id(id: &str) -> Result<Animal> {
-    let animals = get_all_animal();
+    let animals = get_all_animal().await?;
     for animal in animals {
         if animal.id == id {
             return Ok(animal)
@@ -18,7 +21,7 @@ pub async fn get_animal_by_id(id: &str) -> Result<Animal> {
     Err(anyhow!("No animal with given id"))
 }
 
-pub fn get_all_animal() -> Vec<Animal> {
+pub async fn get_all_animal() -> Result<Vec<Animal>> {
     let animal_vec: Vec<Animal> = vec! [
         Animal {
             id: "28.M3".to_owned(),
@@ -264,7 +267,7 @@ pub fn get_all_animal() -> Vec<Animal> {
             genes: None
         },
     ];
-    animal_vec
+    Ok(animal_vec)
 }
 
 pub async fn get_genes() -> Result<Vec<String>> {

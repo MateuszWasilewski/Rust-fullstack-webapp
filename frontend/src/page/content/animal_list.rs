@@ -1,4 +1,5 @@
-use yew::{html, Html, function_component};
+use yew::{html, Html, Component};
+use anyhow::Result;
 
 use common::Animal;
 use common::animal::AnimalStatus;
@@ -48,22 +49,47 @@ fn animal_to_row(animal: &Animal) -> RowProps {
     ]
 }
 
-#[function_component(AnimalList)]
-pub fn get_animal_list() -> Html {
-    //let animal_list: Html = backend_api::get_all_animal().iter()
-    //        .map(animal_to_html).collect();
+pub struct AnimalList {
+    animals: Option<Vec<Animal>>
+}
 
-    let animal_list: Vec<RowProps> = backend_api::get_all_animal().iter()
-        .map(animal_to_row).collect();
-    let tags = animal_tags();
+impl Component for AnimalList {
+    type Message = Result<Vec<Animal>>;
+    type Properties = ();
 
-    html! {
+    fn create(ctx: &yew::Context<Self>) -> Self {
+        ctx.link().send_future({
+            async move {
+                let animals = backend_api::get_all_animal().await;
+                animals
+            }
+        });
+        AnimalList { animals: None }
+    }
+
+    fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
+        self.animals = msg.ok();
+        true
+    }
+
+    fn view(&self, _ctx: &yew::Context<Self>) -> Html {
+        html! {
         <>
-            <h2>{ "Lista Myszy" }</h2>
-
-            <div id="animal_list">
-                <TableWithTags tags={tags} data={animal_list} />
-            </div>
+        <h2>{ "Lista Myszy" }</h2>
+        {match &self.animals {
+            None => html!{},
+            Some(animals) => {
+                let animal_list: Vec<RowProps> = animals.iter()
+                    .map(animal_to_row).collect();
+                let tags = animal_tags();
+                html! {
+                    <div id="animal_list">
+                        <TableWithTags tags={tags} data={animal_list} />
+                    </div>
+                }
+            },
+        }}
         </>
+        }
     }
 }
