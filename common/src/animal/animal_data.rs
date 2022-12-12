@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 use chrono::NaiveDate;
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum AnimalStatus {
     Alive,
     Dead,
@@ -16,10 +16,10 @@ pub enum Gender {
 }
 
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Serialize, Deserialize)]
 pub struct Litter {
     pub id: u32,
     pub mother: String,
     pub father: String,
-    pub birth_date: NaiveDate
+    //pub birth_date: NaiveDate
 }

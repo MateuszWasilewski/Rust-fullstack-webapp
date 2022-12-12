@@ -1,8 +1,10 @@
+use serde::{Serialize, Deserialize};
+
 use super::genes::AnimalGenes;
 use super::photo::Photo;
 use super::animal_data::{AnimalStatus, Gender, Litter};
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Serialize, Deserialize)]
 pub struct Animal {
     pub id: String,
     pub fenotyp: String,

@@ -43,7 +43,7 @@ fn animal_page(animal: &AnimalStruct) -> Html {
             (html!{"nr miotu"}, html!{ litter.id }),
             (html!{"ojciec"}, get_animal_link(&litter.father)),
             (html!{"matka"}, get_animal_link(&litter.mother)),
-            (html!{"data narodzin"}, html!{&litter.birth_date}),
+            //(html!{"data narodzin"}, html!{&litter.birth_date}),
         ];
         data.append(&mut bonus_data);
     }

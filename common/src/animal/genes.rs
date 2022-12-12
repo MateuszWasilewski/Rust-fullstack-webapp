@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 
-#[derive(PartialEq)]
+use serde::{Serialize, Deserialize};
+
+#[derive(PartialEq, Serialize, Deserialize)]
 pub struct AnimalGenes {
     pub genes: HashMap<String, String>
 }
