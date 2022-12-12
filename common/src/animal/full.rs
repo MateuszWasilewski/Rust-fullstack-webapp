@@ -2,6 +2,7 @@ use super::genes::AnimalGenes;
 use super::photo::Photo;
 use super::animal_data::{AnimalStatus, Gender, Litter};
 
+#[derive(PartialEq)]
 pub struct Animal {
     pub id: String,
     pub fenotyp: String,

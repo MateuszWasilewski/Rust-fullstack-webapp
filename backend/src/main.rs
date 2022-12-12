@@ -1,7 +1,6 @@
 
 #[macro_use] 
 extern crate rocket;
-extern crate dotenv_codegen;
 
 use std::sync::Mutex;
 use anyhow::Result;
@@ -10,7 +9,6 @@ mod web;
 mod state;
 mod api;
 mod db;
-
 
 
 #[rocket::main]

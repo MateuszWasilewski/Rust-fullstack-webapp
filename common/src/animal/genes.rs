@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[derive(PartialEq)]
 pub struct AnimalGenes {
     pub genes: HashMap<String, String>
 }

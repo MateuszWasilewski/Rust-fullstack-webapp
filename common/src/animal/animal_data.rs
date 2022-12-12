@@ -9,13 +9,14 @@ pub enum AnimalStatus {
     Adopted
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, PartialEq)]
 pub enum Gender {
     Male,
     Female
 }
 
 
+#[derive(PartialEq)]
 pub struct Litter {
     pub id: u32,
     pub mother: String,

@@ -1,4 +1,5 @@
-use yew::{function_component, html, Html, Properties};
+use yew::{html, Html, Properties, Component};
+use anyhow::Result;
 
 use common::Animal as AnimalStruct;
 use common::animal::Gender;
@@ -71,16 +72,57 @@ fn animal_page(animal: &AnimalStruct) -> Html {
     }
 }
 
-#[function_component(Animal)]
-pub fn get_animal_page(props: &Props) -> Html {
-    let animal = backend_api::get_animal_by_id(&props.animal_id);
 
-    match animal {
-        Some(animal) => {
-            animal_page(&animal)
-        },
-        None => html! {
-            <h2> { format!("Animal with given id {} could not be found", &props.animal_id)} </h2>
+pub struct Animal {
+    animal: Option<common::Animal>
+}
+
+impl Animal {
+    fn fetch_animal(&self, ctx: &yew::Context<Self>) {
+        let props = ctx.props();
+        ctx.link().send_future({
+            let id = props.animal_id.clone();
+            async move {
+                let animal = backend_api::get_animal_by_id(&id).await;
+                animal
+            }
+        });
+    }
+}
+
+impl Component for Animal {
+    type Message = Result<common::Animal>;
+    type Properties = Props;
+
+    fn create(ctx: &yew::Context<Self>) -> Self {
+        let animal = Animal {animal: None};
+        animal.fetch_animal(ctx);
+        animal
+    }
+
+    fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Ok(animal) => {
+                self.animal = Some(animal);
+                true
+            },
+            Err(_) => false
+        }
+    }
+
+    fn changed(&mut self, ctx: &yew::Context<Self>, _old_props: &Self::Properties) -> bool {
+        self.fetch_animal(ctx);
+        true
+    }
+
+    fn view(&self, _ctx: &yew::Context<Self>) -> Html {
+        match &self.animal {
+            Some(animal) => {
+                animal_page(&animal)
+            },
+            None => html! {
+                <h2> { format!("Animal with given id could not be found")} </h2>
+            }
         }
     }
 }
