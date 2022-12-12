@@ -4,25 +4,18 @@ extern crate rocket;
 extern crate dotenv_codegen;
 
 use std::sync::Mutex;
-use sqlx::postgres::PgPoolOptions;
-use dotenv_codegen::dotenv;
+use anyhow::Result;
 
 mod web;
 mod state;
 mod api;
+mod db;
 
-static DB_URL: &str = dotenv!("DATABASE_URL");
 
-#[launch]
-async fn rocket() -> _ {
-    let pool = PgPoolOptions::new()
-        .max_connections(8)
-        .connect(DB_URL).await
-        .unwrap();
-    sqlx::migrate!("../db/migrations")
-        .run(&pool)
-        .await
-        .unwrap();
+
+#[rocket::main]
+async fn main() -> Result<()> {
+    let _pool = db::connect_db().await?;
 
     let mut app_state = state::GlobalState {
         counter: 0,
@@ -31,10 +24,13 @@ async fn rocket() -> _ {
 
     app_state.counter += 1;
 
-    rocket::build()
+    let _rocket = rocket::build()
         .mount("/", web::get_routes())
         .mount("/api", api::get_api_routes())
         .mount("/counter", routes![state::get_counter])
         .manage(app_state)
-    //.mount("/public", FileServer::from("frontend/dist/"))
+        .launch()
+        .await?;
+
+    Ok(())
 }
