@@ -1,5 +1,4 @@
 use serde::{Serialize, Deserialize};
-use chrono::NaiveDate;
 
 #[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum AnimalStatus {

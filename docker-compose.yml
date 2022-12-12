@@ -1,0 +1,25 @@
+version: '0.1.0'
+services:
+  db-postgres:
+    image: postgres
+    restart: always
+    container_name: db-postgres
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pguser
+      POSTGRES_DB: pgdb
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  server:
+    image: rust-server
+    restart: always
+    container_name: server
+    ports:
+      - "80:8000"
+    links:
+      - db-postgres
+volumes:
+  db-data:

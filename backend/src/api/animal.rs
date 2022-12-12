@@ -1,12 +1,11 @@
-use common::Animal;
 use rocket::serde::json::Json;
 
+use common::Animal;
 use common::animal::{Gender, AnimalStatus, Litter};
 use common::Photo;
 
-#[get("/animal-list")]
-pub async fn get_animal_list() -> Json<Vec<Animal>> {
-    let result: Vec<Animal> = vec! [
+async fn animal_list() -> Vec<Animal> {
+    vec! [
         Animal {
             id: "28.M3".to_owned(),
             photos: vec![],
@@ -250,7 +249,23 @@ pub async fn get_animal_list() -> Json<Vec<Animal>> {
             }),
             genes: None
         },
-    ];
+    ]
+}
+
+#[get("/animal-list")]
+pub async fn get_animal_list() -> Json<Vec<Animal>> {
+    let result = animal_list().await;
 
     Json(result)
+}
+
+#[get("/animal/<id>")]
+pub async fn get_animal(id: &str) -> Option<Json<Animal>> {
+    let animals = animal_list().await;
+    for animal in animals {
+        if animal.id == id {
+            return Some(Json(animal))
+        }
+    };
+    None
 }
