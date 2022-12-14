@@ -1,10 +1,16 @@
 use rocket::serde::json::Json;
+use rocket::State;
+use crate::state::ConnectionDB;
+use crate::db;
 
 use common::Animal;
-use common::animal::{Gender, AnimalStatus, Litter};
-use common::Photo;
+//use common::animal::{Gender, AnimalStatus, Litter};
+//use common::Photo;
 
-async fn animal_list() -> Vec<Animal> {
+async fn animal_list(state: &State<ConnectionDB>) -> Option<Vec<Animal>> {
+    let result = db::select::all_animal(&state.pool).await;
+    /*
+    
     vec! [
         Animal {
             id: "28.M3".to_owned(),
@@ -250,22 +256,21 @@ async fn animal_list() -> Vec<Animal> {
             genes: None
         },
     ]
+    //let result = crate::db::select::all_animal(pool)
+    */
+    result.ok()
 }
 
 #[get("/animal-list")]
-pub async fn get_animal_list() -> Json<Vec<Animal>> {
-    let result = animal_list().await;
+pub async fn get_animal_list(state: &State<ConnectionDB>) -> Option<Json<Vec<Animal>>> {
+    let result = animal_list(state).await?;
 
-    Json(result)
+    Some(Json(result))
 }
 
 #[get("/animal/<id>")]
-pub async fn get_animal(id: &str) -> Option<Json<Animal>> {
-    let animals = animal_list().await;
-    for animal in animals {
-        if animal.id == id {
-            return Some(Json(animal))
-        }
-    };
-    None
+pub async fn get_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<Animal>> {
+    let animal = db::select::animal(id, &state.pool).await.ok()?;
+    
+    Some(Json(animal))
 }
