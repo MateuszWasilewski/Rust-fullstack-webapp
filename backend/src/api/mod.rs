@@ -8,6 +8,7 @@ pub fn get_api_routes() -> Vec<Route> {
         genes::genes_list,
         genes::get_phenotypes,
         animal::get_animal_list,
-        animal::get_animal
+        animal::get_animal,
+        animal::get_litter_list
     ]
 }

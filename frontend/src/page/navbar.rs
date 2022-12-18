@@ -35,7 +35,7 @@ pub fn get_navbar() -> Html {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <NavLink target={Routes::AnimalList} link_name={"Lista Myszy"}/>
                     <NavLink target={Routes::Phenotypes} link_name={"Lista Fenotypów"}/>
-                    <NavLink target={Routes::AnimalList} link_name={"Lista Miotów"}/>
+                    <NavLink target={Routes::Litters} link_name={"Lista Miotów"}/>
                 </div>
                 
                 <form class="d-flex mx-auto" role="search">

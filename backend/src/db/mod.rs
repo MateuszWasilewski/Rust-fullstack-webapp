@@ -3,6 +3,7 @@ use dotenv_codegen::dotenv;
 use anyhow::Result;
 
 mod animal;
+mod litter;
 pub mod select;
 
 #[cfg(debug_assertions)]

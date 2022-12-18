@@ -20,5 +20,4 @@ pub struct Litter {
     pub id: u32,
     pub mother: String,
     pub father: String,
-    //pub birth_date: NaiveDate
 }

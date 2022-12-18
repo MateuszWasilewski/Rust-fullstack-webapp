@@ -1,8 +1,10 @@
 use anyhow::{Result, anyhow};
 use sqlx::{Postgres, Pool};
 
+use super::litter::LitterDB;
 use super::animal::AnimalDB;
 use common::{Animal, animal::AnimalStatus};
+use common::litter::LitterData;
 
 pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<Animal>> {
     let rows = sqlx::query_as::<_, AnimalDB>
@@ -48,4 +50,20 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<Animal> {
         }),
         None => Err(anyhow!("Animal is not present in db"))
     }
+}
+
+pub async fn litter_list(pool: &Pool<Postgres>) -> Result<Vec<LitterData>> {
+    let rows = sqlx::query_as::<_, LitterDB>
+        ("SELECT * FROM LITTER")
+        .fetch_all(pool).await?;
+
+    let litters: Vec<LitterData> = rows.into_iter().map(|litter| {
+        LitterData {
+            id: litter.id,
+            id_mother: litter.mother,
+            id_father: litter.father
+        }
+    }).collect();
+
+    Ok(litters)
 }

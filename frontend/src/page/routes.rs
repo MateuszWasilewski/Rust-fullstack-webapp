@@ -12,7 +12,9 @@ pub enum Routes {
     #[at("/animal/:id")]
     GoToAnimal {id: String},
     #[at("/phenotypes")]
-    Phenotypes
+    Phenotypes,
+    #[at("/litter-list")]
+    Litters
 }
 
 #[derive(PartialEq, Properties, Clone)]
