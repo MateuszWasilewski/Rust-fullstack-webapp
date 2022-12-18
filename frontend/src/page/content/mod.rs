@@ -5,12 +5,14 @@ mod animal_list;
 mod animal;
 mod phenotypes;
 mod litter_list;
+pub mod add;
 
 use animal_list::AnimalList;
 use animal::Animal;
 use phenotypes::Phenotypes;
 use litter_list::LitterList;
 use super::routes::Routes;
+use add::AddContent;
 
 #[function_component(Content)]
 pub fn get_content() -> Html {
@@ -22,7 +24,6 @@ pub fn get_content() -> Html {
 }
 
 fn switch(route: Routes) -> Html {
-
     match route {
         Routes::Home => html! { <h1>{"Home"} </h1> },
         Routes::AnimalList => html! { <AnimalList /> },
@@ -30,6 +31,7 @@ fn switch(route: Routes) -> Html {
             <Animal animal_id={id.clone()} /> 
         },
         Routes::Phenotypes => html! { <Phenotypes /> },
-        Routes::Litters => html! { <LitterList /> }
+        Routes::Litters => html! { <LitterList /> },
+        Routes::Add => html! { <AddContent /> }
     } 
 }

@@ -14,17 +14,19 @@ pub enum Routes {
     #[at("/phenotypes")]
     Phenotypes,
     #[at("/litter-list")]
-    Litters
+    Litters,
+    #[at("/add/*")]
+    Add
 }
 
 #[derive(PartialEq, Properties, Clone)]
-pub struct LinkProps {
-    pub target: Routes,
+pub struct LinkProps<T: Routable> {
+    pub target: T,
     pub link_name: String
 }
 
 #[function_component(Link)]
-pub fn get_link(props: &LinkProps) -> Html {
+pub fn get_link<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
     let navigator = use_navigator().unwrap();
     let route = props.target.clone();
     let onclick = Callback::from(move |_: MouseEvent| navigator.push(&route));
