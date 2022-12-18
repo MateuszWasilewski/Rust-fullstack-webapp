@@ -5,6 +5,7 @@ use anyhow::Result;
 mod animal;
 mod litter;
 pub mod select;
+pub mod insert;
 
 #[cfg(debug_assertions)]
 static DB_URL: &str = dotenv!("DATABASE_URL");

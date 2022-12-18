@@ -5,6 +5,7 @@ pub mod routes;
 mod litter;
 
 use routes::Routes;
+use litter::AddLitter;
 
 #[function_component(AddContent)]
 pub fn get_add_content() -> Html {
@@ -15,7 +16,7 @@ pub fn get_add_content() -> Html {
 
 fn switch(route: Routes) -> Html {
     match route {
-        Routes::Litter => html! { <h1>{"Add Aninal"}</h1>},
+        Routes::Litter => html! { <AddLitter />},
         Routes::Animal => html! {}
     }
 }

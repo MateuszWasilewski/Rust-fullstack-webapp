@@ -4,7 +4,6 @@ use crate::state::ConnectionDB;
 use crate::db;
 
 use common::Animal;
-use common::litter::LitterData;
 
 #[get("/animal-list")]
 pub async fn get_animal_list(state: &State<ConnectionDB>) -> Option<Json<Vec<Animal>>> {
@@ -18,11 +17,4 @@ pub async fn get_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<An
     let animal = db::select::animal(id, &state.pool).await.ok()?;
     
     Some(Json(animal))
-}
-
-#[get("/litter-list")]
-pub async fn get_litter_list(state: &State<ConnectionDB>) -> Option<Json<Vec<LitterData>>> {
-    let result = db::select::litter_list(&state.pool).await.ok()?;
-
-    Some(Json(result))
 }

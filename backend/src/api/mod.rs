@@ -2,6 +2,7 @@ use rocket::Route;
 
 mod genes;
 mod animal;
+mod litter;
 
 pub fn get_api_routes() -> Vec<Route> {
     routes![
@@ -9,6 +10,7 @@ pub fn get_api_routes() -> Vec<Route> {
         genes::get_phenotypes,
         animal::get_animal_list,
         animal::get_animal,
-        animal::get_litter_list
+        litter::get_litter_list,
+        litter::post_litter
     ]
 }

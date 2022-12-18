@@ -10,11 +10,12 @@ pub fn get_routes() -> Vec<Route> {
         animal_page,
         any_page_file,
         get_photo,
-        litters
+        litters,
+        add_data_page
     ]
 }
 
-#[get("/")]
+#[get("/<_..>", rank = 0)]
 async fn index() -> io::Result<NamedFile> {
     NamedFile::open("frontend/dist/index.html").await
 }
@@ -36,6 +37,11 @@ async fn animal_page(_animal_id: &str) -> io::Result<NamedFile> {
 
 #[get("/litter-list")]
 async fn litters() -> io::Result<NamedFile> {
+    index().await
+}
+
+#[get("/add/<_..>")]
+async fn add_data_page() -> io::Result<NamedFile> {
     index().await
 }
 
