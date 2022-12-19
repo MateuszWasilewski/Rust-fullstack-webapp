@@ -1,4 +1,7 @@
+use std::collections::HashMap;
+
 use anyhow::{Result, anyhow};
+use common::Phenotype;
 use sqlx::{Postgres, Pool};
 
 use super::litter::LitterDB;
@@ -22,7 +25,6 @@ pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<Animal>> {
             status: AnimalStatus::Unknown,
             photos: vec![],
             litter: None,
-            genes: None
         }
     }).collect();
     Ok(animals)
@@ -46,7 +48,6 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<Animal> {
             status: AnimalStatus::Unknown,
             photos: vec![],
             litter: None,
-            genes: None
         }),
         None => Err(anyhow!("Animal is not present in db"))
     }
@@ -66,4 +67,20 @@ pub async fn litter_list(pool: &Pool<Postgres>) -> Result<Vec<LitterData>> {
     }).collect();
 
     Ok(litters)
+}
+
+pub async fn phenotype_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
+    let rows = sqlx::query!(
+        "SELECT id, phenotype_variant FROM PHENOTYPE")
+        .fetch_all(pool)
+        .await?;
+    let phenotypes = rows.into_iter().map(|row| {
+        Phenotype {
+            phenotype: row.id,
+            variant: row.phenotype_variant,
+            genes: HashMap::new()
+        }
+    }).collect();
+
+    Ok(phenotypes)
 }

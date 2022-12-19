@@ -1,6 +1,7 @@
 use crate::base::get_url;
 use anyhow::Result;
-use common::{animal::Animal};
+use common::{animal::{Animal, AnimalData}};
+use reqwest::Client;
 
 pub async fn get_animal_by_id(id: &str) -> Result<Animal> {
     let url = get_url("/api/animal/")?.join(id)?;
@@ -21,4 +22,16 @@ pub async fn get_all_animal() -> Result<Vec<Animal>> {
     let parsed = response.json::<Vec<Animal>>().await?;
     
     Ok(parsed)
+}
+
+pub async fn post_animal(animal: &AnimalData) -> Result<()> {
+    let url = get_url("/api/animal")?;
+
+    let client = Client::new();
+    let _response = client.post(url)
+        .json(&animal)
+        .send()
+        .await?;
+
+    Ok(())
 }

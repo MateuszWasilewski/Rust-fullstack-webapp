@@ -13,11 +13,3 @@ pub enum Gender {
     Male,
     Female
 }
-
-
-#[derive(PartialEq, Serialize, Deserialize)]
-pub struct Litter {
-    pub id: u32,
-    pub mother: String,
-    pub father: String,
-}

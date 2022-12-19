@@ -2,7 +2,7 @@ use yew::{html, Html, Component, Event};
 use web_sys::MouseEvent;
 
 use common::litter::LitterData;
-use crate::common::input::get_text_value;
+use crate::common::input::{get_text_value, InputForm};
 
 pub struct AddLitter {
     new_litter: LitterData,
@@ -104,30 +104,9 @@ impl Component for AddLitter {
         html! {
             <>
             <h1>{"Dodaj Miot"}</h1>
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <label for="ID" class="col-form-label">{"Id miotu"}</label>
-                </div>
-                <div class="col-auto">
-                    <input type={"text"} id={"ID"} class="form-control" onchange={on_id}/>
-                </div>
-            </div>
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <label for="ID" class="col-form-label">{"Id matki"}</label>
-                </div>
-                <div class="col-auto">
-                    <input type={"text"} id={"ID"} class="form-control" onchange={on_mother}/>
-                </div>
-            </div>
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <label for="ID" class="col-form-label">{"Id ojca"}</label>
-                </div>
-                <div class="col-auto">
-                    <input type={"text"} id={"ID"} class="form-control" onchange={on_father}/>
-                </div>
-            </div>
+            <InputForm action={on_id} id="id" text="Id miotu" />
+            <InputForm action={on_mother} id="id_mother" text="Id matki" />
+            <InputForm action={on_father} id="id_father" text="Id ojca" />
             <div class="col-auto">
                 <button type="submit" onclick={submit} class="btn btn-primary mb-3">{"Dodaj miot"} </button>
             </div>

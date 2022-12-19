@@ -1,3 +1,4 @@
+use common::animal::AnimalData;
 use rocket::serde::json::Json;
 use rocket::State;
 use crate::state::ConnectionDB;
@@ -17,4 +18,11 @@ pub async fn get_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<An
     let animal = db::select::animal(id, &state.pool).await.ok()?;
     
     Some(Json(animal))
+}
+
+#[post("/animal", format = "json", data = "<animal>")]
+pub async fn post_animal(animal: Json<AnimalData>, state: &State<ConnectionDB>) -> Option<()>{
+    let animal = animal.into_inner();
+    let _result = db::insert::animal(&animal, &state.pool).await.ok()?;
+    Some(())
 }

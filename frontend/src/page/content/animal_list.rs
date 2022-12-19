@@ -28,7 +28,7 @@ fn animal_to_row(animal: &Animal) -> RowProps {
     vec![
         get_animal_link(&animal.id),
         match litter {
-            Some(litter) => litter.id.into(),
+            Some(litter) => litter.id.clone().into(),
             None => "--".into()
         },
         animal.fenotyp.clone().into(),

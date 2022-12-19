@@ -1,6 +1,8 @@
 use common::Phenotype;
 use rocket::serde::json::Json;
-
+use rocket::State;
+use crate::state::ConnectionDB;
+use crate::db;
 
 #[get("/genes-list")]
 pub fn genes_list() -> Json<Vec<String>>{
@@ -20,7 +22,11 @@ pub fn genes_list() -> Json<Vec<String>>{
 }
 
 #[get("/phenotype-list")]
-pub fn get_phenotypes() -> Json<Vec<Phenotype>> {
+pub async fn get_phenotypes(state: &State<ConnectionDB>) -> Option<Json<Vec<Phenotype>>> {
+    let phenotypes = db::select::phenotype_list(&state.pool).await.ok()?;
+
+    Some(Json(phenotypes))
+    /*
     Json(vec! [
         Phenotype {
             phenotype: "agouti".to_owned(),
@@ -144,4 +150,5 @@ pub fn get_phenotypes() -> Json<Vec<Phenotype>> {
             ].into_iter().collect()
         },
     ])
+    */
 }

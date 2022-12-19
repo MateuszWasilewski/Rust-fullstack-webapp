@@ -40,7 +40,7 @@ fn animal_page(animal: &AnimalStruct) -> Html {
 
     if let Some(litter) = &animal.litter {
         let mut bonus_data = vec![
-            (html!{"nr miotu"}, html!{ litter.id }),
+            (html!{"nr miotu"}, html!{ litter.id.clone() }),
             (html!{"ojciec"}, get_animal_link(&litter.father)),
             (html!{"matka"}, get_animal_link(&litter.mother)),
             //(html!{"data narodzin"}, html!{&litter.birth_date}),

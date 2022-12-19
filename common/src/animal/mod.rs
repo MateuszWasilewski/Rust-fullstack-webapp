@@ -1,9 +1,8 @@
 pub mod photo;
 pub mod genes;
 
-mod compressed;
-mod full;
+mod animal;
 mod animal_data;
 
-pub use full::Animal;
-pub use animal_data::{AnimalStatus, Gender, Litter};
+pub use animal::{Animal, AnimalData};
+pub use animal_data::{AnimalStatus, Gender};
