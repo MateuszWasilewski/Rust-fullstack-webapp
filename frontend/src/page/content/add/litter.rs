@@ -1,12 +1,11 @@
-use common::litter::LitterData;
-use wasm_bindgen::JsCast;
 use yew::{html, Html, Component, Event};
-use web_sys::{HtmlInputElement, MouseEvent};
+use web_sys::MouseEvent;
+
+use common::litter::LitterData;
+use crate::common::input::get_text_value;
 
 pub struct AddLitter {
-    id: String,
-    mother: String,
-    father: String,
+    new_litter: LitterData,
     respose: String
 }
 
@@ -19,10 +18,21 @@ pub enum LitterMsg {
     ResponseFailure(String)
 }
 
-fn get_text_value(input: Event) -> String {
-    let target = input.target().unwrap();
-    let element = target.unchecked_into::<HtmlInputElement>();
-    element.value()
+
+impl AddLitter {
+    fn get_litter(&self) -> Option<LitterData> {
+        if self.new_litter.id == "" {
+            return None
+        }
+        if self.new_litter.id_mother == "" {
+            return None
+        }
+        if self.new_litter.id_father == "" {
+            return None
+        }
+
+        Some(self.new_litter.clone())
+    }
 }
 
 impl Component for AddLitter {
@@ -31,9 +41,11 @@ impl Component for AddLitter {
 
     fn create(_ctx: &yew::Context<Self>) -> Self {
         AddLitter {
-            id: String::new(),
-            mother: String::new(),
-            father: String::new(),
+            new_litter: LitterData {
+                id: String::new(),
+                id_mother: String::new(),
+                id_father: String::new()
+            },
             respose: String::new()
         }
     }
@@ -41,16 +53,12 @@ impl Component for AddLitter {
     fn update(&mut self, ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
         let mut should_update = false;
         match msg {
-            LitterMsg::SetLitterId(text) => self.id = text,
-            LitterMsg::SetFather(text) => self.father = text,
-            LitterMsg::SetMother(text) => self.mother = text,
+            LitterMsg::SetLitterId(text) => self.new_litter.id = text,
+            LitterMsg::SetFather(text) => self.new_litter.id_father = text,
+            LitterMsg::SetMother(text) => self.new_litter.id_mother = text,
             LitterMsg::Submit => {
                 ctx.link().send_future({
-                    let litter = LitterData {
-                        id: self.id.clone(),
-                        id_mother: self.mother.clone(),
-                        id_father: self.father.clone()
-                    };
+                    let litter = self.get_litter().unwrap();
 
                     async move {
                         let response = backend_api::litter::post_litter(&litter).await;
@@ -109,7 +117,7 @@ impl Component for AddLitter {
                     <label for="ID" class="col-form-label">{"Id matki"}</label>
                 </div>
                 <div class="col-auto">
-                    <input type={"text"} id={"ID"} class="form-control" onchange={on_father}/>
+                    <input type={"text"} id={"ID"} class="form-control" onchange={on_mother}/>
                 </div>
             </div>
             <div class="row g-3 align-items-center">
@@ -117,7 +125,7 @@ impl Component for AddLitter {
                     <label for="ID" class="col-form-label">{"Id ojca"}</label>
                 </div>
                 <div class="col-auto">
-                    <input type={"text"} id={"ID"} class="form-control" onchange={on_mother}/>
+                    <input type={"text"} id={"ID"} class="form-control" onchange={on_father}/>
                 </div>
             </div>
             <div class="col-auto">
