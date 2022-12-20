@@ -1,11 +1,8 @@
 use rocket::serde::json::Json;
 use rocket::State;
-use crate::state::ConnectionDB;
-use crate::db;
+use db::ConnectionDB;
 
 use common::litter::LitterData;
-
-
 
 #[get("/litter-list")]
 pub async fn get_litter_list(state: &State<ConnectionDB>) -> Option<Json<Vec<LitterData>>> {

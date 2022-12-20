@@ -5,6 +5,7 @@ members = [
     "frontend",
     "common",
     "backend-api",
+    "db"
 ]
 
 default-members = [

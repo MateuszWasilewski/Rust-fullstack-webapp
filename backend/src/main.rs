@@ -5,11 +5,9 @@ extern crate rocket;
 use anyhow::Result;
 
 mod web;
-mod state;
 mod api;
-mod db;
 
-use state::ConnectionDB;
+use db::ConnectionDB;
 
 #[rocket::main]
 async fn main() -> Result<()> {

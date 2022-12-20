@@ -1,8 +1,7 @@
 use common::Phenotype;
 use rocket::serde::json::Json;
 use rocket::State;
-use crate::state::ConnectionDB;
-use crate::db;
+use db::ConnectionDB;
 
 #[get("/genes-list")]
 pub fn genes_list() -> Json<Vec<String>>{

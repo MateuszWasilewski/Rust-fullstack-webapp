@@ -22,3 +22,7 @@ pub async fn connect_db() -> Result<Pool<Postgres>> {
         .await?;
     Ok(pool)
 }
+
+pub struct ConnectionDB {
+    pub pool: Pool<Postgres>
+}

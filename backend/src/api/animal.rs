@@ -1,8 +1,7 @@
 use common::animal::AnimalData;
 use rocket::serde::json::Json;
 use rocket::State;
-use crate::state::ConnectionDB;
-use crate::db;
+use db::ConnectionDB;
 
 use common::Animal;
 

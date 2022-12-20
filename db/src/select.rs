@@ -2,35 +2,48 @@ use std::collections::HashMap;
 
 use anyhow::{Result, anyhow};
 use common::Phenotype;
+use common::animal::Gender;
 use sqlx::{Postgres, Pool};
 
 use super::litter::LitterDB;
 use super::animal::AnimalDB;
 use common::{Animal, animal::AnimalStatus};
-use common::litter::LitterData;
+use common::litter::{LitterData, Litter};
 
 pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<Animal>> {
-    let rows = sqlx::query_as::<_, AnimalDB>
-        ("SELECT * FROM ANIMAL")
-        .fetch_all(pool).await?;
+    let rows = sqlx::query!("
+        SELECT A.*, L.mother, L.father FROM ANIMAL A
+        LEFT JOIN LITTER L
+        ON A.litter = L.id").fetch_all(pool).await?;
 
-    let animals = rows.into_iter().map(|animal| {
+    let animals = rows.into_iter().map(|row| {
+        let litter = match row.litter.is_some() && row.mother.is_some() && row.father.is_some() {
+            true => Some(Litter {
+                id: row.litter.unwrap(),
+                mother: row.mother.unwrap(),
+                father: row.father.unwrap()
+            }),
+            false => None,
+        };
         Animal {
-            id: animal.id,
-            fenotyp: animal.phenotype,
-            gender: match animal.gender_male {
-                true => common::animal::Gender::Male,
-                false => common::animal::Gender::Female
-            },
-            status: AnimalStatus::Unknown,
-            photos: vec![],
-            litter: None,
+            id: row.id,
+            fenotyp: row.phenotype.unwrap(),
+            gender: Gender::Male,
+            status: AnimalStatus::Alive,
+            litter: litter,
+            photos: vec![]
         }
     }).collect();
     Ok(animals)
 }
 
 pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<Animal> {
+    //let rows = sqlx::query!("
+    //    SELECT A.*, L.* FROM ANIMAL A
+    //    LEFT JOIN LITTER L
+    //    ON A.litter = L.id
+    //    WHERE L.id = $1", &id).fetch_all(pool).await?;
+
     let rows = sqlx::query_as::<_, AnimalDB>
         ("SELECT * FROM ANIMAL WHERE id = $1")
         .bind(id)
