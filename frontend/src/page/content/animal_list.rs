@@ -24,13 +24,10 @@ fn animal_tags() -> RowProps {
 }
 
 fn animal_to_row(animal: &Animal) -> RowProps {
-    let litter = &animal.litter;
+    let litter = animal.litter.clone().unwrap_or("--".into());
     vec![
         get_animal_link(&animal.id),
-        match litter {
-            Some(litter) => litter.id.clone().into(),
-            None => "--".into()
-        },
+        litter.into(),
         animal.fenotyp.clone().into(),
         match &animal.status {
             AnimalStatus::Alive => "zwierzętarnia".into(),
@@ -38,12 +35,12 @@ fn animal_to_row(animal: &Animal) -> RowProps {
             AnimalStatus::Unknown => "nieznany".into(),
             AnimalStatus::Adopted => "adopcja".into()
         },
-        match litter {
-            Some(litter) => get_animal_link(&litter.father),
+        match &animal.father {
+            Some(id) => get_animal_link(&id),
             None => "--".into()
         },
-        match litter {
-            Some(litter) => get_animal_link(&litter.mother),
+        match &animal.mother {
+            Some(id) => get_animal_link(&id),
             None => "--".into()
         }
     ]

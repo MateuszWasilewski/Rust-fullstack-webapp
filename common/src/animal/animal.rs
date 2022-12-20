@@ -3,7 +3,6 @@ use serde::{Serialize, Deserialize};
 //use super::genes::AnimalGenes;
 use super::photo::Photo;
 use super::animal_data::{AnimalStatus, Gender};
-use crate::litter::Litter;
 
 #[derive(PartialEq, Serialize, Deserialize)]
 pub struct Animal {
@@ -12,7 +11,9 @@ pub struct Animal {
     pub gender: Gender,
     pub status: AnimalStatus,
     pub photos: Vec<Photo>,
-    pub litter: Option<Litter>,
+    pub litter: Option<String>,
+    pub father: Option<String>,
+    pub mother: Option<String>
     //pub genes: Option<AnimalGenes>
 }
 

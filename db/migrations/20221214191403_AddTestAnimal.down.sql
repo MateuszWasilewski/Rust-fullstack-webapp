@@ -1,7 +1,0 @@
--- Add down migration script here
-
-DELETE FROM ANIMAL;
-
-DELETE FROM PHENOTYPE;
-
-DELETE FROM LITTER;

@@ -2,8 +2,6 @@ use sqlx::{postgres::PgPoolOptions, Postgres, Pool};
 use dotenv_codegen::dotenv;
 use anyhow::Result;
 
-mod animal;
-mod litter;
 pub mod select;
 pub mod insert;
 
