@@ -18,9 +18,14 @@ pub async fn post_litter(litter: &LitterData) -> Result<()> {
     let url = get_url("/api/litter")?;
 
     let client = Client::new();
-    let _response = client.post(url)
+    let response = client.post(url)
         .json(&litter)
         .send()
         .await?;
-    Ok(())
+
+    let parsed = response.json::<Option<()>>().await?;
+    match parsed {
+        Some(_) => Ok(()),
+        None => bail!("Insertion has failed")
+    }
 }

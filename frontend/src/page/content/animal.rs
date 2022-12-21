@@ -1,7 +1,7 @@
 use yew::{html, Html, Properties, Component};
 use anyhow::Result;
 
-use common::Animal as AnimalStruct;
+use common::AnimalFull;
 use common::animal::Gender;
 
 use crate::page::routes::AnimalLink;
@@ -17,7 +17,7 @@ fn get_animal_link(id: &str) -> Html {
     }
 }
 
-fn animal_page(animal: &AnimalStruct) -> Html {
+fn animal_page(animal: &AnimalFull) -> Html {
     let photos = animal.photos.iter().map( |photo| {
         let image_path = format!("/photo/{}", photo.path);
         html! {
@@ -26,7 +26,7 @@ fn animal_page(animal: &AnimalStruct) -> Html {
     }).collect::<Html>();
 
     let mut data = vec![
-        (html!{"id"}, get_animal_link(animal.id.as_str())),
+        (html!{"id"}, get_animal_link(&animal.id)),
         (html!{"płeć"}, html!{
             match animal.gender {
                 Gender::Male => "M",
@@ -39,13 +39,13 @@ fn animal_page(animal: &AnimalStruct) -> Html {
     ];
 
     if let Some(litter) = &animal.litter {
-        data.push((html!{"nr miotu"}, html!{litter}));
+        data.push(("nr miotu".into(), html!{litter}));
     }
     if let Some(father) = &animal.father {
-        data.push((html!{"ojciec"}, html!{father}));
+        data.push(("ojciec".into(), get_animal_link(father)));
     }
     if let Some(mother) = &animal.mother {
-        data.push((html!{"marka"}, html!{mother}));
+        data.push(("marka".into(), get_animal_link(mother)));
     }
     
     let data = data.into_iter().map(|(name, value)| {
@@ -74,7 +74,7 @@ fn animal_page(animal: &AnimalStruct) -> Html {
 
 
 pub struct Animal {
-    animal: Option<common::Animal>
+    animal: Option<common::AnimalFull>
 }
 
 impl Animal {
@@ -91,7 +91,7 @@ impl Animal {
 }
 
 impl Component for Animal {
-    type Message = Result<common::Animal>;
+    type Message = Result<AnimalFull>;
     type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {

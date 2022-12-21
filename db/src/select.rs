@@ -5,10 +5,10 @@ use common::Phenotype;
 use common::animal::Gender;
 use sqlx::{Postgres, Pool};
 
-use common::{Animal, animal::AnimalStatus};
+use common::{AnimalFull, AnimalData};
 use common::litter::LitterData;
 
-pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<Animal>> {
+pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
     let rows = sqlx::query!("
         SELECT A.*, L.mother, L.father FROM ANIMAL A
         LEFT JOIN LITTER L
@@ -17,43 +17,43 @@ pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<Animal>> {
         .await?;
 
     let animals = rows.into_iter().map(|row| {
-        Animal {
+        AnimalData {
             id: row.id,
             fenotyp: row.phenotype,
             gender: Gender::Male,
-            status: AnimalStatus::Alive,
+            status: row.status,
             litter: row.litter,
             father: row.father,
             mother: row.mother,
-            photos: vec![]
         }
     }).collect();
     Ok(animals)
 }
 
-pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<Animal> {
-    let rows = sqlx::query!("
-        SELECT A.*, L.mother, L.father FROM ANIMAL A
+pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
+    let row = sqlx::query!(r#"
+        SELECT A.*, 
+        L.mother as "mother?", 
+        L.father as "father?"
+        FROM ANIMAL A
         LEFT JOIN LITTER L
         ON A.litter = L.id
-        WHERE L.id = $1", &id)
-        .fetch_all(pool)
+        WHERE A.id = $1"#, id)
+        .fetch_optional(pool)
         .await?;
-    
-    let animal = rows.get(0);
-    match animal {
-        Some(animal) => Ok ( Animal { 
+    match row {
+        Some(animal) => Ok ( AnimalFull { 
             id: animal.id.clone(),
             fenotyp: animal.phenotype.clone(),
             gender: match animal.gender_male {
                 true => common::animal::Gender::Male,
                 false => common::animal::Gender::Female
             },
-            status: AnimalStatus::Unknown,
+            status: animal.status,
             photos: vec![],
             litter: animal.litter.clone(),
-            father: Some(animal.father.clone()),
-            mother: Some(animal.mother.clone()),
+            father: animal.father.clone(),
+            mother: animal.mother.clone(),
         }),
         None => Err(anyhow!("Animal is not present in db"))
     } 

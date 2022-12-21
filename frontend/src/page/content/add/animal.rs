@@ -71,8 +71,10 @@ impl Component for AddAnimal {
                         id: self.id.clone(),
                         fenotyp: self.phenotype.clone(),
                         gender: common::animal::Gender::Male, // TODO
-                        status: common::animal::AnimalStatus::Alive, // TODO
+                        status: None, // TODO
                         litter: Some(self.litter_id.clone()),
+                        mother: None, // TODO,
+                        father: None // TODO
                     };
                     async move {
                         let response = backend_api::animal::post_animal(&animal).await;

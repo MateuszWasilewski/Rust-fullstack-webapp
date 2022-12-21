@@ -1,8 +1,7 @@
 use yew::{html, Html, Component};
 use anyhow::Result;
 
-use common::Animal;
-use common::animal::AnimalStatus;
+use common::AnimalData;
 use crate::page::routes::AnimalLink;
 use crate::common::table::{RowProps, TableWithTags};
 
@@ -23,18 +22,13 @@ fn animal_tags() -> RowProps {
     ]
 }
 
-fn animal_to_row(animal: &Animal) -> RowProps {
+fn animal_to_row(animal: &AnimalData) -> RowProps {
     let litter = animal.litter.clone().unwrap_or("--".into());
     vec![
         get_animal_link(&animal.id),
         litter.into(),
         animal.fenotyp.clone().into(),
-        match &animal.status {
-            AnimalStatus::Alive => "zwierzętarnia".into(),
-            AnimalStatus::Dead => "martwy".into(),
-            AnimalStatus::Unknown => "nieznany".into(),
-            AnimalStatus::Adopted => "adopcja".into()
-        },
+        animal.status.clone().unwrap_or("nieznany".into()).into(),
         match &animal.father {
             Some(id) => get_animal_link(&id),
             None => "--".into()
@@ -47,11 +41,11 @@ fn animal_to_row(animal: &Animal) -> RowProps {
 }
 
 pub struct AnimalList {
-    animals: Option<Vec<Animal>>
+    animals: Option<Vec<AnimalData>>
 }
 
 impl Component for AnimalList {
-    type Message = Result<Vec<Animal>>;
+    type Message = Result<Vec<AnimalData>>;
     type Properties = ();
 
     fn create(ctx: &yew::Context<Self>) -> Self {
