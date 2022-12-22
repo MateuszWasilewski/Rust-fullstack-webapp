@@ -6,8 +6,21 @@ CREATE TABLE PHENOTYPE (
 );
 
 CREATE TABLE GENOTYPE (
-    phenotype TEXT NOT NULL REFERENCES PHENOTYPE
-    -- Genes to be filled at later date.
+    phenotype TEXT NOT NULL REFERENCES PHENOTYPE,
+    -- Genes list
+    ASIP1 TEXT,
+    ASIP2 TEXT,
+    TYRP1 TEXT,
+    TYRP2 TEXT,
+    TYR1 TEXT,
+    TYR2 TEXT,
+    MYO5A1 TEXT,
+    MYO5A2 TEXT,
+    OCA1 TEXT,
+    OCA2 TEXT,
+    MLPH1 TEXT,
+    MLPH2 TEXT
+    -- Potencially more to come
 );
 
 CREATE TABLE ANIMAL (
