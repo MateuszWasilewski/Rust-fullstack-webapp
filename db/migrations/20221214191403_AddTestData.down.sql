@@ -1,7 +1,11 @@
 -- Add down migration script here
 
-DELETE FROM LITTER CASCADE;
+SET session_replication_role = 'replica';
 
-DELETE FROM ANIMAL CASCADE;
+DELETE FROM ANIMAL;
+
+DELETE FROM LITTER;
 
 DELETE FROM PHENOTYPE;
+
+SET session_replication_role = 'origin';
