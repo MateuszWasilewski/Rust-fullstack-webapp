@@ -11,10 +11,18 @@ VALUES ('28.M3', True, 'adopted', 'agouti'),
        ('24.F4', False, 'alive', 'dove');
 
 INSERT INTO LITTER (id, mother, father)
-VALUES ('1', '24.F4', '28.M3');
+VALUES ('1', '24.F4', '28.M3'),
+       ('65', '24.F4', '28.M3');
 
 INSERT INTO ANIMAL (id, gender_male, status, phenotype, litter)
 VALUES ('1.M1', True, 'alive', 'agouti', '1'),
        ('1.M2', True, 'alive', 'american brindle', '1'),
        ('1.F3', False, 'alive', 'dove', '1'),
-       ('1.F4', False, 'alive', 'agouti', '1');
+       ('1.F4', False, 'alive', 'agouti', '1'),
+       ('65.F5', False, 'alive', 'agouti', '65');
+
+INSERT INTO PHOTO (path)
+VALUES ('65.F5.jpg');
+
+INSERT INTO ANIMAL_PHOTO (animal, photo)
+VALUES ('65.F5', '65.F5.jpg');

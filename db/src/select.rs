@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use anyhow::{Result, anyhow};
-use common::Phenotype;
+use common::{Phenotype, Photo};
 use common::animal::Gender;
 use sqlx::{Postgres, Pool};
 
@@ -88,4 +88,20 @@ pub async fn phenotype_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
     }).collect();
 
     Ok(phenotypes)
+}
+
+pub async fn photos_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Photo>> {
+    let photos = sqlx::query!(
+        "SELECT photo FROM ANIMAL_PHOTO
+        WHERE animal = $1", id)   
+        .map(|row| {
+            Photo {
+                path: row.photo,
+                author: None
+            }
+        })
+        .fetch_all(pool)
+        .await?;
+
+    Ok(photos)
 }

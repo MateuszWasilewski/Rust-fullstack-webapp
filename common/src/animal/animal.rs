@@ -32,3 +32,9 @@ pub struct AnimalData {
     pub mother: Option<String>,
     pub father: Option<String>,
 }
+
+impl AnimalFull {
+    pub fn set_photos(&mut self, photos: Vec<Photo> ) -> () {
+        self.photos = photos;
+    }
+}
