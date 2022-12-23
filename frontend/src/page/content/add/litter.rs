@@ -85,21 +85,10 @@ impl Component for AddLitter {
     fn view(&self, ctx: &yew::Context<Self>) -> Html {
         let link = ctx.link();
 
-        let on_id = link.callback(|input: Event| {
-            LitterMsg::SetLitterId(get_text_value(input))
-        } );
-        
-        let on_father = link.callback(|input: Event| {
-            LitterMsg::SetFather(get_text_value(input))
-        } );
-        
-        let on_mother = link.callback(|input: Event| {
-            LitterMsg::SetMother(get_text_value(input))
-        } );
-
-        let submit = link.callback(|_: MouseEvent| {
-            LitterMsg::Submit
-        });
+        let on_id = link.callback(|input: Event| { LitterMsg::SetLitterId(get_text_value(input)) } );
+        let on_father = link.callback(|input: Event| { LitterMsg::SetFather(get_text_value(input)) } );
+        let on_mother = link.callback(|input: Event| { LitterMsg::SetMother(get_text_value(input)) });
+        let submit = link.callback(|_: MouseEvent| { LitterMsg::Submit });
 
         html! {
             <>

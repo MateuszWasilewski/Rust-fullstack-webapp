@@ -1,23 +1,27 @@
 use yew::{Component, html, Event, MouseEvent, Callback};
 
 use crate::common::input::{get_text_value, InputForm, DropdownForm};
-use common::animal::AnimalData;
+use common::animal::{AnimalData, Gender};
 
 pub struct AddAnimal {
-    id: String,
-    litter_id: String,
-    phenotype: String,
+    id: Option<String>,
+    litter_id: Option<String>,
+    gender: Option<Gender>,
+    status: Option<String>,
+    phenotype: Option<String>,
     litter_list: Vec<String>,
     phenotype_list: Vec<String>,
     response: String,
 }
 
 pub enum Msg {
-    SetId(String),
-    SetLitter(String),
-    SetPhenotype(String),
+    SetId(Option<String>),
+    SetLitter(Option<String>),
+    SetPhenotype(Option<String>),
+    SetStatus(Option<String>),
     ReceiveLitterList(Vec<String>),
     ReceivePhenotypeList(Vec<String>),
+    SetGender(Option<Gender>),
     Submit,
     Response(String)
 }
@@ -43,12 +47,14 @@ impl Component for AddAnimal {
         });
 
         AddAnimal {
-            id: String::new(),
-            litter_id: String::new(),
+            id: None,
+            litter_id: None,
+            gender: None,
+            status: None,
             litter_list: vec![],
             phenotype_list: vec![],
             response: String::new(),
-            phenotype: String::new()
+            phenotype: None,
         }
     }
 
@@ -57,6 +63,8 @@ impl Component for AddAnimal {
         match msg {
             Msg::SetId(id) => self.id = id,
             Msg::SetLitter(id) => self.litter_id = id,
+            Msg::SetGender(gender) => self.gender = gender,
+            Msg::SetStatus(status) => self.status = status,
             Msg::ReceiveLitterList(list) => {
                 self.litter_list = list;
                 should_update = true
@@ -68,13 +76,13 @@ impl Component for AddAnimal {
             Msg::Submit => {
                 ctx.link().send_future({
                     let animal = AnimalData {
-                        id: self.id.clone(),
-                        fenotyp: self.phenotype.clone(),
-                        gender: common::animal::Gender::Male, // TODO
-                        status: None, // TODO
-                        litter: Some(self.litter_id.clone()),
-                        mother: None, // TODO,
-                        father: None // TODO
+                        id: self.id.clone().unwrap(), // TODO
+                        fenotyp: self.phenotype.clone().unwrap(), // TODO
+                        gender: self.gender.clone().unwrap(), // TODO
+                        status: self.status.clone(),
+                        litter: self.litter_id.clone(),
+                        mother: None, // Not needed for submitting data
+                        father: None // Not needed for submitting data
                     };
                     async move {
                         let response = backend_api::animal::post_animal(&animal).await;
@@ -99,26 +107,43 @@ impl Component for AddAnimal {
         let link = ctx.link();
 
         let on_id = link.callback(|input: Event| {
-            Msg::SetId(get_text_value(input))
+            let text = get_text_value(input);
+            if text == "" {
+                return Msg::SetId(None)
+            }
+            return Msg::SetId(Some(text))
         } );
 
         let default_litter = 
-        ("Wybierz nr miotu".into(), link.callback(|_: MouseEvent| Msg::SetLitter(String::new())));
+        ("Wybierz nr miotu".into(), link.callback(|_: MouseEvent| Msg::SetLitter(None)));
         let click_litter: Vec<(String, Callback<MouseEvent>)> = self.litter_list.iter().map(|id| {
             let id = id.clone();
-            (id.clone(), ctx.link().callback(move |_: MouseEvent| Msg::SetLitter(id.clone())))
+            (id.clone(), ctx.link().callback(move |_: MouseEvent| Msg::SetLitter(Some(id.clone()))))
         }).collect();
 
         let default_phenotype = 
-        ("Wybierz fenotyp myszy".into(), link.callback(|_: MouseEvent| Msg::SetPhenotype(String::new())));
+        ("Wybierz fenotyp myszy".into(), link.callback(|_: MouseEvent| Msg::SetPhenotype(None)));
         let options_phenotype: Vec<(String, Callback<MouseEvent>)> = self.phenotype_list.iter().map(|id| {
             let id = id.clone();
-            (id.clone(), ctx.link().callback(move |_: MouseEvent| Msg::SetPhenotype(id.clone())))
+            (id.clone(), ctx.link().callback(move |_: MouseEvent| Msg::SetPhenotype(Some(id.clone()))))
         }).collect();
 
-        let submit = link.callback(|_: MouseEvent| {
-            Msg::Submit
-        });
+        let default_gender = 
+        ("Wybierz płeć myszy".into(), link.callback(|_: MouseEvent| Msg::SetGender(None)));
+        let options_gender = vec![
+            ("Samiec".into(), link.callback(|_: MouseEvent| Msg::SetGender(Some(Gender::Male)))),
+            ("Samica".into(), link.callback(|_: MouseEvent| Msg::SetGender(Some(Gender::Female)))),
+        ];
+
+        let on_status = link.callback(|input: Event| {
+            let text = get_text_value(input);
+            if text == "" {
+                return Msg::SetStatus(None)
+            }
+            return Msg::SetStatus(Some(text))
+        } );
+
+        let submit = link.callback(|_: MouseEvent| { Msg::Submit });
 
         html! {
             <>
@@ -126,6 +151,8 @@ impl Component for AddAnimal {
             <InputForm action={on_id} id="id" text="Id myszy"/>
             <DropdownForm id="litter" text="Wybierz miot" options={click_litter} default={default_litter}/>
             <DropdownForm id="phenotype" text="Wybierz Fenotyp" options={options_phenotype} default={default_phenotype}/>
+            <DropdownForm id="gender" text="Wybierz Płeć" options={options_gender} default={default_gender}/>
+            <InputForm action={on_status} id="status" text="Status"/>
             <button type="submit" onclick={submit} class="btn btn-primary mb-3">{"Dodaj Mysz"} </button>
             <a>{&self.response}</a>
             </>

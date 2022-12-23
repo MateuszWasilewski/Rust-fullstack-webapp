@@ -8,8 +8,8 @@ use super::routes::Link;
 use super::routes::LinkProps;
 use super::content::add::routes::Routes as AddRoutes;
 
-#[function_component(NavLink)]
-fn get_navlink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
+#[function_component]
+fn NavLink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
     let props = props.clone();
     html! {
         <li class="nav-item dropdown">
@@ -18,8 +18,8 @@ fn get_navlink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
     }
 }
 
-#[function_component(DropdownLink)]
-fn get_dropdown_link<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
+#[function_component]
+fn DropdownLink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
     let props = props.clone();
     html! {
         <li class="dropdown-item">
@@ -45,6 +45,9 @@ pub fn get_navbar() -> Html {
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
                 {go_home_button}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <NavLink<Routes> target={Routes::AnimalList} link_name={"Lista Myszy"}/>

@@ -3,7 +3,7 @@ use serde::{Serialize, Deserialize};
 //use super::genes::AnimalGenes;
 use super::photo::Photo;
 
-#[derive(Serialize, Deserialize, PartialEq)]
+#[derive(Serialize, Deserialize, PartialEq, Clone)]
 pub enum Gender {
     Male,
     Female

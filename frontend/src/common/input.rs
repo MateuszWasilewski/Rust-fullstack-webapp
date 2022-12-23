@@ -57,7 +57,7 @@ pub fn DropdownForm(props: &DropdownFormProps) -> Html {
             </div>
             <select class="form-select" id={id} style="width: auto" >
                 if let Some((text, onclick)) = &props.default {
-                    <option {onclick}>{text}</option>
+                    <option {onclick} selected={true} >{text}</option>
                 }
                 {options}
             </select>
