@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 common = { path = "../common" }
-sqlx = { version = "0.6", features = [ "runtime-tokio-native-tls", "postgres" ] }
+sqlx = { version = "0.6", features = [ "runtime-tokio-native-tls", "postgres", "offline" ] }
 openssl-sys = { version = "0.9.77", features = [ "vendored" ] }
 dotenv_codegen = "0.15.0"
 anyhow = "1.0.66"

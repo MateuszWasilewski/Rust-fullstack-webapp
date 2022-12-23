@@ -12,6 +12,7 @@ RUN apt-get install -y openssl libssl-dev && \
 
 WORKDIR /usr/build
 COPY . .
+ENV SQLX_OFFLINE=true
 
 # build backend
 RUN \
