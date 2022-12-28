@@ -9,24 +9,27 @@ use common::{AnimalFull, AnimalData};
 use common::litter::LitterData;
 
 pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
-    let rows = sqlx::query!("
+    let animals = sqlx::query!("
         SELECT A.*, L.mother, L.father FROM ANIMAL A
         LEFT JOIN LITTER L
         ON A.litter = L.id")
+        .map(|row| {
+            AnimalData {
+                id: row.id,
+                fenotyp: row.phenotype,
+                gender: match row.gender_male {
+                    true => Gender::Male,
+                    false => Gender::Female
+                }, 
+                status: row.status,
+                litter: row.litter,
+                father: row.father,
+                mother: row.mother,
+            }
+        })
         .fetch_all(pool)
         .await?;
 
-    let animals = rows.into_iter().map(|row| {
-        AnimalData {
-            id: row.id,
-            fenotyp: row.phenotype,
-            gender: Gender::Male,
-            status: row.status,
-            litter: row.litter,
-            father: row.father,
-            mother: row.mother,
-        }
-    }).collect();
     Ok(animals)
 }
 
@@ -60,32 +63,32 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
 }
 
 pub async fn litter_list(pool: &Pool<Postgres>) -> Result<Vec<LitterData>> {
-    let rows = sqlx::query!("SELECT * FROM LITTER")
-        .fetch_all(pool).await?;
-
-    let litters: Vec<LitterData> = rows.into_iter().map(|litter| {
-        LitterData {
-            id: litter.id,
-            id_mother: litter.mother,
-            id_father: litter.father
-        }
-    }).collect();
+    let litters = sqlx::query!("SELECT * FROM LITTER")
+        .map(|row| {
+            LitterData {
+                id: row.id,
+                id_mother: row.mother,
+                id_father: row.father
+            }
+        })
+        .fetch_all(pool)
+        .await?;
 
     Ok(litters)
 }
 
 pub async fn phenotype_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
-    let rows = sqlx::query!(
-        "SELECT name, variant FROM PHENOTYPE")
+    let phenotypes = sqlx::query!(
+        "SELECT * FROM PHENOTYPE")
+        .map(|row| {
+            Phenotype {
+                phenotype: row.name,
+                variant: row.variant,
+                genes: HashMap::new()
+            }
+        })
         .fetch_all(pool)
         .await?;
-    let phenotypes = rows.into_iter().map(|row| {
-        Phenotype {
-            phenotype: row.name,
-            variant: row.variant,
-            genes: HashMap::new()
-        }
-    }).collect();
 
     Ok(phenotypes)
 }
