@@ -5,7 +5,8 @@ members = [
     "frontend",
     "common",
     "backend-api",
-    "db"
+    "db",
+    "csv-reader"
 ]
 
 default-members = [

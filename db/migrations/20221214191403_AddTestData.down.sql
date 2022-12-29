@@ -10,6 +10,8 @@ DELETE FROM ANIMAL;
 
 DELETE FROM LITTER;
 
+DELETE FROM GENOTYPE;
+
 DELETE FROM PHENOTYPE;
 
 SET session_replication_role = 'origin';

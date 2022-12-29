@@ -9,10 +9,10 @@ use common::{AnimalFull, AnimalData};
 use common::litter::LitterData;
 
 pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
-    let animals = sqlx::query!("
+    let animals = sqlx::query!(r#"
         SELECT A.*, L.mother, L.father FROM ANIMAL A
         LEFT JOIN LITTER L
-        ON A.litter = L.id")
+        ON A.litter = L.id"#)
         .map(|row| {
             AnimalData {
                 id: row.id,
@@ -90,6 +90,33 @@ pub async fn phenotype_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
         .fetch_all(pool)
         .await?;
 
+    Ok(phenotypes)
+}
+
+pub async fn phenotype_genes_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
+    let phenotypes = sqlx::query!(r#"
+        SELECT 
+        P.name as "name!",
+        P.variant as "variant!",
+        G.genes as "genes?"
+        FROM PHENOTYPE P
+        LEFT JOIN GENOTYPE G 
+        ON G.phenotype = P.name"#)
+        .map(|row| {
+            let mut genes: HashMap<String, String> = HashMap::new();
+            let _ = row.genes.and_then(|value|  {
+                genes = serde_json::from_value(value).ok()?;
+                Some(())
+            });
+
+            Phenotype {
+                phenotype: row.name,
+                variant: row.variant,
+                genes: genes
+            }
+        })
+        .fetch_all(pool)
+        .await?;
     Ok(phenotypes)
 }
 

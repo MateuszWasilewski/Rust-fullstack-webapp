@@ -4,4 +4,4 @@ pub mod litter;
 
 pub use animal::{AnimalFull, AnimalData};
 pub use animal::photo::Photo;
-pub use phenotype::Phenotype;
+pub use phenotype::{Phenotype, SimplePhenotype};

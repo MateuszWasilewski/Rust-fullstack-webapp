@@ -13,6 +13,7 @@ use db::ConnectionDB;
 async fn main() -> Result<()> {
     let pool = db::connect_db().await?;
     let db_state = ConnectionDB {pool};
+    csv_reader::run().await;
 
     let _rocket = rocket::build()
         .mount("/", web::get_routes())
