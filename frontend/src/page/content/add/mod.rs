@@ -4,10 +4,12 @@ use yew_router::prelude::Switch;
 pub mod routes;
 mod litter;
 mod animal;
+mod phenotype;
 
 use routes::Routes;
 use litter::AddLitter;
 use animal::AddAnimal;
+use phenotype::AddPhenotype;
 
 #[function_component(AddContent)]
 pub fn get_add_content() -> Html {
@@ -19,6 +21,7 @@ pub fn get_add_content() -> Html {
 fn switch(route: Routes) -> Html {
     match route {
         Routes::Litter => html! { <AddLitter /> },
-        Routes::Animal => html! { <AddAnimal /> }
+        Routes::Animal => html! { <AddAnimal /> },
+        Routes::Phenotype => html! { <AddPhenotype /> }
     }
 }

@@ -60,6 +60,7 @@ pub fn get_navbar() -> Html {
                         <ul class="dropdown-menu">
                             <DropdownLink<AddRoutes> target={AddRoutes::Litter} link_name={"Miot"}/>
                             <DropdownLink<AddRoutes> target={AddRoutes::Animal} link_name={"Mysz"}/>
+                            <DropdownLink<AddRoutes> target={AddRoutes::Phenotype} link_name={"Fenotyp"}/>
                         </ul>
                     </li>
                 </ul>

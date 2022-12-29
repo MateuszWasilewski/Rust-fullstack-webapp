@@ -6,5 +6,7 @@ pub enum Routes {
     #[at("/add/litter")]
     Litter,
     #[at("/add/animal")]
-    Animal
+    Animal,
+    #[at("/add/phenotype")]
+    Phenotype
 }

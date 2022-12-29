@@ -1,5 +1,5 @@
 use wasm_bindgen::JsCast;
-use yew::{Event, function_component, html, Html, Properties, Callback, MouseEvent};
+use yew::{Event, function_component, html, Html, Properties, Callback, MouseEvent, UseStateHandle};
 use web_sys::HtmlInputElement;
 
 pub fn get_text_value(input: Event) -> String {
@@ -63,4 +63,52 @@ pub fn DropdownForm(props: &DropdownFormProps) -> Html {
             </select>
         </div>
     }
+}
+
+#[derive(PartialEq, Properties)]
+pub struct InputListProps {
+    pub id: String,
+    pub text: String,
+    pub options: Vec<String>,
+    pub action: Callback<Event>
+}
+
+#[derive(PartialEq, Properties)]
+pub struct TextInputProps {
+  pub state: UseStateHandle<Option<String>>,
+  pub text: String,
+  pub id: String,
+}
+
+#[function_component]
+pub fn TextInput(props: &TextInputProps) -> Html {
+  let state = props.state.clone();
+  let id = props.id.clone();
+  let text = props.text.clone();
+
+  let onchange = Callback::from(
+    move |input: Event| {
+    let target = input.target().unwrap();
+    let element = target.unchecked_into::<HtmlInputElement>();
+    let text = element.value();
+    if text == "" {
+      state.set(None);
+    }
+    state.set(Some(text));
+  });
+  
+  html! {
+    <div class="row g-3 align-items-center">
+      <div class="col-auto">
+        <label for={id.clone()} class="col-form-label">{text}</label>
+      </div>
+      <div class="col-auto">
+        <input type={"text"} id={id} class="form-control" {onchange}/>
+      </div>
+    </div>
+  }
+}
+
+pub fn empty_str() -> Option<String> {
+   None
 }

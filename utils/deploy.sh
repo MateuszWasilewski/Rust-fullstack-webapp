@@ -10,8 +10,9 @@ APP_NAME=rust-server
 
 sudo DOCKER_BUILDKIT=1 docker save -o /home/mateusz/Documents/Code/Rust/fullstack-webapp/$IMAGE $APP_NAME
 sudo chown mateusz image.tar
-scp -i $SSH_ID $IMAGE ubuntu@$VM_IP:~/images/
+#scp -i $SSH_ID $IMAGE ubuntu@$VM_IP:~/images/
 scp -i $SSH_ID docker-compose.yml ubuntu@$VM_IP:~/app/
+scp -i $SSH_ID files/db/Fenotypy-genotypy.csv ubuntu@$VM_IP:~/app/files/db
 rm $IMAGE
 
 ssh -i $SSH_ID ubuntu@$VM_IP " \

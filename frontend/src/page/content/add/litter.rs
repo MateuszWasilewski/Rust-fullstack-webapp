@@ -1,106 +1,56 @@
-use yew::{html, Html, Component, Event};
+use yew::{html, Html, function_component, use_state, Callback, platform::spawn_local};
 use web_sys::MouseEvent;
 
 use common::litter::LitterData;
-use crate::common::input::{get_text_value, InputForm};
+use crate::common::input::{empty_str, TextInput};
 
-pub struct AddLitter {
-    new_litter: LitterData,
-    respose: String
-}
+#[function_component]
+pub fn AddLitter() -> Html {
+    let litter = use_state(empty_str);
+    let mother = use_state(empty_str);
+    let father = use_state(empty_str);
+    let error_log = use_state(|| "");
 
-pub enum LitterMsg {
-    SetLitterId(String),
-    SetFather(String),
-    SetMother(String),
-    Submit,
-    ResponseSuccess,
-    ResponseFailure(String)
-}
+    let onclick = Callback::from( {
+        let litter = litter.clone();
+        let mother = mother.clone();
+        let father = father.clone();
+        let error_log = error_log.clone();
+        move |_: MouseEvent| {
+            let litter = (*litter).clone();
+            let mother = (*mother).clone();
+            let father = (*father).clone();
+            let error_log = error_log.clone();
 
-
-impl AddLitter {
-    fn get_litter(&self) -> Option<LitterData> {
-        if self.new_litter.id == "" {
-            return None
-        }
-        if self.new_litter.id_mother == "" {
-            return None
-        }
-        if self.new_litter.id_father == "" {
-            return None
-        }
-
-        Some(self.new_litter.clone())
-    }
-}
-
-impl Component for AddLitter {
-    type Message = LitterMsg;
-    type Properties= ();
-
-    fn create(_ctx: &yew::Context<Self>) -> Self {
-        AddLitter {
-            new_litter: LitterData {
-                id: String::new(),
-                id_mother: String::new(),
-                id_father: String::new()
-            },
-            respose: String::new()
-        }
-    }
-
-    fn update(&mut self, ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
-        let mut should_update = false;
-        match msg {
-            LitterMsg::SetLitterId(text) => self.new_litter.id = text,
-            LitterMsg::SetFather(text) => self.new_litter.id_father = text,
-            LitterMsg::SetMother(text) => self.new_litter.id_mother = text,
-            LitterMsg::Submit => {
-                ctx.link().send_future({
-                    let litter = self.get_litter().unwrap();
-
-                    async move {
-                        let response = backend_api::litter::post_litter(&litter).await;
-                        match response {
-                            Ok(_) => LitterMsg::ResponseSuccess,
-                            Err(err) => LitterMsg::ResponseFailure(err.to_string())
-                        }
-                    }
-                })
-            },
-            LitterMsg::ResponseSuccess => {
-                self.respose = "Litter has been successfully inserted".into();
-                should_update = true;
-            },
-            LitterMsg::ResponseFailure(error) => {
-                self.respose = error;
-                should_update = true;
+            // TODO better error handling
+            if litter.is_none() || mother.is_none() || father.is_none() {
+                error_log.set("Some field is empty");
+                return
             }
-        }
 
-        should_update
-    }
-
-    fn view(&self, ctx: &yew::Context<Self>) -> Html {
-        let link = ctx.link();
-
-        let on_id = link.callback(|input: Event| { LitterMsg::SetLitterId(get_text_value(input)) } );
-        let on_father = link.callback(|input: Event| { LitterMsg::SetFather(get_text_value(input)) } );
-        let on_mother = link.callback(|input: Event| { LitterMsg::SetMother(get_text_value(input)) });
-        let submit = link.callback(|_: MouseEvent| { LitterMsg::Submit });
-
-        html! {
-            <>
+            let litter = LitterData {
+                id: litter.unwrap(),
+                id_father: father.unwrap(),
+                id_mother: mother.unwrap()
+            };
+            spawn_local(async move {
+                match backend_api::litter::post_litter(&litter).await {
+                    Ok(_) => error_log.set(""),
+                    Err(_) => error_log.set("Failed sending litter to backend")
+                }
+            });
+    }});
+    
+    html! {
+        <>
             <h1>{"Dodaj Miot"}</h1>
-            <InputForm action={on_id} id="id" text="Id miotu" />
-            <InputForm action={on_mother} id="id_mother" text="Id matki" />
-            <InputForm action={on_father} id="id_father" text="Id ojca" />
+            <TextInput state={litter} id="id" text="Id miotu" />
+            <TextInput state={mother} id="id_mother" text="Id matki" />
+            <TextInput state={father} id="id_father" text="Id ojca" />
             <div class="col-auto">
-                <button type="submit" onclick={submit} class="btn btn-primary mb-3">{"Dodaj miot"} </button>
+                <button type="submit" {onclick} class="btn btn-primary mb-3">{"Dodaj miot"} </button>
             </div>
-            <a>{&self.respose}</a>
+            {*error_log}
             </>
-        }
     }
 }

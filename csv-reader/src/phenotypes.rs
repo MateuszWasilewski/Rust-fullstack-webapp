@@ -2,12 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::collections::HashMap;
 
-#[allow(unused_variables)]
+static FILE_PATH: &str = "files/db/Fenotypy-genotypy.csv";
 
-static FILE_PATH: &str = "db/Fenotypy-genotypy.csv";
-
-
-#[allow(non_snake_case, dead_code)]
 #[derive(Deserialize, Serialize, Debug)]
 pub struct PhenotypeFull {
     WARIANT: String,
@@ -58,11 +54,11 @@ pub async fn run_phenotypes() {
   for record in reader.deserialize() {
       let record: PhenotypeFull = record.expect("Failed to unwrap row");
 
-      println!(
-          "Row {} | {:#?}",
-          row_id,
-          record
-      );
+      //println!(
+      //    "Row {} | {:#?}",
+      //    row_id,
+      //    record
+      //);
       row_id += 1;
 
       let phenotype = common::SimplePhenotype {
@@ -72,7 +68,7 @@ pub async fn run_phenotypes() {
       // Let's assume it worked or phenotype was already in DB.
       let _ = db::insert::phenotype(&phenotype, &pool).await;
       
-      let genes_json = serde_json::to_value(&record).unwrap();
+      let genes_json = serde_json::to_value(record).unwrap();
       let mut genes_opt: HashMap<String, Option<String>> = serde_json::from_value(genes_json).unwrap();
       genes_opt.remove("WARIANT");
       genes_opt.remove("FENOTYPE");
@@ -80,17 +76,20 @@ pub async fn run_phenotypes() {
 
       for (key, value) in genes_opt {
         if let Some(gene) = value {
-          genes.insert(key, gene);
+          if gene != "." {
+            genes.insert(key, gene);
+          }
         }
       }
 
       let phenotype = common::Phenotype {
-        phenotype: record.FENOTYP,
-        variant: record.WARIANT,
+        phenotype: phenotype.phenotype,
+        variant: phenotype.variant,
         genes: genes
       };
       db::insert::genes(&phenotype, &pool).await.unwrap();
   }
+  println!("Successfully read phenotype - genotype from csv file");
 
   //let none: Option<()> = None;
   //none.expect("Fail after reading from cvs");
