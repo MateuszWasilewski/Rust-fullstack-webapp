@@ -1,6 +1,6 @@
-use std::io;
 use rocket::fs::NamedFile;
 use rocket::Route;
+use std::io;
 
 pub fn get_routes() -> Vec<Route> {
     routes![

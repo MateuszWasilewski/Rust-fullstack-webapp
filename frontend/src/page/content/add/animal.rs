@@ -1,35 +1,31 @@
-use common::AnimalData;
 use common::animal::Gender;
-use yew::{html, Callback, function_component, Html};
+use common::AnimalData;
+use yew::platform::spawn_local;
+use yew::{function_component, html, Callback, Html};
 use yewdux::dispatch::Dispatch;
 use yewdux::prelude::use_selector;
 use yewdux::store::Store;
-use yew::platform::spawn_local;
 
-use crate::{common::input::DropdownForm};
-use anyhow::Result;
 use crate::common::input::event_to_text;
+use crate::common::input::DropdownForm;
 use crate::common::input::TextInput;
+use anyhow::Result;
 use std::rc::Rc;
 
 async fn get_phenotypes() -> Result<Vec<String>> {
-    Ok(
-    backend_api::get_phenotypes()
+    Ok(backend_api::get_phenotypes()
         .await?
         .into_iter()
         .map(|phen| phen.phenotype)
-        .collect()
-    )
+        .collect())
 }
 
 async fn get_litters() -> Result<Vec<String>> {
-    Ok(
-    backend_api::get_litter_list()
+    Ok(backend_api::get_litter_list()
         .await?
         .into_iter()
         .map(|litter| litter.id)
-        .collect()
-    )
+        .collect())
 }
 
 #[derive(Default, PartialEq, Clone, Store)]
@@ -40,7 +36,7 @@ struct State {
     litter: Option<String>,
     phenotype: Option<String>,
     gender: Option<Gender>,
-    status: Option<String>
+    status: Option<String>,
 }
 
 async fn set_litters(dispatch: Dispatch<State>) {
@@ -57,9 +53,9 @@ async fn set_phenotypes(dispatch: Dispatch<State>) {
 fn SelectLitter() -> Html {
     let litters = use_selector(|state: &State| state.litters.clone());
     let dispatch = Dispatch::<State>::new();
-    let set_value = Callback::from(
-        move |value: Option<String>| dispatch.reduce_mut(|state| state.litter = value)
-    );
+    let set_value = Callback::from(move |value: Option<String>| {
+        dispatch.reduce_mut(|state| state.litter = value)
+    });
     html! {
         <DropdownForm {set_value} id={"litter"} text={"Wybierz miot"} options={litters} default={"Nieznany"} />
     }
@@ -69,9 +65,9 @@ fn SelectLitter() -> Html {
 fn SelectPhenotype() -> Html {
     let phenotypes = use_selector(|state: &State| state.phenotypes.clone());
     let dispatch = Dispatch::<State>::new();
-    let set_value = Callback::from(
-        move |value: Option<String>| dispatch.reduce_mut(|state| state.phenotype = value)
-    );
+    let set_value = Callback::from(move |value: Option<String>| {
+        dispatch.reduce_mut(|state| state.phenotype = value)
+    });
 
     html! {
         <DropdownForm {set_value} id={"phenotype"} text={"Wymierz fenotyp"} options={phenotypes} default={"Nieznany"} />
@@ -81,21 +77,20 @@ fn SelectPhenotype() -> Html {
 #[function_component]
 fn SelectGender() -> Html {
     let dispatch = Dispatch::<State>::new();
-    let set_value = Callback::from(
-        move |value: Option<String>| dispatch.reduce_mut(|state| {
+    let set_value = Callback::from(move |value: Option<String>| {
+        dispatch.reduce_mut(|state| {
             state.gender = None;
             if let Some(gender) = value {
                 if gender == "Samiec" {
                     state.gender = Some(Gender::Male);
-                }
-                else if gender == "Samica" {
+                } else if gender == "Samica" {
                     state.gender = Some(Gender::Female);
                 }
             }
         })
-    );
-    let options = Rc::new(vec![ "Samiec".into(), "Samica".into() ]);
-    html!{
+    });
+    let options = Rc::new(vec!["Samiec".into(), "Samica".into()]);
+    html! {
         <DropdownForm {set_value} id={"gender"} text={"Wymierz płeć"} {options} default={"Nieznana"}/>
     }
 }
@@ -111,12 +106,12 @@ pub fn AddAnimalTemp() -> Html {
     let set_status = dispatch.reduce_mut_callback_with(|state, event| {
         state.status = event_to_text(event);
     });
-        
+
     let onclick = Callback::from({
         let state = dispatch.get();
         move |_| {
             if state.id.is_none() || state.phenotype.is_none() || state.gender.is_none() {
-                return
+                return;
             }
             let animal = AnimalData {
                 id: state.id.clone().unwrap(),
@@ -125,7 +120,7 @@ pub fn AddAnimalTemp() -> Html {
                 litter: state.litter.clone(),
                 status: state.status.clone(),
                 mother: None,
-                father: None
+                father: None,
             };
             spawn_local(async move {
                 backend_api::animal::post_animal(&animal).await.unwrap();

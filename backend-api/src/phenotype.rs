@@ -1,5 +1,5 @@
-use common::Phenotype;
 use anyhow::Result;
+use common::Phenotype;
 
 use crate::base::get_url;
 

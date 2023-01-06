@@ -1,10 +1,10 @@
 use common::Phenotype;
+use db::ConnectionDB;
 use rocket::serde::json::Json;
 use rocket::State;
-use db::ConnectionDB;
 
 #[get("/genes-list")]
-pub fn genes_list() -> Json<Vec<String>>{
+pub fn genes_list() -> Json<Vec<String>> {
     let result = vec![
         "ASIP1".into(),
         "ASIP2".into(),

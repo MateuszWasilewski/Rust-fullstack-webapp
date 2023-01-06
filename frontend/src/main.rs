@@ -1,7 +1,7 @@
 use yew::Renderer;
 
-mod page;
 mod common;
+mod page;
 
 fn main() {
     Renderer::<page::App>::new().render();

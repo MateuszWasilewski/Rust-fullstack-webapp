@@ -1,5 +1,5 @@
 use common::litter::LitterData;
-use yew::{html, Html, function_component, Callback, platform::spawn_local};
+use yew::{function_component, html, platform::spawn_local, Callback, Html};
 use yewdux::dispatch::Dispatch;
 use yewdux::store::Store;
 
@@ -24,8 +24,8 @@ pub fn AddLitter() -> Html {
     let set_mother = dispatch.reduce_mut_callback_with(|state, event| {
         state.mother = event_to_text(event);
     });
-    
-    let onclick = Callback::from( move |_| {
+
+    let onclick = Callback::from(move |_| {
         let state = dispatch.get();
         let litter = state.litter.clone();
         let mother = state.mother.clone();
@@ -33,22 +33,22 @@ pub fn AddLitter() -> Html {
 
         // TODO better error handling
         if litter.is_none() || mother.is_none() || father.is_none() {
-            return
+            return;
         }
 
         let litter = LitterData {
             id: litter.unwrap(),
             id_father: father.unwrap(),
-            id_mother: mother.unwrap()
+            id_mother: mother.unwrap(),
         };
         spawn_local(async move {
             match backend_api::litter::post_litter(&litter).await {
                 Ok(_) => (),
-                Err(_) => ()
+                Err(_) => (),
             }
         });
     });
-    
+
     html! {
         <>
             <h1>{"Dodaj Miot"}</h1>

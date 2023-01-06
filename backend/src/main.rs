@@ -1,18 +1,17 @@
-
-#[macro_use] 
+#[macro_use]
 extern crate rocket;
 
 use anyhow::Result;
 
-mod web;
 mod api;
+mod web;
 
 use db::ConnectionDB;
 
 #[rocket::main]
 async fn main() -> Result<()> {
     let pool = db::connect_db().await?;
-    let db_state = ConnectionDB {pool};
+    let db_state = ConnectionDB { pool };
     csv_reader::run().await;
 
     let _rocket = rocket::build()

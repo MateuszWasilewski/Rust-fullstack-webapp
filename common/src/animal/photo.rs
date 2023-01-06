@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq)]
 pub struct Photo {
@@ -7,7 +7,7 @@ pub struct Photo {
 }
 
 impl Photo {
-    pub fn new() -> Photo{
+    pub fn new() -> Photo {
         Photo {
             path: "/path/".to_owned(),
             author: None,

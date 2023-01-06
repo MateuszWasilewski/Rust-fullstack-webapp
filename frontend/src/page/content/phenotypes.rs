@@ -1,17 +1,13 @@
-use yew::{html, Html, Component};
 use crate::common::table::{RowProps, TableWithTags};
 use anyhow::Result;
+use yew::{html, Component, Html};
 
 fn gene_tags() -> RowProps {
-    vec![
-        "wariant".into(),
-        "fenotyp".into(),
-        "genotyp".into()
-    ]
+    vec!["wariant".into(), "fenotyp".into(), "genotyp".into()]
 }
 
 fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> RowProps {
-    let mut fields: Vec<Html> = vec! [];
+    let mut fields: Vec<Html> = vec![];
     fields.push(phenotype.variant.clone().into());
     fields.push(phenotype.phenotype.clone().into());
 
@@ -19,7 +15,7 @@ fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> RowProp
     for gene in genes {
         let gene_str = match phenotype.genes.get(gene) {
             Some(gene_value) => gene_value,
-            None => "."
+            None => ".",
         };
         genotype.push_str(&format!(" {gene_str}"));
     }
@@ -30,7 +26,7 @@ fn phenotype_list(genes: &Vec<String>, phenotype: &common::Phenotype) -> RowProp
 }
 
 pub struct Phenotypes {
-    table: Html
+    table: Html,
 }
 
 impl Component for Phenotypes {
@@ -50,7 +46,7 @@ impl Component for Phenotypes {
                 <TableWithTags tags={gene_tags()} data={phenotypes_list} />
             })
         });
-        Phenotypes { table: html!{} }
+        Phenotypes { table: html! {} }
     }
 
     fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
@@ -66,8 +62,7 @@ impl Component for Phenotypes {
         if new_table != self.table {
             self.table = new_table;
             true
-        }
-        else {
+        } else {
             false
         }
     }

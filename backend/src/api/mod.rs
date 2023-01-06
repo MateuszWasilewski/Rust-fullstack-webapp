@@ -1,7 +1,7 @@
 use rocket::Route;
 
-mod genes;
 mod animal;
+mod genes;
 mod litter;
 
 pub fn get_api_routes() -> Vec<Route> {

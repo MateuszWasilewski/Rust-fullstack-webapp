@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 //use super::genes::AnimalGenes;
 use super::photo::Photo;
@@ -6,7 +6,7 @@ use super::photo::Photo;
 #[derive(Serialize, Deserialize, PartialEq, Clone)]
 pub enum Gender {
     Male,
-    Female
+    Female,
 }
 
 #[derive(PartialEq, Serialize, Deserialize)]
@@ -18,8 +18,7 @@ pub struct AnimalFull {
     pub photos: Vec<Photo>,
     pub litter: Option<String>,
     pub father: Option<String>,
-    pub mother: Option<String>
-    //pub genes: Option<AnimalGenes>
+    pub mother: Option<String>, //pub genes: Option<AnimalGenes>
 }
 
 #[derive(Serialize, Deserialize)]
@@ -34,7 +33,7 @@ pub struct AnimalData {
 }
 
 impl AnimalFull {
-    pub fn set_photos(&mut self, photos: Vec<Photo> ) -> () {
+    pub fn set_photos(&mut self, photos: Vec<Photo>) -> () {
         self.photos = photos;
     }
 }

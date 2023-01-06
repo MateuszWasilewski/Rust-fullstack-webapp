@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
-use std::fs;
 use std::collections::HashMap;
+use std::fs;
 
 static FILE_PATH: &str = "files/db/Fenotypy-genotypy.csv";
 
@@ -39,58 +39,58 @@ pub struct PhenotypeFull {
     RN1: Option<String>,
     RN2: Option<String>,
     FZ1: Option<String>,
-    FZ2: Option<String>
+    FZ2: Option<String>,
 }
 
 pub async fn run_phenotypes() {
-  let text = fs::read_to_string(FILE_PATH)
-    .expect("Should be able to read file");
+    let text = fs::read_to_string(FILE_PATH).expect("Should be able to read file");
 
-  let mut reader = csv::Reader::from_reader(text.as_bytes());
-  let mut row_id: u32 = 2;
+    let mut reader = csv::Reader::from_reader(text.as_bytes());
+    let mut row_id: u32 = 2;
 
-  let pool = db::connect_db().await.expect("Failed to connect DB");
+    let pool = db::connect_db().await.expect("Failed to connect DB");
 
-  for record in reader.deserialize() {
-      let record: PhenotypeFull = record.expect("Failed to unwrap row");
+    for record in reader.deserialize() {
+        let record: PhenotypeFull = record.expect("Failed to unwrap row");
 
-      //println!(
-      //    "Row {} | {:#?}",
-      //    row_id,
-      //    record
-      //);
-      row_id += 1;
+        //println!(
+        //    "Row {} | {:#?}",
+        //    row_id,
+        //    record
+        //);
+        row_id += 1;
 
-      let phenotype = common::SimplePhenotype {
-        phenotype: record.FENOTYP.clone(),
-        variant: record.WARIANT.clone()
-      };
-      // Let's assume it worked or phenotype was already in DB.
-      let _ = db::insert::phenotype(&phenotype, &pool).await;
-      
-      let genes_json = serde_json::to_value(record).unwrap();
-      let mut genes_opt: HashMap<String, Option<String>> = serde_json::from_value(genes_json).unwrap();
-      genes_opt.remove("WARIANT");
-      genes_opt.remove("FENOTYPE");
-      let mut genes: HashMap<String, String> = HashMap::new();
+        let phenotype = common::SimplePhenotype {
+            phenotype: record.FENOTYP.clone(),
+            variant: record.WARIANT.clone(),
+        };
+        // Let's assume it worked or phenotype was already in DB.
+        let _ = db::insert::phenotype(&phenotype, &pool).await;
 
-      for (key, value) in genes_opt {
-        if let Some(gene) = value {
-          if gene != "." {
-            genes.insert(key, gene);
-          }
+        let genes_json = serde_json::to_value(record).unwrap();
+        let mut genes_opt: HashMap<String, Option<String>> =
+            serde_json::from_value(genes_json).unwrap();
+        genes_opt.remove("WARIANT");
+        genes_opt.remove("FENOTYPE");
+        let mut genes: HashMap<String, String> = HashMap::new();
+
+        for (key, value) in genes_opt {
+            if let Some(gene) = value {
+                if gene != "." {
+                    genes.insert(key, gene);
+                }
+            }
         }
-      }
 
-      let phenotype = common::Phenotype {
-        phenotype: phenotype.phenotype,
-        variant: phenotype.variant,
-        genes: genes
-      };
-      db::insert::genes(&phenotype, &pool).await.unwrap();
-  }
-  println!("Successfully read phenotype - genotype from csv file");
+        let phenotype = common::Phenotype {
+            phenotype: phenotype.phenotype,
+            variant: phenotype.variant,
+            genes: genes,
+        };
+        db::insert::genes(&phenotype, &pool).await.unwrap();
+    }
+    println!("Successfully read phenotype - genotype from csv file");
 
-  //let none: Option<()> = None;
-  //none.expect("Fail after reading from cvs");
+    //let none: Option<()> = None;
+    //none.expect("Fail after reading from cvs");
 }

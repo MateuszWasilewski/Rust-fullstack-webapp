@@ -1,5 +1,5 @@
-use dotenv_codegen::dotenv;
 use anyhow::Result;
+use dotenv_codegen::dotenv;
 
 #[cfg(debug_assertions)]
 static BASE_URL: &str = dotenv!("LOCAL_SERVER_IP");

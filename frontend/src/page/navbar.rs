@@ -1,12 +1,12 @@
 use yew::MouseEvent;
-use yew::{html, function_component, Callback, Html};
+use yew::{function_component, html, Callback, Html};
 use yew_router::Routable;
 
-use super::Routes;
-use yew_router::prelude::use_navigator;
+use super::content::add::routes::Routes as AddRoutes;
 use super::routes::Link;
 use super::routes::LinkProps;
-use super::content::add::routes::Routes as AddRoutes;
+use super::Routes;
+use yew_router::prelude::use_navigator;
 
 #[function_component]
 fn NavLink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
@@ -28,19 +28,17 @@ fn DropdownLink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
     }
 }
 
-
 #[function_component(Navbar)]
 pub fn get_navbar() -> Html {
     let navigator = use_navigator().unwrap();
     let go_home_button = {
         let navigator = navigator.clone();
-        let onclick = Callback::from(move |_: MouseEvent|
-            navigator.push(&Routes::Home));
+        let onclick = Callback::from(move |_: MouseEvent| navigator.push(&Routes::Home));
         html! {
             <a class="navbar-brand" href="javascript:void(0);" onclick={onclick}>{"Baza Myszy"}</a>
-        }   
+        }
     };
-    
+
     html! {
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
@@ -65,7 +63,7 @@ pub fn get_navbar() -> Html {
                     </li>
                 </ul>
                 </div>
-                
+
                 //<form class="d-flex mx-auto" role="search">
                 //    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                 //    <button class="btn btn-outline-success" type="submit">{"Search"}</button>

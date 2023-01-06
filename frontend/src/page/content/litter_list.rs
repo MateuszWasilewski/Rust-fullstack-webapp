@@ -1,16 +1,12 @@
 use anyhow::Result;
-use yew::{html, Html, Component};
+use yew::{html, Component, Html};
 
-use common::litter::LitterData;
-use crate::page::routes::AnimalLink;
 use crate::common::table::{RowProps, TableWithTags};
+use crate::page::routes::AnimalLink;
+use common::litter::LitterData;
 
 fn tags() -> RowProps {
-    vec! [
-        "id miotu".into(),
-        "id ojca".into(),
-        "id matki".into(),
-    ]
+    vec!["id miotu".into(), "id ojca".into(), "id matki".into()]
 }
 
 fn get_animal_link(id: &str) -> Html {
@@ -20,15 +16,15 @@ fn get_animal_link(id: &str) -> Html {
 }
 
 fn litter_to_row(litter: &LitterData) -> RowProps {
-    vec! [
+    vec![
         litter.id.clone().into(),
         get_animal_link(&litter.id_father),
-        get_animal_link(&litter.id_mother)
+        get_animal_link(&litter.id_mother),
     ]
 }
 
 pub struct LitterList {
-    litters: Option<Vec<LitterData>>
+    litters: Option<Vec<LitterData>>,
 }
 
 impl Component for LitterList {

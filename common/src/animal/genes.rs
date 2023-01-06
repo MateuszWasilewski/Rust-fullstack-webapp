@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(PartialEq, Serialize, Deserialize)]
 pub struct AnimalGenes {
-    pub genes: HashMap<String, String>
+    pub genes: HashMap<String, String>,
 }
 
 impl AnimalGenes {
@@ -13,7 +13,7 @@ impl AnimalGenes {
         for gene in gene_names {
             let gene_str = match self.genes.get(gene) {
                 Some(gene_value) => gene_value,
-                None => "."
+                None => ".",
             };
             genotype.push_str(gene_str);
         }

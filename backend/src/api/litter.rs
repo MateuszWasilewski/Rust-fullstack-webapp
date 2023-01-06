@@ -1,6 +1,6 @@
+use db::ConnectionDB;
 use rocket::serde::json::Json;
 use rocket::State;
-use db::ConnectionDB;
 
 use common::litter::LitterData;
 
@@ -11,9 +11,12 @@ pub async fn get_litter_list(state: &State<ConnectionDB>) -> Json<Option<Vec<Lit
     Json(result)
 }
 #[post("/litter", format = "json", data = "<litter>")]
-pub async fn post_litter(litter: Json<LitterData>, state: &State<ConnectionDB>) -> Json<Option<()>> {
+pub async fn post_litter(
+    litter: Json<LitterData>,
+    state: &State<ConnectionDB>,
+) -> Json<Option<()>> {
     let litter = litter.into_inner();
     let result = db::insert::litter(&litter, &state.pool).await.ok();
-    
+
     Json(result)
 }

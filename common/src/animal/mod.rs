@@ -1,5 +1,5 @@
-pub mod photo;
 pub mod genes;
+pub mod photo;
 
 mod animal;
 

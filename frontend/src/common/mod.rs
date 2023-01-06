@@ -1,3 +1,2 @@
-
-pub mod table;
 pub mod input;
+pub mod table;
