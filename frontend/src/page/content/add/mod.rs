@@ -8,7 +8,7 @@ mod phenotype;
 
 use routes::Routes;
 use litter::AddLitter;
-use animal::AddAnimal;
+use animal::AddAnimalTemp as AddAnimal;
 use phenotype::AddPhenotype;
 
 #[function_component(AddContent)]

@@ -8,40 +8,6 @@ CREATE TABLE PHENOTYPE (
 CREATE TABLE GENOTYPE (
     phenotype TEXT NOT NULL REFERENCES PHENOTYPE,
     genes JSON NOT NULL
-    -- Genes list
-    --ASIP1 TEXT,
-    --ASIP2 TEXT,
-    --TYRP1 TEXT,
-    --TYRP2 TEXT,
-    --TYR1 TEXT,
-    --TYR2 TEXT,
-    --MYO5A1 TEXT,
-    --MYO5A2 TEXT,
-    --OCA1 TEXT,
-    --OCA2 TEXT,
-    --MLPH1 TEXT,
-    --MLPH2 TEXT,
-    --PMEL1 TEXT,
-    --PMEL2 TEXT,
-    --ATP7A1 TEXT,
-    --ATP7A2 TEXT,
-    --KIT1 TEXT,
-    --KIT2 TEXT,
-    --MC1R1 TEXT,
-    --MC1R2 TEXT,
-    --AP3B1 TEXT,
-    --AP3B2 TEXT,
-    --U1 TEXT,
-    --U2 TEXT,
-    --RW1 TEXT,
-    --RW2 TEXT,
-    --SPL1 TEXT,
-    --SPL2 TEXT,
-    --RN1 TEXT,
-    --RN2 TEXT,
-    --FZ1 TEXT,
-    --FZ2 TEXT
-    -- Potencially more to come
 );
 
 CREATE TABLE ANIMAL (
