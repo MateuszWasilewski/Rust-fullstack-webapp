@@ -121,6 +121,8 @@ pub fn AddAnimalTemp() -> Html {
                 status: state.status.clone(),
                 mother: None,
                 father: None,
+                eye_color: None,    // TODO add option to set
+                hair: None,         // TODO add option to set
             };
             spawn_local(async move {
                 backend_api::animal::post_animal(&animal).await.unwrap();

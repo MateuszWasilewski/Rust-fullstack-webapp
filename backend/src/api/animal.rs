@@ -7,8 +7,13 @@ use common::{AnimalData, AnimalFull};
 
 async fn fetch_animal(id: &str, state: &State<ConnectionDB>) -> Result<AnimalFull> {
     let mut animal = db::select::animal(id, &state.pool).await?;
-    let photos = db::select::photos_for_animal(id, &state.pool).await?;
-    animal.set_photos(photos);
+    let animal_photos = db::select::photos_for_animal(id, &state.pool).await?;
+
+    animal.add_photos(animal_photos);
+    if let Some(litter) = &animal.litter {
+        let litter_photos = db::select::photos_for_litter(litter, &state.pool).await?;
+        animal.add_photos(litter_photos);
+    }
     Ok(animal)
 }
 

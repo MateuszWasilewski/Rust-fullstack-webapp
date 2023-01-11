@@ -1,6 +1,8 @@
 use rocket::fs::NamedFile;
 use rocket::Route;
 use std::io;
+use std::path::PathBuf;
+use std::path::Path;
 
 pub fn get_routes() -> Vec<Route> {
     routes![
@@ -9,13 +11,12 @@ pub fn get_routes() -> Vec<Route> {
         phenotypes,
         animal_page,
         any_page_file,
-        get_photo,
         litters,
         add_data_page
     ]
 }
 
-#[get("/<_..>", rank = 0)]
+#[get("/")]
 async fn index() -> io::Result<NamedFile> {
     NamedFile::open("frontend/dist/index.html").await
 }
@@ -45,14 +46,8 @@ async fn add_data_page() -> io::Result<NamedFile> {
     index().await
 }
 
-#[get("/<file>")]
-async fn any_page_file(file: &str) -> io::Result<NamedFile> {
-    let path = format!("frontend/dist/{}", file);
-    NamedFile::open(path.as_str()).await
-}
-
-#[get("/photo/<file>")]
-async fn get_photo(file: &str) -> io::Result<NamedFile> {
-    let path = format!("photos/{}", file);
-    NamedFile::open(path.as_str()).await
+#[get("/<path>")]
+async fn any_page_file(path: PathBuf) -> io::Result<NamedFile> {
+    let path = Path::new("frontend/dist/").join(path);
+    NamedFile::open(path.as_path()).await
 }

@@ -31,6 +31,8 @@ pub async fn post_animal(animal: &AnimalData) -> Result<()> {
     let url = get_url("/api/animal")?;
 
     let client = Client::new();
+    // TODO Change to use forms
+    //let response = client.post(url.clone()).form(animal).send().await?;
     let response = client.post(url).json(&animal).send().await?;
     let parsed = response.json::<Option<()>>().await?;
 

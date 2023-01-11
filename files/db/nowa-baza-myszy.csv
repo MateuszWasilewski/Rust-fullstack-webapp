@@ -1,4 +1,3 @@
-Uwagi,status,nr_miotu,numer_osobnika,nazwa,płeć,odmiana_barwna,białe znaczenia,kolor_oka,włos,ojciec,odmiana ojca,matka,odmiana matki,data urodzenia,A1,A2,B1,B2,C1,C2,D1,D2,P1,P2,Ln1,Ln2,Si1,Si2,Mobr,W1,W2,S1,S2
 ,,,R1.M2,"aguti, tipy",M,agouti,?,czarny,normalny,,,,,,A,a,B,.,C,.,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
 ,,,R1.F0,EU brindle gold ppCc,F,argente brindle,,czerwony,normalny,,,,,,A,a,B,.,C,c,D,.,p,p,Ln,.,Si,.,br,w,w,S,.
 ,,1,1.M1,black,M,black,,czarny,normalny,R1.M2,agouti,R1.F0,argente brindle,3/11/2022,a,a,B,.,C,.,D,.,P,p,Ln,.,Si,.,*,w,w,S,.
@@ -177,8 +176,6 @@ ten sam co M11 i 31?,,,R26.M44,gold pp Cc,M,,,,,,,,,,A,a,B,b,C,c,D,.,p,p,Ln,.,Si
 ,,27,27.M3,gold CUL,M,argente jasny,,czerwone,,R27.M26,cynamon tan,R27.F27,gold pp tan,3/19/2022,A,.,B,.,C,.,d,d,p,p,,,,,,w,w,,
 ,,27,27.F4,j. aguti tan,F,agouti diluted,,czarne ,,R27.M26,cynamon tan,R27.F27,gold pp tan,3/19/2022,A,.,B,.,C,.,d,d,P,p,,,,,,w,w,,
 ,,27,27.F5,j. aguti,F,agouti diluted,,czarne ,,R27.M26,cynamon tan,R27.F27,gold pp tan,3/19/2022,A,.,B,.,C,.,d,d,P,p,,,,,,w,w,,
-ojciec ten sam co w 28 i 24,,,,LH black,M,,,,długie,,,,,,a,a,B,.,C,.,D,.,P,.,,,,,*,w,w,,
-matka ta sama co w 28 i 24,,,,LH tri,F,,,,długie,,,,,,,a,,,,,,,,,,,,,*,w,w,s,s
 ,,28,28.M1,black LH,M,black LH,,czarne ,długie,R28.M(?),LH black,R28.F(?),LH tri,1/21/2022,a,a,B,.,C,.,D,.,P,.,,,,,*,w,w,,
 ,,28,28.M2,dove pp tan uszy+głowa (?) LH,M,?,,czerwone,długie,R28.M(?),LH black,R28.F(?),LH tri,1/21/2022,a,a,B,.,C,.,D,.,p,p,,,,,*,w,w,,
 ,,28,28.M3,"""dark"" splashed LH",M,"""dark"" splashed LH",,czarne ,długie,R28.M(?),LH black,R28.F(?),LH tri,1/21/2022,a,a,B,.,C,.,D,.,P,.,,,,,*,w,w,,
@@ -187,8 +184,6 @@ matka ta sama co w 28 i 24,,,,LH tri,F,,,,długie,,,,,,,a,,,,,,,,,,,,,*,w,w,s,s
 ,A 8.06.2022,28,28.F6,splashed rubinowe ciemne oko LH,F,,,czarne ,,R28.M(?),LH black,R28.F(?),LH tri,1/21/2022,a,a,B,.,C,.,D,.,P,.,,,,,,w,w,,
 ,,28,28.F7,himalayan LH,F,himalayan LH,,czerwone,długie,R28.M(?),LH black,R28.F(?),LH tri,1/21/2022,a,a,B,.,cch,c,D,.,.,.,,,,,*,w,w,,
 ,,28,28.F8,dove pp biała łata na brzuchu LH,F,dove LH,,czerwone,długie,R28.M(?),LH black,R28.F(?),LH tri,1/21/2022,a,a,B,.,C,.,D,.,p,p,,,,,*,w,w,,
-ojciec ten sam co w 28 i 24,,,,LH black,M,,,,,,,,,,,,,,,,,,,,,,,,,w,w,,
-matka ta sama co w 28 i 24,,,,LH tri,F,,,,,,,,,,,,,,,,,,,,,,,,,w,w,,
 ,,29,29.F1,black łata na brzuchu LH,F,black,obecne,czarne,długie,R29.M,LH black,R29.F,LH tri,2/14/2022,a,a,B,.,C,.,D,.,P,.,,,,,,w,w,,
 ,,29,29.F2,dove pp LH,F,dove LH,,czerwone,długie,R29.M,LH black,R29.F,LH tri,2/14/2022,a,a,B,.,C,.,D,.,p,p,,,,,,w,w,,
 ,,29,29.F3,burmese LH,F,burmańska na czekoladzie,,czarne,długie,R29.M,LH black,R29.F,LH tri,2/14/2022,a,a,b,b,cch,cch,D,.,P,.,,,,,,w,w,,
@@ -265,8 +260,6 @@ jasny beż fox?,,35,35.F13,BEW,F,lilac fox?,,czarne,,R32.M,BEW satin P. Cc,R14.F
 ,,36,36.F4,ciemny beż,F,lilac,,czarne,,R36.M31,silver grey M1,R5.F34,silver grey,4/27/2022,a,a,b,b,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
 Jedna jaśniejsza,,36,36.F5,beż,F,lilac,,czarne,,R36.M31,silver grey M1,R5.F34,silver grey,4/27/2022,a,a,b,b,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
 ,,36,36.F6,albino,F,albino,,czerwone,,R36.M31,silver grey M1,R5.F34,silver grey,4/27/2022,a,a,.,.,c,c,.,.,p,p,Ln,.,si,si,*,w,w,S,.
-"ojciec ten sam co w 32, 33, 34, 35",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,R46.16M1,tricolor P. SH,,stone,,,,,,,,,a,a,B,b,cch,c,D,.,P,p,Ln,.,,,,w,w,,
 ,,,R46.32F10,beż fox,,bone,,,,,,,,,a,a,B,b,ce,c,D,.,P,.,Ln,.,,,,w,w,,
 "rozjaśnienie z c, zweryfikować, raczej nie chockolate",zwierzętarnia,46,46.F1,coffe fox broken? LH,F,mock chocolate broken,,czarne,długi,R46.16M1,stone,R46.32F10,bone,8/22/2022,a,a,b,b,cch,ce,D,.,P,.,Ln,.,,,,w,w,,
@@ -332,8 +325,6 @@ satyna,,52,52.F1,albino satin,F,,,czerwone,krótki,R52.32M2,BEW,R52.33F2,albino,
 ,,37,37.F8,BEW satin,F,bone satin,,czarne,krótki,,,,,24/05/2022,a,a,B,.,ce,e,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
 ,zwierzętarnia,37,37.F9,dove tan satin brindle?,F,dove brindle tan,,czerwone,krótki,,,,,24/05/2022,at,a,B,.,C,.,D,.,P,.,Ln,.,Si,.,Br,w,w,S,.
 ,zwierzętarnoa,37,37.F10,dove tan satin brindle? CUP,F,dove brindle tan,,czerwone,krótki,,,,,24/05/2022,at,a,B,.,C,.,D,.,P,.,Ln,.,Si,.,Br,w,w,S,.
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,52,52.F9,broken beige,F,BEW broken,,czarne,krótki,R52.32M2,BEW,R52.33F2,albino,8/25/2022,a,a,B,.,ce,c,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
 ,,,R39.,Black broker fuzzy,,,,,,,,,,,a,a,B,.,C,.,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
 ,,,R39.,albino fuzzy,,,,czerwone,,,,,,,A,.,B,.,c,c,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
@@ -345,8 +336,6 @@ tepe ogony?,,39,39.M2,broken trochę jaśniejszy niż M1,M,fuzzy tricolor,,czarn
 ,,39,39.M6,fuzzy mały,M,fuzzy bone?,,czarne,,,,,,28/07/2022,,,B,.,,,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
 delikatny meszek,,39,39.F7,łysy,F,fuzzy bone?,,czarne,,,,,,28/07/2022,,,B,.,,,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
 ,,39,39.F8,black- białe znaczenia ,F,black,,czarne,,,,,,28/07/2022,a,a,B,.,C,c,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
-,U,39,,BRAK,,,,,,,,,,28/07/2022,,,,,,,,,,,,,,,,,,,
-,U,39,,BRAK,,,,,,,,,,28/07/2022,,,,,,,,,,,,,,,,,,,
 ,,,R40.,bew satin,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,R40.,brindle splashed USA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,U,40,40.M1,,M,,,,,,,,,28/07/2022,,,,,,,,,,,,,,,,,,,
@@ -415,10 +404,7 @@ do weryfikacji - może splash i może fox - biały brzuch,,44,44.F4,brindle,F,tr
 ,,45,45.F6,,F,,,,,,,,,28/08/2022,,,,,,,,,,,,,,,,,,,
 ,,45,45.F7,,F,,,,,,,,,28/08/2022,,,,,,,,,,,,,,,,,,,
 ,,45,45.M8,,M,,,,,,,,,28/08/2022,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,49,49.F5,tan dopisać,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,R50.22M1,himalayan,,,,czerwone,,,,,,,A,at,B,.,ch,c,D,d?,P,.,Ln,.,Si,.,*,w,w,S,.
 ,,,R50.29F3,burmese ,,,,czarne,,,,,,,a,a,B,.,cch,ch,D,d?,P,.,Ln,.,Si,.,*,w,w,S,.
 ,zwierzętarnia,50,50.M1,blue agouti,M,Burmese agouti,,czarne,,,,,,23/08/2022,A,a,B,.,cch,ch,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
@@ -435,7 +421,6 @@ do weryfikacji - może splash i może fox - biały brzuch,,44,44.F4,brindle,F,tr
 ,,50,50.F12,himalayan,F,,,czerwone,,,,,,23/08/2022,a,a,B,.,ch,c,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
 ,,50,50.F13,,,,,,,,,,,23/08/2022,,,,,,,,,,,,,,,,,,,
 ,,50,50.F14,,,,,,,,,,,23/08/2022,,,,,,,,,,,,,,,,,,,
-,,50,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,R51.15M1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,R51.15F5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,51,51.M1,może nie chinchilla,M,stone agouti broken?,,czarne,,,,,,24/08/2022,a,a,B,.,cch,c,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
@@ -515,8 +500,6 @@ zastanowić się jakie barwy współgrają,zwierzętarnia,58,58.M1,,M,recesive r
 ,,59,59.M6,,,,,,,,,,,26/08/2022,,,,,,,,,,,,,,,,,,,
 ,,59,59.M7,,,,,,,,,,,26/08/2022,,,,,,,,,,,,,,,,,,,
 ,,59,59.F8,,,,,,,,,,,26/08/2022,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 na niebieskim,zwierzętarnia,60,60.F1,pearl tan,F,,,,,21.M1,blue tan ,,lilac tan CUP,,at,a,B,.,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
 na niebieskim,zwierzętarnia,60,60.F2,pearl tan,F,,,,,21.M1,blue tan ,30.F5,lilac tan CUP,,at,a,B,.,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
 ,zwierzętarnia,60,60.M3,blue tan,M,,,,,21.M1,blue tan ,30.F6,lilac tan CUP,,at,a,B,.,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
@@ -525,8 +508,6 @@ porównanie z innymi lilacami,zwierzętarnia,60,60.M4,lilac tan,M,,,,,21.M1,blue
 ,,60,60.M6,blue tan,M,,,,,21.M1,blue tan ,30.F9,lilac tan CUP,,at,a,B,.,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
 ,,60,60.F7,blue tan,F,,,,,21.M1,blue tan ,30.F10,lilac tan CUP,,at,a,B,.,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
 ,,60,60.F8,blue tan,F,,,,,21.M1,blue tan ,30.F11,lilac tan CUP,,at,a,B,.,C,.,d,d,P,.,Ln,.,si,si,*,w,w,S,.
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,61,61.M1,black broken LH,M,,,,,32.M4,albino LH,,,,a,a,B,b,C,c,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
 trochę jaśniejszy od czekolady,zwierzętarnia,61,61.M2,chocolate broken LH,M,,,,,32.M4,albino LH,,,,a,a,b,b,C,c,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
 jaśniejszy niż ,zwierzętarnia,61,61.F3,chocolate broken LH,F,,,,,32.M4,albino LH,,,,a,a,b,b,C,c,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
@@ -559,15 +540,6 @@ wygląda na bandet,zwierzętarnia,62,62.M2,broken dove LH,M,,,,,24.M2,dove LH,28
 ,,63,63.F7,agouti,F,,,,,31.M1,argente,3.F1,cynamon,26.08.2022,A,.,B,.,C,.,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
 ,,63,63.F8,agouti,F,,,,,31.M1,argente,3.F1,cynamon,26.08.2022,A,.,B,.,C,.,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
 ,,63,63.F9,agouti,F,,,,,31.M1,argente,3.F1,cynamon,26.08.2022,A,.,B,.,C,.,D,.,P,.,Ln,.,Si,.,*,w,w,S,.
-brak danych w zeszycie,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,.,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
-,,64,,,,,,,,37.M1,agouti tan,37.F5,agouti tan satin,01.09.2022,,,,,,,,,,,,,,,,,,,
 jedna z samic ciężarna z bratem,zwierzętarnia,65,65.M1,black LH łata na brzuchu,M,sepia,,czarne,,28.M3,dark splashed LH,24.F4,burmese LH,27.08.2022,a,a,B,.,C,.,D,.,P,.,Ln,.,Si,.,*,w,w,s,s
 jedna z samic ciężarna z bratem,zwierzętarnia,65,65.M2,burmese LH,M,,,czarne,,28.M3,dark splashed LH,24.F4,burmese LH,27.08.2022,a,a,B,.,cch,ch,D,.,P,.,,,,,,,,,
 jedna z samic ciężarna z bratem,zwierzętarnia,65,65.M3,burmese roam LH,M,,,czarne,,28.M3,dark splashed LH,24.F4,burmese LH,27.08.2022,a,a,B,.,cch,ch,D,.,P,.,,,,,,,,,
@@ -812,8 +784,6 @@ weryfikacja,zwierzętnia,79,79.F3,chocolate,F,,,,,9.M2,champagne,13.F4,beż/lila
 ,zwierzętarnia,88,88.F8,,F,może sable,,,,37.M1,agouti tan,37.F6,black tan satin,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,88,88.F9,,F,bone satin,,,,37.M1,agouti tan,37.F6,black tan satin,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,88,88.F10,,F,bone,,,,37.M1,agouti tan,37.F6,black tan satin,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,brindle am. splashed,,,,,,2.M1,argente,,brindle am. splashed,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,89,89.M1,argente,M,,,,,2.M1,argente,,brindle am. splashed,,,,,,,,,,,,,,,,,,,,
 ,,89,89.M2,albino ? satin,M,splash (może z argente?),,,,2.M1,argente,,brindle am. splashed,,,,,,,,,,,,,,,,,,,,
 ,,89,89.M3,splashed,M,,,,,2.M1,argente,,brindle am. splashed,,,,,,,,,,,,,,,,,,,,
@@ -822,8 +792,6 @@ weryfikacja,zwierzętnia,79,79.F3,chocolate,F,,,,,9.M2,champagne,13.F4,beż/lila
 ,zwierzętarnia,89,89.F6,splashed argente? pp ,F,,,,,2.M1,argente,,brindle am. splashed,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,89,89.F7,splashed argente? pp ,F,,,,,2.M1,argente,,brindle am. splashed,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,89,89.F8,splashed brindle pp,F,,,,,2.M1,argente,,brindle am. splashed,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,90,90.M1,argente satin,M,,,,,37.M1,albino satin,37.F10,dove tan satin brindle EU,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,90,90.M2,albino satin,M,,,,,37.M1,albino satin,37.F10,dove tan satin brindle EU,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,90,90.F3,dove satin,F,,,,,37.M1,albino satin,37.F10,dove tan satin brindle EU,,,,,,,,,,,,,,,,,,,,
@@ -836,10 +804,6 @@ weryfikacja,zwierzętnia,79,79.F3,chocolate,F,,,,,9.M2,champagne,13.F4,beż/lila
 ,,90,90.M10,brindle ,M,,,,,37.M1,albino satin,37.F10,dove tan satin brindle EU,,,,,,,,,,,,,,,,,,,,
 ,,90,90.M11,brindle ,M,,,,,37.M1,albino satin,37.F10,dove tan satin brindle EU,,,,,,,,,,,,,,,,,,,,
 ,,90,90.M12,brindle ,M,,,,,37.M1,albino satin,37.F10,dove tan satin brindle EU,,,,,,,,,,,,,,,,,,,,
-,U,90,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,2M1,,,albino fuzzy,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,91,91.M1,argente satin CUP,,,,,,2M1,,,albino fuzzy,,,,,,,,,,,,,,,,,,,,
 ,?,91,91.M2,albino,,,,,,2M1,,,albino fuzzy,,,,,,,,,,,,,,,,,,,,
 ,?,91,91.F3,argente ,,,,,,2M1,,,albino fuzzy,,,,,,,,,,,,,,,,,,,,
@@ -855,8 +819,6 @@ weryfikacja,zwierzętnia,79,79.F3,chocolate,F,,,,,9.M2,champagne,13.F4,beż/lila
 ,E,91,91.F13,,,,,,,2M1,,,albino fuzzy,,,,,,,,,,,,,,,,,,,,
 ,E,91,91.F14,,,,,,,2M1,,,albino fuzzy,,,,,,,,,,,,,,,,,,,,
 ,E,91,91.F15,,,,,,,2M1,,,albino fuzzy,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,92,92.M1,agouti satin texel,,,,,,,texel satin LH,37.F7,BEW satin,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,92,92.M2,black tan satin texel,,,,,,,texel satin LH,37.F7,BEW satin,,,,,,,,,,,,,,,,,,,,
 ,,92,92.F3,argente satin texel,,,,,,,texel satin LH,37.F7,BEW satin,,,,,,,,,,,,,,,,,,,,
@@ -867,17 +829,9 @@ weryfikacja,zwierzętnia,79,79.F3,chocolate,F,,,,,9.M2,champagne,13.F4,beż/lila
 ,,92,92.F8,black tan satin texel,,,,,,,texel satin LH,37.F7,BEW satin,,,,,,,,,,,,,,,,,,,,
 ,,92,92.F9,black,,,,,,,texel satin LH,37.F7,BEW satin,,,,,,,,,,,,,,,,,,,,
 ,,92,92.F10,black,,,,,,,texel satin LH,37.F7,BEW satin,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,93,93.M1,"black texel ""baronet""",,,,,,,agouti texel satin,,dove texel het satin,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,93,93.M2,"agouti texel 'baron"" CUP",,,,,,,agouti texel satin,,dove texel het satin,,,,,,,,,,,,,,,,,,,,
 ,zwierzętarnia,93,93.M3,"dove texel ""baron""",,satin,,,,,agouti texel satin,,dove texel het satin,,,,,,,,,,,,,.,,.,*,w,w,S,.
 ,zwierzętarnia,93,93.M4,agouti texel CUL,,,,,,,agouti texel satin,,dove texel het satin,,,,,,,,,,,,,,,,,,,,
 ,,93,93.F5,"argente texel ""baronek""",,,,,,,agouti texel satin,,dove texel het satin,,,,,,,,,,,,,,,,,,,,
 ,,93,93.F6,dove texel,,,,,,,agouti texel satin,,dove texel het satin,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,91. są argente i 2 fuzzy,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,93M3 jest też satyną,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -25,6 +25,8 @@ pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
                 litter: row.litter,
                 father: row.father,
                 mother: row.mother,
+                eye_color: row.eye_color,
+                hair: row.hair,
             }
         })
         .fetch_all(pool)
@@ -46,17 +48,19 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
         .await?;
     match row {
         Some(animal) => Ok ( AnimalFull { 
-            id: animal.id.clone(),
-            fenotyp: animal.phenotype.clone(),
+            id: animal.id,
+            fenotyp: animal.phenotype,
             gender: match animal.gender_male {
                 true => common::animal::Gender::Male,
                 false => common::animal::Gender::Female
             },
             status: animal.status,
             photos: vec![],
-            litter: animal.litter.clone(),
-            father: animal.father.clone(),
-            mother: animal.mother.clone(),
+            litter: animal.litter,
+            father: animal.father,
+            mother: animal.mother,
+            eye_color: animal.eye_color,
+            hair: animal.hair
         }),
         None => Err(anyhow!("Animal is not present in db"))
     } 
@@ -132,6 +136,22 @@ pub async fn photos_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Ph
         })
         .fetch_all(pool)
         .await?;
+
+    Ok(photos)
+}
+
+pub async fn photos_for_litter(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Photo>> {
+    let photos = sqlx::query!("
+    SELECT photo FROM LITTER_PHOTO
+    WHERE litter = $1", id)
+    .map(|row| {
+        Photo {
+            path: row.photo,
+            author: None
+        }
+    })
+    .fetch_all(pool)
+    .await?;
 
     Ok(photos)
 }

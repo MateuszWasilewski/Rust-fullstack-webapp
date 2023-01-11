@@ -1,14 +1,14 @@
+use yew::{html, Html, Properties, Component};
 use anyhow::Result;
-use yew::{html, Component, Html, Properties};
 
-use common::animal::Gender;
 use common::AnimalFull;
+use common::animal::Gender;
 
 use crate::page::routes::AnimalLink;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    pub animal_id: String,
+    pub animal_id: String
 }
 
 fn get_animal_link(id: &str) -> Html {
@@ -18,58 +18,48 @@ fn get_animal_link(id: &str) -> Html {
 }
 
 fn animal_page(animal: &AnimalFull) -> Html {
-    let photos = animal
-        .photos
-        .iter()
-        .map(|photo| {
-            let image_path = format!("/photo/{}", photo.path);
-            html! {
-                <img src={image_path} class="col-md-6 float-md-end mb-3 ms-md-3" alt="..."/>
-            }
-        })
-        .collect::<Html>();
+    let photos = animal.photos.iter().map( |photo| {
+        let image_path = format!("/public/{}", photo.path);
+        html! {
+            <img src={image_path} class="col-md-6 float-md-end mb-3 ms-md-3" alt="..."/>
+        }
+    }).collect::<Html>();
 
     let mut data = vec![
-        (html! {"id"}, get_animal_link(&animal.id)),
-        (
-            html! {"płeć"},
-            html! {
-                match animal.gender {
-                    Gender::Male => "M",
-                    Gender::Female => "F"
-                }
-            },
-        ),
-        (html! {"fenotyp"}, html! { &animal.fenotyp }),
-        //(html!{"kolor oka"}, html! {""}),
-        //(html!{"włos"}, html! {""}),
+        (html!{"id"}, get_animal_link(&animal.id)),
+        (html!{"płeć"}, html!{
+            match animal.gender {
+                Gender::Male => "M",
+                Gender::Female => "F"
+            }
+        }),
+        (html!{"fenotyp"}, html!{ &animal.fenotyp }),
+        (html!{"kolor oka"}, animal.eye_color.clone().unwrap_or("nieznany".into()).into()),
+        (html!{"włos"}, animal.hair.clone().unwrap_or("nieznany".into()).into()),
     ];
 
     if let Some(litter) = &animal.litter {
-        data.push(("nr miotu".into(), html! {litter}));
+        data.push(("nr miotu".into(), html!{litter}));
     }
     if let Some(father) = &animal.father {
         data.push(("ojciec".into(), get_animal_link(father)));
     }
     if let Some(mother) = &animal.mother {
-        data.push(("marka".into(), get_animal_link(mother)));
+        data.push(("matka".into(), get_animal_link(mother)));
     }
-
-    let data = data
-        .into_iter()
-        .map(|(name, value)| {
-            html! {
-                <div class="row border-top">
-                    <div class="col">
-                        {name}
-                    </div>
-                    <div class="col">
-                        {value}
-                    </div>
+    
+    let data = data.into_iter().map(|(name, value)| {
+        html! {
+            <div class="row border-top">
+                <div class="col">
+                    {name}
                 </div>
-            }
-        })
-        .collect::<Html>();
+                <div class="col">
+                    {value}
+                </div>
+            </div>
+        }
+    }).collect::<Html>();
 
     html! {
         <>
@@ -82,8 +72,9 @@ fn animal_page(animal: &AnimalFull) -> Html {
     }
 }
 
+
 pub struct Animal {
-    animal: Option<common::AnimalFull>,
+    animal: Option<common::AnimalFull>
 }
 
 impl Animal {
@@ -104,7 +95,7 @@ impl Component for Animal {
     type Properties = Props;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
-        let animal = Animal { animal: None };
+        let animal = Animal {animal: None};
         animal.fetch_animal(ctx);
         animal
     }
@@ -114,8 +105,8 @@ impl Component for Animal {
             Ok(animal) => {
                 self.animal = Some(animal);
                 true
-            }
-            Err(_) => false,
+            },
+            Err(_) => false
         }
     }
 
@@ -126,10 +117,12 @@ impl Component for Animal {
 
     fn view(&self, _ctx: &yew::Context<Self>) -> Html {
         match &self.animal {
-            Some(animal) => animal_page(&animal),
+            Some(animal) => {
+                animal_page(&animal)
+            },
             None => html! {
                 <h2> { format!("Animal with given id could not be found")} </h2>
-            },
+            }
         }
     }
 }
