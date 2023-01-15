@@ -1,3 +1,4 @@
+use common::AnimalData;
 use db::ConnectionDB;
 use rocket::serde::json::Json;
 use rocket::State;
@@ -19,4 +20,11 @@ pub async fn post_litter(
     let result = db::insert::litter(&litter, &state.pool).await.ok();
 
     Json(result)
+}
+
+#[get("/animals-in-litter/<id>")]
+pub async fn get_animal_litter_list(id: &str, state: &State<ConnectionDB>) -> Json<Option<Vec<AnimalData>>> {
+    let animals = db::select::animals_in_litter(id, &state.pool).await.ok();
+
+    Json(animals)
 }

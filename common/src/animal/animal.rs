@@ -23,7 +23,7 @@ pub struct AnimalFull {
     pub mother: Option<String>, //pub genes: Option<AnimalGenes>
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct AnimalData {
     pub id: String,
     pub fenotyp: String,

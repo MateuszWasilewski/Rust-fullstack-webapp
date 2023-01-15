@@ -2,14 +2,8 @@ use anyhow::Result;
 use yew::{html, Component, Html};
 
 use crate::common::table::{RowProps, TableWithTags};
-use crate::page::routes::AnimalLink;
+use crate::page::routes::{get_animal_link, get_litter_link};
 use common::AnimalData;
-
-fn get_animal_link(id: &str) -> Html {
-    html! {
-        <AnimalLink id={id.to_owned()} />
-    }
-}
 
 fn animal_tags() -> RowProps {
     vec![
@@ -23,10 +17,12 @@ fn animal_tags() -> RowProps {
 }
 
 fn animal_to_row(animal: &AnimalData) -> RowProps {
-    let litter = animal.litter.clone().unwrap_or("--".into());
     vec![
         get_animal_link(&animal.id),
-        litter.into(),
+        match &animal.litter {
+            Some(id) => get_litter_link(&id),
+            None => "--".into()
+        },
         animal.fenotyp.clone().into(),
         animal.status.clone().unwrap_or("nieznany".into()).into(),
         match &animal.father {

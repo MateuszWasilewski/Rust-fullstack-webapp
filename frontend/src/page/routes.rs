@@ -9,6 +9,8 @@ pub enum Routes {
     AnimalList,
     #[at("/animal/:id")]
     GoToAnimal { id: String },
+    #[at("/litter/:id")]
+    GoToLitter { id: String },
     #[at("/phenotypes")]
     Phenotypes,
     #[at("/litter-list")]
@@ -33,6 +35,12 @@ pub fn get_link<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
     }
 }
 
+pub fn get_animal_link(id: &str) -> Html {
+    html! {
+        <AnimalLink id={id.to_owned()} />
+    }
+}
+
 #[derive(PartialEq, Properties)]
 pub struct AnimalLinkProps {
     pub id: AttrValue,
@@ -46,6 +54,29 @@ pub fn AnimalLink(props: &AnimalLinkProps) -> Html {
         Callback::from(move |_: MouseEvent| {
             navigator.push(&Routes::GoToAnimal { id: id.to_string() })
         })
+    };
+    html! {
+        <a class="nav-link active text-primary" href="javascript:void(0);" {onclick}>{&props.id}</a>
+    }
+}
+
+pub fn get_litter_link(id: &str) -> Html {
+    html! {
+        <LitterLink id={id.to_owned()} />
+    }
+}
+
+#[derive(PartialEq, Properties)]
+pub struct LitterLinkProps {
+    pub id: AttrValue,
+}
+
+#[function_component]
+pub fn LitterLink(props: &LitterLinkProps) -> Html {
+    let onclick = {
+        let navigator = use_navigator().unwrap();
+        let id = props.id.clone();
+        Callback::from(move |_| navigator.push(&Routes::GoToLitter { id: id.to_string() }))
     };
     html! {
         <a class="nav-link active text-primary" href="javascript:void(0);" {onclick}>{&props.id}</a>

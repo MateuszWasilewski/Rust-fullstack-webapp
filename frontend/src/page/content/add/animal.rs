@@ -37,6 +37,8 @@ struct State {
     phenotype: Option<String>,
     gender: Option<Gender>,
     status: Option<String>,
+    eye_color: Option<String>,
+    hair: Option<String>
 }
 
 async fn set_litters(dispatch: Dispatch<State>) {
@@ -106,6 +108,12 @@ pub fn AddAnimalTemp() -> Html {
     let set_status = dispatch.reduce_mut_callback_with(|state, event| {
         state.status = event_to_text(event);
     });
+    let set_eye_color = dispatch.reduce_mut_callback_with(|state, event| {
+        state.eye_color = event_to_text(event);
+    });
+    let set_hair = dispatch.reduce_mut_callback_with(|state, event| {
+        state.hair = event_to_text(event);
+    });
 
     let onclick = Callback::from({
         let state = dispatch.get();
@@ -121,8 +129,8 @@ pub fn AddAnimalTemp() -> Html {
                 status: state.status.clone(),
                 mother: None,
                 father: None,
-                eye_color: None,    // TODO add option to set
-                hair: None,         // TODO add option to set
+                eye_color: state.eye_color.clone(),
+                hair: state.hair.clone(),
             };
             spawn_local(async move {
                 backend_api::animal::post_animal(&animal).await.unwrap();
@@ -138,6 +146,8 @@ pub fn AddAnimalTemp() -> Html {
         <SelectPhenotype />
         <SelectGender />
         <TextInput onchange={set_status} id="status" text="Status"/>
+        <TextInput onchange={set_eye_color} id="eye_color" text="Kolor oka"/>
+        <TextInput onchange={set_hair} id="hair" text="Włos"/>
         <button type="submit" {onclick} class="btn btn-primary mb-3">{"Dodaj Mysz"} </button>
         </>
     }

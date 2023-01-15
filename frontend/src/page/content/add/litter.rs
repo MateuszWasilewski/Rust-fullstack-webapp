@@ -58,6 +58,6 @@ pub fn AddLitter() -> Html {
             <div class="col-auto">
                 <button type="submit" {onclick} class="btn btn-primary mb-3">{"Dodaj miot"} </button>
             </div>
-            </>
+        </>
     }
 }
