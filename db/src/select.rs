@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use anyhow::{anyhow, Result};
 use common::animal::Gender;
+use common::animal::genes::AnimalGenes;
 use common::{Phenotype, Photo};
 use sqlx::{Pool, Postgres};
 
@@ -108,6 +109,7 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
             mother: animal.mother,
             eye_color: animal.eye_color,
             hair: animal.hair,
+            genes: Vec::new()
         }),
         None => Err(anyhow!("Animal is not present in db")),
     }
@@ -199,4 +201,27 @@ pub async fn photos_for_litter(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Ph
     .await?;
 
     Ok(photos)
+}
+
+pub async fn genes_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<AnimalGenes>> {
+    let rows = sqlx::query!(r#"
+        SELECT G.genes as "genes?"
+            FROM ANIMAL A
+        JOIN PHENOTYPE P
+            ON A.phenotype = P.name
+        LEFT JOIN GENOTYPE G
+            ON P.name = G.phenotype
+        WHERE A.id = $1"#,
+        id
+    )
+    .map(|row| AnimalGenes {
+        genes: match row.genes.and_then(|value| serde_json::from_value(value).ok()) {
+            Some(genes) => genes,
+            None => HashMap::new()
+        }
+    })
+    .fetch_all(pool)
+    .await?;
+
+    Ok(rows)
 }
