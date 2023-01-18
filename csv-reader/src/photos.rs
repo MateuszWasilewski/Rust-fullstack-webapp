@@ -2,7 +2,7 @@
 use common::Photo;
 use glob::glob;
 
-static FILE_PATH: &str = "photos/**/*";
+static FILE_PATH: &str = "public/photos/**/*";
 
 pub async fn add_photos() {
   let pool = db::connect_db().await.expect("Failed to connect DB");

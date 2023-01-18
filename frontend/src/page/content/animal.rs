@@ -30,7 +30,7 @@ fn AnimalPage() -> Html {
     let all_genes = state.genes.clone();
 
     let photos = animal.photos.iter().map( |photo| {
-        let image_path = format!("/public/{}", photo.path);
+        let image_path = format!("/{}", photo.path);
         html! {
             <img src={image_path} class="col-md-6 float-md-end mb-3 ms-md-3" alt="..."/>
         }

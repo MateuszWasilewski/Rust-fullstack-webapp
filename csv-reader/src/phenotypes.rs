@@ -72,7 +72,7 @@ pub async fn run_phenotypes() {
         let mut genes_opt: HashMap<String, Option<String>> =
             serde_json::from_value(genes_json).unwrap();
         genes_opt.remove("WARIANT");
-        genes_opt.remove("FENOTYPE");
+        genes_opt.remove("FENOTYP");
         let mut genes: HashMap<String, String> = HashMap::new();
 
         for (key, value) in genes_opt {

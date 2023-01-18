@@ -25,5 +25,8 @@ services:
       - type: bind
         source: ./files
         target: /usr/bin/files
+      - type: bind
+        source: ./public
+        target: /usr/bin/public
     links:
       - db-postgres

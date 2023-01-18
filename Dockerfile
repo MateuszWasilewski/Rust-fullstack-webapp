@@ -8,13 +8,19 @@ RUN rustup target add wasm32-unknown-unknown
 RUN rustup target add aarch64-unknown-linux-gnu
 RUN cargo install trunk
 RUN cargo install wasm-opt
+RUN cargo install sqlx-cli
 
 WORKDIR /usr/build
 COPY . .
 
 FROM build as build_backend
 
+RUN cd db \
+    cargo sqlx prepare \
+    cd ..
+
 ENV SQLX_OFFLINE=true
+
 RUN \
     --mount=type=cache,target=/usr/build/target \
     cargo build --release --target=aarch64-unknown-linux-gnu && \
