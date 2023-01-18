@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 #chrono = "0.4.23"
 serde = "1.0.148"
-frontend-routing = { path = "../frontend-routing" }
+frontend-routing = { path = "../frontend/routing" }

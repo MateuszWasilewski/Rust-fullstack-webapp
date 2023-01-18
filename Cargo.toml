@@ -7,7 +7,6 @@ members = [
     "backend-api",
     "db",
     "csv-reader",
-    "frontend-routing"
 ]
 
 default-members = [
