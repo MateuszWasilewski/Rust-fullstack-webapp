@@ -34,14 +34,13 @@ fn Results() -> Html {
     let navigator = navigator.clone();
     let result = search_result.clone();
     let onclick = Callback::from(move |_: MouseEvent| {
-        //navigator.push_with_query(&Routes::Home, &result.path).ok();
-        navigator.push(&Routes::Home);
+        navigator.push(&result.route);
     });
     html! {
     <div class="row">
-      //<div class="col">
+      <div class="col col-lg-2">
       <a class="nav-link active text-primary" href="javascript:void(0);" {onclick}>{&search_result.name}</a>
-      //</div>
+      </div>
       <div class="col">
         {&search_result.description}
       </div>

@@ -1,6 +1,7 @@
 use yew_router::prelude::*;
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug, Clone, PartialEq, Routable)]
+#[derive(Debug, Clone, PartialEq, Routable, Serialize, Deserialize)]
 pub enum Routes {
     #[at("/")]
     Home,

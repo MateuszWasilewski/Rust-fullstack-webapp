@@ -1,6 +1,8 @@
-use common::SearchResult;
+use common::{SearchResult, animal::Gender};
 use db::ConnectionDB;
 use rocket::{serde::json::Json, State};
+
+use frontend_routing::Routes;
 
 #[get("/search/<query>")]
 pub async fn get_search_results(
@@ -14,9 +16,12 @@ pub async fn get_search_results(
     if let Ok(animals) = animals {
       let mut search_animals: Vec<SearchResult> = animals.into_iter().map(|animal| {
         SearchResult { 
-          path: format!("animal/{}", animal.id),
-          name: animal.id, 
-          description: "Mysz o id: ".into()
+          name: animal.id.clone(), 
+          route: Routes::GoToAnimal{ id: animal.id},
+          description: format!("płeć: {}, fenotyp: {}", match animal.gender {
+              Gender::Male => "M",
+              Gender::Female => "F"
+          }, animal.fenotyp)
         }
       }).collect();
       results.append(&mut search_animals);
