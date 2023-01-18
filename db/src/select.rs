@@ -240,7 +240,11 @@ pub async fn animals_for_query(query: &str, pool: &Pool<Postgres>) -> Result<Vec
         FROM ANIMAL A
         LEFT JOIN LITTER L
         ON A.litter = L.id
-        WHERE regexp_count(A.id, $1, 1, 'i') > 0"#,
+        WHERE 
+            regexp_count(A.id, $1, 1, 'i') > 0
+        OR 
+            regexp_count(A.phenotype, $1, 1, 'i') > 0
+        "#,
         query
     )
     .map(db_to_animal)

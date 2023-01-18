@@ -34,10 +34,10 @@ pub async fn get_animal_list(state: &State<ConnectionDB>) -> Json<Option<Vec<Ani
 }
 
 #[get("/animal/<id>")]
-pub async fn get_animal(id: &str, state: &State<ConnectionDB>) -> Json<Option<AnimalFull>> {
-    let animal = fetch_animal(id, state).await.ok();
+pub async fn get_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<AnimalFull>> {
+    let animal = fetch_animal(id, state).await.ok()?;
 
-    Json(animal)
+    Some(Json(animal))
 }
 
 #[post("/animal", format = "json", data = "<animal>")]

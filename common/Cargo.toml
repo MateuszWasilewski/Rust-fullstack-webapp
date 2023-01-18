@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 #chrono = "0.4.23"
-serde = "1.0.148"
+serde = "1.0.152"
 frontend-routing = { path = "../frontend/routing" }

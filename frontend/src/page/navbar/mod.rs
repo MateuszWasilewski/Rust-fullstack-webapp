@@ -4,11 +4,9 @@ use yew_router::Routable;
 use yew_router::prelude::use_navigator;
 
 mod search;
-
-use super::content::add::routes::Routes as AddRoutes;
-use frontend_routing::Routes;
 use search::SearchBar;
 use frontend_routing::links::{Link, LinkProps};
+use frontend_routing::{Routes, RoutesAdd};
 
 #[function_component]
 fn NavLink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
@@ -59,9 +57,9 @@ pub fn get_navbar() -> Html {
                             {"Dodaj"}
                         </a>
                         <ul class="dropdown-menu">
-                            <DropdownLink<AddRoutes> target={AddRoutes::Litter} link_name={"Miot"}/>
-                            <DropdownLink<AddRoutes> target={AddRoutes::Animal} link_name={"Mysz"}/>
-                            <DropdownLink<AddRoutes> target={AddRoutes::Phenotype} link_name={"Fenotyp"}/>
+                            <DropdownLink<RoutesAdd> target={RoutesAdd::Litter} link_name={"Miot"}/>
+                            <DropdownLink<RoutesAdd> target={RoutesAdd::Animal} link_name={"Mysz"}/>
+                            <DropdownLink<RoutesAdd> target={RoutesAdd::Phenotype} link_name={"Fenotyp"}/>
                         </ul>
                     </div>
                     </li>

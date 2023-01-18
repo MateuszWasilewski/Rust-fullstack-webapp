@@ -4,8 +4,8 @@ APP_NAME=rust-server
 
 sudo docker image rm $APP_NAME:latest
 
-cargo sqlx prepare --merged
+#pushd db 
+#cargo sqlx prepare 
+#popd
 
 sudo DOCKER_BUILDKIT=1 docker build -t $APP_NAME .
-
-rm sqlx-data.json

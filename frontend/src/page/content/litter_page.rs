@@ -21,7 +21,7 @@ struct PageState {
 
 async fn fetch_data(dispatch: Dispatch<PageState>) {
     let state = dispatch.get();
-    let animals = backend_api::get_animal_litter_list(&state.litter_id).await;
+    let animals = backend_api::get::animal_litter_list(&state.litter_id).await;
     if let Ok(animals) = animals {
         dispatch.reduce_mut(|state| state.animals = animals);
     }

@@ -95,14 +95,14 @@ struct State {
 
 async fn fetch_animal(dispatch: Dispatch<State>) {
     let id = &dispatch.get().id;
-    let animal = backend_api::get_animal_by_id(id).await;
+    let animal = backend_api::get::animal_by_id(id).await;
     if let Ok(animal) = animal {
         dispatch.reduce_mut(|state| state.animal = Some(animal));
     }
 }
 
 async fn fetch_genes(dispatch : Dispatch<State>) {
-    let genes = backend_api::get_genes().await;
+    let genes = backend_api::get::genes().await;
     if let Ok(genes) = genes {
         dispatch.reduce_mut(|state| state.genes = genes);
     }

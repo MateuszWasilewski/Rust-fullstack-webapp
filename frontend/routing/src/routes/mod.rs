@@ -1,6 +1,10 @@
 use yew_router::prelude::*;
 use serde::{Serialize, Deserialize};
 
+mod add;
+
+pub use add::Routes as RoutesAdd;
+
 #[derive(Debug, Clone, PartialEq, Routable, Serialize, Deserialize)]
 pub enum Routes {
     #[at("/")]

@@ -17,7 +17,7 @@ struct State {
 
 async fn fetch_data(query: String) {
   let dispatch = Dispatch::<State>::new();
-  let response = backend_api::get_search_results(&query).await;
+  let response = backend_api::get::search_results(&query).await;
   if let Ok(data) = response {
     dispatch.reduce_mut(|state| state.data = data);
   }

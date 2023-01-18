@@ -3,17 +3,12 @@
 members = [
     "backend",
     "frontend",
-    "common",
-    "backend-api",
-    "db",
-    "csv-reader",
 ]
 
 default-members = [
     "backend"
 ]
 
-[profile.web]
-inherits = "release"
+[profile.release]
 lto = true
-opt-level = 's'
+opt-level = 'z'

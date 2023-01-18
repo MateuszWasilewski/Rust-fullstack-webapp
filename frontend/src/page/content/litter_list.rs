@@ -28,7 +28,7 @@ impl Component for LitterList {
     fn create(ctx: &yew::Context<Self>) -> Self {
         ctx.link().send_future({
             async move {
-                let litters = backend_api::get_litter_list().await;
+                let litters = backend_api::get::litter_list().await;
                 litters
             }
         });

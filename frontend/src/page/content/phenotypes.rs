@@ -17,12 +17,12 @@ async fn fetch_data() {
     let dispatch = Dispatch::<State>::new();
     let state = dispatch.get();
     if let None = state.phenotypes {
-        backend_api::get_phenotypes_full().await.map(|phenotypes| {
+        backend_api::get::phenotypes_full().await.map(|phenotypes| {
             dispatch.reduce_mut(|state| state.phenotypes = Some(phenotypes) )
         }).ok();
     }
     if let None = state.gene_names {
-        backend_api::get_genes().await.map(|gene_names| {
+        backend_api::get::genes().await.map(|gene_names| {
             dispatch.reduce_mut(|state| state.gene_names = Some(gene_names) )
         }).ok();
     }

@@ -13,7 +13,7 @@ use anyhow::Result;
 use std::rc::Rc;
 
 async fn get_phenotypes() -> Result<Vec<String>> {
-    Ok(backend_api::get_phenotypes()
+    Ok(backend_api::get::phenotypes()
         .await?
         .into_iter()
         .map(|phen| phen.phenotype)
@@ -21,7 +21,7 @@ async fn get_phenotypes() -> Result<Vec<String>> {
 }
 
 async fn get_litters() -> Result<Vec<String>> {
-    Ok(backend_api::get_litter_list()
+    Ok(backend_api::get::litter_list()
         .await?
         .into_iter()
         .map(|litter| litter.id)

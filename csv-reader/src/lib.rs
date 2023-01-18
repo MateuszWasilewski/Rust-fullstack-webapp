@@ -5,7 +5,7 @@ mod phenotypes;
 mod photos;
 
 pub async fn run() {
-    //phenotypes::run_phenotypes().await;
-    //animals::run_animals().await;
+    phenotypes::run_phenotypes().await;
+    animals::run_animals().await;
     photos::add_photos().await;
 }
