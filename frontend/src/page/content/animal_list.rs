@@ -4,7 +4,7 @@ use yewdux::prelude::{use_store_value, Dispatch};
 use yewdux::store::Store;
 
 use crate::common::table::{RowProps, TableWithTags};
-use crate::page::routes::{get_animal_link, get_litter_link};
+use frontend_routing::links::{get_animal_link, get_litter_link};
 use common::AnimalData;
 
 fn animal_tags() -> RowProps {

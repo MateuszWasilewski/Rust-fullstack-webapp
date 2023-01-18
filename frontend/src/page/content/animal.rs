@@ -6,7 +6,7 @@ use common::animal::Gender;
 use yewdux::prelude::{Dispatch, use_store_value};
 use yewdux::store::Store;
 
-use crate::page::routes::AnimalLink;
+use frontend_routing::links::AnimalLink;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {

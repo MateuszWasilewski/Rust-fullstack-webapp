@@ -3,7 +3,7 @@ use yew::{html, Component, Html};
 
 use crate::common::table::{RowProps, TableWithTags};
 use common::litter::LitterData;
-use crate::page::routes::{get_litter_link, get_animal_link};
+use frontend_routing::links::{get_litter_link, get_animal_link};
 
 fn tags() -> RowProps {
     vec!["id miotu".into(), "id ojca".into(), "id matki".into()]

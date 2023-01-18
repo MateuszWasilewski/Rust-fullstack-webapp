@@ -6,7 +6,7 @@ use yewdux::prelude::use_selector;
 use yewdux::store::Store;
 
 use crate::common::table::{RowProps, TableWithTags};
-use crate::page::routes::{get_animal_link, get_litter_link};
+use frontend_routing::links::{get_animal_link, get_litter_link};
 
 #[derive(PartialEq, Properties)]
 pub struct LitterPageProps {

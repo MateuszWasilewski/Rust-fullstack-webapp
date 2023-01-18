@@ -4,7 +4,7 @@ use yew::{function_component, Html, html, Properties, platform::spawn_local, Cal
 use yew_router::prelude::use_navigator;
 use yewdux::{prelude::{Dispatch, use_selector}, store::Store};
 
-use crate::page::Routes;
+use frontend_routing::Routes;
 
 #[derive(PartialEq, Clone, Properties)]
 pub struct SearchProps {

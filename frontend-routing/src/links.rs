@@ -1,25 +1,7 @@
-use yew::{function_component, html, AttrValue, Callback, Html, MouseEvent, Properties};
-use yew_router::prelude::*;
+use yew::{Properties, function_component, Html, Callback, MouseEvent, html, AttrValue};
+use yew_router::{Routable, prelude::use_navigator};
 
-#[derive(Debug, Clone, PartialEq, Routable)]
-pub enum Routes {
-    #[at("/")]
-    Home,
-    #[at("/animal-list")]
-    AnimalList,
-    #[at("/animal/:id")]
-    GoToAnimal { id: String },
-    #[at("/litter/:id")]
-    GoToLitter { id: String },
-    #[at("/phenotypes")]
-    Phenotypes,
-    #[at("/litter-list")]
-    Litters,
-    #[at("/add/*")]
-    Add,
-    #[at("/search/:query")]
-    Search { query: String }
-}
+use super::Routes;
 
 #[derive(PartialEq, Properties, Clone)]
 pub struct LinkProps<T: Routable> {

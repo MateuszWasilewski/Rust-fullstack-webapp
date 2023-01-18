@@ -4,7 +4,7 @@ use yew_router::{prelude::use_navigator};
 use yewdux::{prelude::Dispatch, store::Store};
 
 use crate::common::input::input_event_to_text;
-use crate::page::Routes;
+use frontend_routing::Routes;
 
 #[derive(PartialEq, Store, Default, Clone)]
 struct State {

@@ -6,10 +6,9 @@ use yew_router::prelude::use_navigator;
 mod search;
 
 use super::content::add::routes::Routes as AddRoutes;
-use super::Routes;
+use frontend_routing::Routes;
 use search::SearchBar;
-use super::routes::Link;
-use super::routes::LinkProps;
+use frontend_routing::links::{Link, LinkProps};
 
 #[function_component]
 fn NavLink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {

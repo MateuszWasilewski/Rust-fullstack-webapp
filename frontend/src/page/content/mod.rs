@@ -9,7 +9,6 @@ mod phenotypes;
 mod litter_page;
 mod search_results;
 
-use super::routes::Routes;
 use add::AddContent;
 use animal::Animal;
 use animal_list::AnimalList;
@@ -17,6 +16,7 @@ use litter_list::LitterList;
 use phenotypes::Phenotypes;
 use litter_page::LitterPage;
 use search_results::SearchResults;
+use frontend_routing::Routes;
 
 #[function_component(Content)]
 pub fn get_content() -> Html {
