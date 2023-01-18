@@ -1,10 +1,9 @@
 use std::rc::Rc;
 use wasm_bindgen::JsCast;
-use web_sys::HtmlInputElement;
+use web_sys::{HtmlInputElement, EventTarget, InputEvent};
 use yew::{function_component, html, Callback, Event, Html, MouseEvent, Properties};
 
-pub fn event_to_text(event: Event) -> Option<String> {
-    let target = event.target().unwrap();
+fn target_to_text(target: EventTarget) -> Option<String> {
     let element = target.unchecked_into::<HtmlInputElement>();
     let text = element.value();
     if text == "" {
@@ -12,6 +11,14 @@ pub fn event_to_text(event: Event) -> Option<String> {
     } else {
         Some(text)
     }
+}
+
+pub fn event_to_text(event: Event) -> Option<String> {
+   event.target().and_then(target_to_text)
+}
+
+pub fn input_event_to_text(event: InputEvent) -> Option<String> {
+    event.target().and_then(target_to_text)
 }
 
 #[derive(PartialEq, Properties)]

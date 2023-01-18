@@ -1,14 +1,21 @@
 use anyhow::Result;
 use db::ConnectionDB;
+use rocket::futures::future;
 use rocket::{serde::json::Json};
 use rocket::State;
 
 use common::{AnimalData, AnimalFull};
 
 async fn fetch_animal(id: &str, state: &State<ConnectionDB>) -> Result<AnimalFull> {
-    let mut animal = db::select::animal(id, &state.pool).await?;
-    let animal_photos = db::select::photos_for_animal(id, &state.pool).await?;
-    let phenotypes = db::select::genes_for_animal(id, &state.pool).await?;
+    let get_animal = db::select::animal(id, &state.pool);
+    let get_animal_photos = db::select::photos_for_animal(id, &state.pool);
+    let get_phenotypes = db::select::genes_for_animal(id, &state.pool);
+    let result = future::join3(get_animal, get_animal_photos, get_phenotypes).await;
+
+
+    let mut animal = result.0?;
+    let animal_photos = result.1?;
+    let phenotypes = result.2?;
 
     animal.add_photos(animal_photos);
     if let Some(litter) = &animal.litter {

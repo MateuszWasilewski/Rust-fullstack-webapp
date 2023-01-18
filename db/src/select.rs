@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use anyhow::{anyhow, Result};
-use common::animal::Gender;
 use common::animal::genes::AnimalGenes;
+use common::animal::Gender;
 use common::{Phenotype, Photo};
 use sqlx::{Pool, Postgres};
 
@@ -109,7 +109,7 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
             mother: animal.mother,
             eye_color: animal.eye_color,
             hair: animal.hair,
-            genes: Vec::new()
+            genes: Vec::new(),
         }),
         None => Err(anyhow!("Animal is not present in db")),
     }
@@ -133,7 +133,7 @@ pub async fn phenotype_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
         .map(|row| Phenotype {
             phenotype: row.name,
             variant: row.variant,
-            genes: HashMap::new(),
+            genes: AnimalGenes::new(HashMap::new()),
         })
         .fetch_all(pool)
         .await?;
@@ -162,7 +162,7 @@ pub async fn phenotype_genes_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype
         Phenotype {
             phenotype: row.name,
             variant: row.variant,
-            genes: genes,
+            genes: AnimalGenes::new(genes),
         }
     })
     .fetch_all(pool)
@@ -204,7 +204,8 @@ pub async fn photos_for_litter(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Ph
 }
 
 pub async fn genes_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<AnimalGenes>> {
-    let rows = sqlx::query!(r#"
+    let rows = sqlx::query!(
+        r#"
         SELECT G.genes as "genes?"
             FROM ANIMAL A
         JOIN PHENOTYPE P
@@ -215,13 +216,36 @@ pub async fn genes_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Ani
         id
     )
     .map(|row| AnimalGenes {
-        genes: match row.genes.and_then(|value| serde_json::from_value(value).ok()) {
+        genes: match row
+            .genes
+            .and_then(|value| serde_json::from_value(value).ok())
+        {
             Some(genes) => genes,
-            None => HashMap::new()
-        }
+            None => HashMap::new(),
+        },
     })
     .fetch_all(pool)
     .await?;
 
     Ok(rows)
+}
+
+pub async fn animals_for_query(query: &str, pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
+    let animals = sqlx::query_as!(
+        DBAnimal,
+        r#"
+        SELECT A.*, 
+        L.mother as "mother?", 
+        L.father as "father?"
+        FROM ANIMAL A
+        LEFT JOIN LITTER L
+        ON A.litter = L.id
+        WHERE regexp_count(A.id, $1, 1, 'i') > 0"#,
+        query
+    )
+    .map(db_to_animal)
+    .fetch_all(pool)
+    .await?;
+
+    Ok(animals)
 }

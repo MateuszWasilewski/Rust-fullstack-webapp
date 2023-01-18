@@ -1,5 +1,7 @@
-use anyhow::Result;
-use yew::{html, Component, Html};
+use yew::platform::spawn_local;
+use yew::{html, Html, function_component};
+use yewdux::prelude::{use_store_value, Dispatch};
+use yewdux::store::Store;
 
 use crate::common::table::{RowProps, TableWithTags};
 use crate::page::routes::{get_animal_link, get_litter_link};
@@ -36,47 +38,42 @@ fn animal_to_row(animal: &AnimalData) -> RowProps {
     ]
 }
 
-pub struct AnimalList {
+#[derive(PartialEq, Default, Store, Clone)]
+struct State {
     animals: Option<Vec<AnimalData>>,
 }
 
-impl Component for AnimalList {
-    type Message = Result<Vec<AnimalData>>;
-    type Properties = ();
-
-    fn create(ctx: &yew::Context<Self>) -> Self {
-        ctx.link().send_future({
-            async move {
-                let animals = backend_api::get_all_animal().await;
-                animals
-            }
-        });
-        AnimalList { animals: None }
+async fn fetch_data() {
+    let dispatch = Dispatch::<State>::new();
+    let state = dispatch.get();
+    if let None = state.animals {
+        backend_api::get_all_animal().await.map(|animals| {
+            dispatch.reduce_mut(|state| state.animals = Some(animals));
+        }).ok();
     }
+}
 
-    fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
-        self.animals = msg.ok();
-        true
-    }
-
-    fn view(&self, _ctx: &yew::Context<Self>) -> Html {
-        html! {
+#[function_component]
+fn Page() -> Html {
+    let state = use_store_value::<State>();
+    let animal_list: Vec<RowProps> = state.animals.clone().unwrap_or_default().iter()
+        .map(animal_to_row).collect();
+    let tags = animal_tags();
+    html! {
         <>
-        <h2>{ "Lista Myszy" }</h2>
-        {match &self.animals {
-            None => html!{},
-            Some(animals) => {
-                let animal_list: Vec<RowProps> = animals.iter()
-                    .map(animal_to_row).collect();
-                let tags = animal_tags();
-                html! {
-                    <div id="animal_list">
-                        <TableWithTags tags={tags} data={animal_list} />
-                    </div>
-                }
-            },
-        }}
+            <h2>{ "Lista Myszy" }</h2>
+            <div id="animal_list">
+                <TableWithTags tags={tags} data={animal_list} />
+            </div>
         </>
         }
+}
+
+#[function_component]
+pub fn AnimalList() -> Html {
+    spawn_local(fetch_data());
+
+    html! {
+        <Page />
     }
 }

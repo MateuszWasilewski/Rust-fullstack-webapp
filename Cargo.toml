@@ -12,3 +12,8 @@ members = [
 default-members = [
     "backend"
 ]
+
+[profile.web]
+inherits = "release"
+lto = true
+opt-level = 's'

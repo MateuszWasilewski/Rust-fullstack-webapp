@@ -24,7 +24,9 @@ RUN \
 RUN \
     --mount=type=cache,target=/usr/build/target \
     cd frontend && \
-    trunk build --release
+    trunk build --profile web
+
+#RUN wasm-opt -Oz -o dist/frontend-9878cf296e84afe_bg.wasm dist/frontend-9878cf296e84afe_bg.wasm
 
 FROM --platform=linux/aarch64 ubuntu:22.04 as release
 

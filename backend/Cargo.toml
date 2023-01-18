@@ -11,3 +11,4 @@ common = { path = "../common" }
 db = { path = "../db" }
 anyhow = "1.0.66"
 csv-reader = { path = "../csv-reader" }
+frontend-routing = { path = "../frontend-routing" }

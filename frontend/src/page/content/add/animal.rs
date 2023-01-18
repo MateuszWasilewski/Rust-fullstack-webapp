@@ -42,7 +42,8 @@ struct State {
 }
 
 async fn set_litters(dispatch: Dispatch<State>) {
-    let litters = get_litters().await.unwrap_or_default();
+    let mut litters = get_litters().await.unwrap_or_default();
+    litters.sort();
     dispatch.reduce_mut(|state| state.litters = litters)
 }
 

@@ -1,3 +1,4 @@
+use common::animal::genes::AnimalGenes;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
@@ -85,7 +86,7 @@ pub async fn run_phenotypes() {
         let phenotype = common::Phenotype {
             phenotype: phenotype.phenotype,
             variant: phenotype.variant,
-            genes: genes,
+            genes: AnimalGenes::new(genes),
         };
         db::insert::genes(&phenotype, &pool).await.unwrap();
     }

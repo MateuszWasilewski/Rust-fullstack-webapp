@@ -1,12 +1,15 @@
 use yew::MouseEvent;
 use yew::{function_component, html, Callback, Html};
 use yew_router::Routable;
+use yew_router::prelude::use_navigator;
+
+mod search;
 
 use super::content::add::routes::Routes as AddRoutes;
+use super::Routes;
+use search::SearchBar;
 use super::routes::Link;
 use super::routes::LinkProps;
-use super::Routes;
-use yew_router::prelude::use_navigator;
 
 #[function_component]
 fn NavLink<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
@@ -52,6 +55,7 @@ pub fn get_navbar() -> Html {
                     <NavLink<Routes> target={Routes::Phenotypes} link_name={"Lista Fenotypów"}/>
                     <NavLink<Routes> target={Routes::Litters} link_name={"Lista Miotów"}/>
                     <li class="nav-item dropdown">
+                    <div class="btn-group">
                         <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {"Dodaj"}
                         </a>
@@ -60,14 +64,11 @@ pub fn get_navbar() -> Html {
                             <DropdownLink<AddRoutes> target={AddRoutes::Animal} link_name={"Mysz"}/>
                             <DropdownLink<AddRoutes> target={AddRoutes::Phenotype} link_name={"Fenotyp"}/>
                         </ul>
+                    </div>
                     </li>
+                    <SearchBar/>
                 </ul>
                 </div>
-
-                //<form class="d-flex mx-auto" role="search">
-                //    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                //    <button class="btn btn-outline-success" type="submit">{"Search"}</button>
-                //</form>
             </div>
         </nav>
     }

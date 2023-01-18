@@ -7,6 +7,7 @@ mod animal_list;
 mod litter_list;
 mod phenotypes;
 mod litter_page;
+mod search_results;
 
 use super::routes::Routes;
 use add::AddContent;
@@ -15,6 +16,7 @@ use animal_list::AnimalList;
 use litter_list::LitterList;
 use phenotypes::Phenotypes;
 use litter_page::LitterPage;
+use search_results::SearchResults;
 
 #[function_component(Content)]
 pub fn get_content() -> Html {
@@ -38,5 +40,6 @@ fn switch(route: Routes) -> Html {
         Routes::Phenotypes => html! { <Phenotypes /> },
         Routes::Litters => html! { <LitterList /> },
         Routes::Add => html! { <AddContent /> },
+        Routes::Search { query } => html ! { <SearchResults {query} />}
     }
 }

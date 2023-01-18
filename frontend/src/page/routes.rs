@@ -17,6 +17,8 @@ pub enum Routes {
     Litters,
     #[at("/add/*")]
     Add,
+    #[at("/search/:query")]
+    Search { query: String }
 }
 
 #[derive(PartialEq, Properties, Clone)]
@@ -25,8 +27,8 @@ pub struct LinkProps<T: Routable> {
     pub link_name: String,
 }
 
-#[function_component(Link)]
-pub fn get_link<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
+#[function_component]
+pub fn Link<T: Routable + 'static>(props: &LinkProps<T>) -> Html {
     let navigator = use_navigator().unwrap();
     let route = props.target.clone();
     let onclick = Callback::from(move |_: MouseEvent| navigator.push(&route));

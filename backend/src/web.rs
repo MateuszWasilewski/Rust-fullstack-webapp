@@ -13,7 +13,8 @@ pub fn get_routes() -> Vec<Route> {
         any_page_file,
         litters,
         add_data_page,
-        litter_page
+        litter_page,
+        search_results
     ]
 }
 
@@ -49,6 +50,11 @@ async fn litters() -> io::Result<NamedFile> {
 
 #[get("/add/<_..>")]
 async fn add_data_page() -> io::Result<NamedFile> {
+    index().await
+}
+
+#[get("/search/<_..>")]
+async fn search_results() -> io::Result<NamedFile> {
     index().await
 }
 

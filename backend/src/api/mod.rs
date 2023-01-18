@@ -3,6 +3,7 @@ use rocket::Route;
 mod animal;
 mod genes;
 mod litter;
+mod search;
 
 pub fn get_api_routes() -> Vec<Route> {
     routes![
@@ -14,6 +15,7 @@ pub fn get_api_routes() -> Vec<Route> {
         litter::get_litter_list,
         litter::post_litter,
         animal::post_animal,
-        litter::get_animal_litter_list
+        litter::get_animal_litter_list,
+        search::get_search_results
     ]
 }

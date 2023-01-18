@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(PartialEq, Serialize, Deserialize, Clone)]
+#[derive(PartialEq, Serialize, Deserialize, Clone, Default)]
 pub struct AnimalGenes {
     pub genes: HashMap<String, String>,
 }
@@ -18,5 +18,11 @@ impl AnimalGenes {
             genotype.push_str(gene_str);
         }
         return genotype;
+    }
+
+    pub fn new(genes: HashMap<String, String>) -> Self {
+        AnimalGenes {
+            genes
+        }
     }
 }
