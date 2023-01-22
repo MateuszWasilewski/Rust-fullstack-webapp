@@ -8,3 +8,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.66"
 plotters = "0.3.1"
+types = { path = "../types" }
+db = { path = "../db" }
+common = { path = "../../common" }

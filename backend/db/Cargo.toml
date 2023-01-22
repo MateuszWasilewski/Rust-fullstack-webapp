@@ -13,3 +13,4 @@ openssl-sys = { version = "0.9.77", features = [ "vendored" ] }
 dotenv_codegen = "0.15.0"
 anyhow = "1.0.66"
 serde_json = "1.0.89"
+types = { path = "../types" }

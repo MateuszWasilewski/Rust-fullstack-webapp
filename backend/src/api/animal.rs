@@ -10,12 +10,18 @@ async fn fetch_animal(id: &str, state: &State<ConnectionDB>) -> Result<AnimalFul
     let get_animal = db::select::animal(id, &state.pool);
     let get_animal_photos = db::select::photos_for_animal(id, &state.pool);
     let get_phenotypes = db::select::genes_for_animal(id, &state.pool);
-    let result = future::join3(get_animal, get_animal_photos, get_phenotypes).await;
+    let get_ancestry = plotter::generate_ancestry(id, &state);
+    let result = future::join4(get_animal, get_animal_photos, get_phenotypes, get_ancestry).await;
 
 
     let mut animal = result.0?;
     let animal_photos = result.1?;
     let phenotypes = result.2?;
+    let ancestry = result.3;
+
+    if let Ok(ancestry) = ancestry {
+        animal.add_photo(ancestry);
+    }
 
     animal.add_photos(animal_photos);
     if let Some(litter) = &animal.litter {

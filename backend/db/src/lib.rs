@@ -1,15 +1,15 @@
-use sqlx::{postgres::PgPoolOptions, Postgres, Pool};
+use sqlx::{postgres::PgPoolOptions};
 use dotenv_codegen::dotenv;
 use anyhow::Result;
 
 pub mod select;
 pub mod insert;
+pub use sqlx::{Pool, Postgres};
 
 #[cfg(debug_assertions)]
 static DB_URL: &str = dotenv!("DATABASE_URL");
 #[cfg(not(debug_assertions))]
 static DB_URL: &str = dotenv!("CLOUD_DATABASE_URL");
-
 
 pub async fn connect_db() -> Result<Pool<Postgres>> {
     let pool = PgPoolOptions::new()

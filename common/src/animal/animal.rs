@@ -38,7 +38,11 @@ pub struct AnimalData {
 }
 
 impl AnimalFull {
-    pub fn add_photos(&mut self, mut photos: Vec<Photo>) -> () {
+    pub fn add_photos(&mut self, mut photos: Vec<Photo>) {
         self.photos.append(&mut photos);
+    }
+
+    pub fn add_photo(&mut self, photo: Photo) {
+        self.photos.push(photo);
     }
 }

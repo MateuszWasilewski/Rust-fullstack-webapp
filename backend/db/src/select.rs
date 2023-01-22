@@ -8,6 +8,8 @@ use sqlx::{Pool, Postgres};
 
 use common::litter::LitterData;
 use common::{AnimalData, AnimalFull};
+use types::AncestryNode;
+use crate::ConnectionDB;
 
 struct DBAnimal {
     id: String,
@@ -254,21 +256,14 @@ pub async fn animals_for_query(query: &str, pool: &Pool<Postgres>) -> Result<Vec
     Ok(animals)
 }
 
-pub struct AncestryNode {
-    pub id: String,
-    pub mother: Option<String>,
-    pub father: Option<String>,
-    pub depth: i32,
-}
-
-pub async fn get_ancestry(id: &str, max_depth: u32, pool: &Pool<Postgres>) -> Result<Vec<AncestryNode>> {
+pub async fn ancestry(id: &str, max_depth: i32, connection: &ConnectionDB) -> Result<Vec<AncestryNode>> {
     let ancestries = sqlx::query_as!(
         AncestryNode,
         r#"
         WITH RECURSIVE ancestry(id, mother, father, depth) AS (
             SELECT A.id, L.mother, L.father, 0 as depth from ANIMAL A
                 LEFT JOIN LITTER L ON A.litter = L.id
-                WHERE A.id = '84.F10'
+                WHERE A.id = $1
             UNION ALL
             SELECT 
                 A.id, L.mother, L.father, AN.depth + 1
@@ -276,7 +271,7 @@ pub async fn get_ancestry(id: &str, max_depth: u32, pool: &Pool<Postgres>) -> Re
             JOIN ANIMAL A ON 
                 AN.mother = A.id OR AN.father = A.id
             LEFT JOIN LITTER L ON A.litter = L.id
-            WHERE AN.depth + 1 < 3
+            WHERE AN.depth + 1 < $2
         )
         SELECT 
             id as "id!",
@@ -284,9 +279,11 @@ pub async fn get_ancestry(id: &str, max_depth: u32, pool: &Pool<Postgres>) -> Re
             father as "father?",
             depth as "depth!"
         FROM ancestry
-    "#
+    "#,
+    id,
+    max_depth
     )
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
 
     Ok(ancestries)
