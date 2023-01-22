@@ -15,6 +15,8 @@ async fn main() -> Result<()> {
     let db_state = ConnectionDB { pool };
     //csv_reader::run().await;
 
+    plotter::get_ancestry("id").await.unwrap();
+
     let _rocket = rocket::build()
         .mount("/", web::get_routes())
         .mount("/api", api::get_api_routes())

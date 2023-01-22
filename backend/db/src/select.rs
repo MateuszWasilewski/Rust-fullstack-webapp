@@ -253,3 +253,41 @@ pub async fn animals_for_query(query: &str, pool: &Pool<Postgres>) -> Result<Vec
 
     Ok(animals)
 }
+
+pub struct AncestryNode {
+    pub id: String,
+    pub mother: Option<String>,
+    pub father: Option<String>,
+    pub depth: i32,
+}
+
+pub async fn get_ancestry(id: &str, max_depth: u32, pool: &Pool<Postgres>) -> Result<Vec<AncestryNode>> {
+    let ancestries = sqlx::query_as!(
+        AncestryNode,
+        r#"
+        WITH RECURSIVE ancestry(id, mother, father, depth) AS (
+            SELECT A.id, L.mother, L.father, 0 as depth from ANIMAL A
+                LEFT JOIN LITTER L ON A.litter = L.id
+                WHERE A.id = '84.F10'
+            UNION ALL
+            SELECT 
+                A.id, L.mother, L.father, AN.depth + 1
+            FROM ancestry AN
+            JOIN ANIMAL A ON 
+                AN.mother = A.id OR AN.father = A.id
+            LEFT JOIN LITTER L ON A.litter = L.id
+            WHERE AN.depth + 1 < 3
+        )
+        SELECT 
+            id as "id!",
+            mother as "mother?",
+            father as "father?",
+            depth as "depth!"
+        FROM ancestry
+    "#
+    )
+    .fetch_all(pool)
+    .await?;
+
+    Ok(ancestries)
+}

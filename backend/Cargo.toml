@@ -8,7 +8,8 @@ edition = "2021"
 [dependencies]
 rocket = {version = "0.5.0-rc.2", features = ["json"] }
 common = { path = "../common" }
-db = { path = "../db" }
+db = { path = "db" }
 anyhow = "1.0.66"
 csv-reader = { path = "../csv-reader" }
 frontend-routing = { path = "../frontend/routing" }
+plotter = { path = "plotter" }

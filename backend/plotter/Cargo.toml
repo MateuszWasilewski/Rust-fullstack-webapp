@@ -1,16 +1,10 @@
 [package]
-name = "csv-reader"
+name = "plotter"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-common = { path = "../common" }
-db = { path = "../backend/db" }
 anyhow = "1.0.66"
-csv = "1.1"
-serde = "1.0.152"
-serde_json = "1.0.89"
-#leptess = "0.13.4"
-glob = "0.3.1"
+plotters = "0.3.1"
