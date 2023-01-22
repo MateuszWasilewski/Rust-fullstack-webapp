@@ -4,6 +4,8 @@ SET session_replication_role = 'replica';
 
 DELETE FROM ANIMAL_PHOTO;
 
+DELETE FROM LITTER_PHOTO;
+
 DELETE FROM PHOTO;
 
 DELETE FROM ANIMAL;
