@@ -1,3 +1,5 @@
 target/
 .git/
 frontend/dist/
+photos/
+public/

@@ -2,9 +2,10 @@ use anyhow::{bail, Result};
 use common::animal::Gender;
 use common::{animal::AnimalData, litter::LitterData};
 use common::{Phenotype, Photo, SimplePhenotype};
-use sqlx::{Pool, Postgres};
 
-pub async fn litter(litter: &LitterData, pool: &Pool<Postgres>) -> Result<()> {
+use crate::ConnectionDB;
+
+pub async fn litter(litter: &LitterData, connection: &ConnectionDB) -> Result<()> {
     let result = sqlx::query!(
         "
         INSERT INTO LITTER (id, mother, father)
@@ -13,7 +14,7 @@ pub async fn litter(litter: &LitterData, pool: &Pool<Postgres>) -> Result<()> {
         &litter.id_mother,
         &litter.id_father
     )
-    .execute(pool)
+    .execute(&connection.pool)
     .await?;
     if result.rows_affected() != 1 {
         bail!("Insert failed")
@@ -21,7 +22,7 @@ pub async fn litter(litter: &LitterData, pool: &Pool<Postgres>) -> Result<()> {
     Ok(())
 }
 
-pub async fn animal(animal: &AnimalData, pool: &Pool<Postgres>) -> Result<()> {
+pub async fn animal(animal: &AnimalData, connection: &ConnectionDB) -> Result<()> {
     let litter_id = animal.litter.clone();
     // TODO
     let result = sqlx::query!(
@@ -36,7 +37,7 @@ pub async fn animal(animal: &AnimalData, pool: &Pool<Postgres>) -> Result<()> {
         animal.eye_color,
         animal.hair
     )
-    .execute(pool)
+    .execute(&connection.pool)
     .await?;
     if result.rows_affected() != 1 {
         bail!("Insert failed")
@@ -44,7 +45,7 @@ pub async fn animal(animal: &AnimalData, pool: &Pool<Postgres>) -> Result<()> {
     Ok(())
 }
 
-pub async fn phenotype(phenotype: &SimplePhenotype, pool: &Pool<Postgres>) -> Result<()> {
+pub async fn phenotype(phenotype: &SimplePhenotype, connection: &ConnectionDB) -> Result<()> {
     let result = sqlx::query!(
         "
         INSERT INTO PHENOTYPE (name, variant)
@@ -52,7 +53,7 @@ pub async fn phenotype(phenotype: &SimplePhenotype, pool: &Pool<Postgres>) -> Re
         &phenotype.phenotype,
         &phenotype.variant
     )
-    .execute(pool)
+    .execute(&connection.pool)
     .await?;
     if result.rows_affected() != 1 {
         bail!("Insert failed")
@@ -60,7 +61,7 @@ pub async fn phenotype(phenotype: &SimplePhenotype, pool: &Pool<Postgres>) -> Re
     Ok(())
 }
 
-pub async fn genes(phenotype: &Phenotype, pool: &Pool<Postgres>) -> Result<()> {
+pub async fn genes(phenotype: &Phenotype, connection: &ConnectionDB) -> Result<()> {
     let genes = serde_json::to_value(&phenotype.genes)?;
     let result = sqlx::query!(
         "
@@ -69,7 +70,7 @@ pub async fn genes(phenotype: &Phenotype, pool: &Pool<Postgres>) -> Result<()> {
         &phenotype.phenotype,
         genes
     )
-    .execute(pool)
+    .execute(&connection.pool)
     .await?;
     if result.rows_affected() != 1 {
         bail!("Insert failed")
@@ -77,14 +78,14 @@ pub async fn genes(phenotype: &Phenotype, pool: &Pool<Postgres>) -> Result<()> {
     Ok(())
 }
 
-pub async fn photo(photo: &Photo, pool: &Pool<Postgres>) -> Result<()> {
+pub async fn photo(photo: &Photo, connection: &ConnectionDB) -> Result<()> {
     let result = sqlx::query!(
         "
         INSERT INTO PHOTO (path)
         VALUES ($1)",
         photo.path
     )
-    .execute(pool)
+    .execute(&connection.pool)
     .await?;
 
     if result.rows_affected() != 1 {
@@ -93,7 +94,7 @@ pub async fn photo(photo: &Photo, pool: &Pool<Postgres>) -> Result<()> {
     Ok(())
 }
 
-pub async fn link_litter_to_photo(litter: &str, photo: &str, pool: &Pool<Postgres>) -> Result<()> {
+pub async fn link_litter_to_photo(litter: &str, photo: &str, connection: &ConnectionDB) -> Result<()> {
     let result = sqlx::query!(
         "
        INSERT INTO LITTER_PHOTO (litter, photo)
@@ -101,7 +102,7 @@ pub async fn link_litter_to_photo(litter: &str, photo: &str, pool: &Pool<Postgre
         litter,
         photo
     )
-    .execute(pool)
+    .execute(&connection.pool)
     .await?;
 
     if result.rows_affected() != 1 {

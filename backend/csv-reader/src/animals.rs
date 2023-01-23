@@ -48,8 +48,8 @@ async fn parse_new() {
     let mut old_reader = csv::Reader::from_reader(original.as_bytes());
     reader.set_headers(old_reader.headers().unwrap().clone());
 
-    let pool = db::connect_db().await.expect("Failed to connect DB");
-    let fenotypy: HashSet<String> = db::select::phenotype_list(&pool)
+    let connection = db::connect_db().await.expect("Failed to connect DB");
+    let fenotypy: HashSet<String> = db::select::phenotype_list(&connection)
         .await
         .unwrap()
         .into_iter()
@@ -74,7 +74,7 @@ async fn parse_new() {
                 id_mother: matka,
                 id_father: ojciec
             };
-            let result = db::insert::litter(&litter, &pool).await;
+            let result = db::insert::litter(&litter, &connection).await;
             if let Err(error) = result {
                 println!("{error}");
             }
@@ -101,7 +101,7 @@ async fn parse_new() {
 
         println!("{:?}", animal);
 
-        let result = db::insert::animal(&animal, &pool).await;
+        let result = db::insert::animal(&animal, &connection).await;
         if let Err(error) = result {
             println!("{}", error)
         }

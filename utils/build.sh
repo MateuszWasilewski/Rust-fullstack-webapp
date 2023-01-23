@@ -2,9 +2,9 @@
 # --platform linux/aarch64
 APP_NAME=rust-server
 
-sudo docker image rm $APP_NAME:latest
+#sudo docker image rm $APP_NAME:latest
 
-#pushd db 
+#pushd backend/db 
 #cargo sqlx prepare 
 #popd
 

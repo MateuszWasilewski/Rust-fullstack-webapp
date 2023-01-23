@@ -4,7 +4,6 @@ use anyhow::{anyhow, Result};
 use common::animal::genes::AnimalGenes;
 use common::animal::Gender;
 use common::{Phenotype, Photo};
-use sqlx::{Pool, Postgres};
 
 use common::litter::LitterData;
 use common::{AnimalData, AnimalFull};
@@ -40,7 +39,7 @@ fn db_to_animal(row: DBAnimal) -> AnimalData {
     }
 }
 
-pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
+pub async fn all_animal(connection: &ConnectionDB) -> Result<Vec<AnimalData>> {
     let animals = sqlx::query_as!(
         DBAnimal,
         "
@@ -49,13 +48,13 @@ pub async fn all_animal(pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
         ON A.litter = L.id"
     )
     .map(db_to_animal)
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
 
     Ok(animals)
 }
 
-pub async fn animals_in_litter(litter: &str, pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
+pub async fn animals_in_litter(litter: &str, connection: &ConnectionDB) -> Result<Vec<AnimalData>> {
     let animals = sqlx::query_as!(
         DBAnimal,
         r#"
@@ -76,13 +75,13 @@ pub async fn animals_in_litter(litter: &str, pool: &Pool<Postgres>) -> Result<Ve
         litter
     )
     .map(db_to_animal)
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
 
     Ok(animals)
 }
 
-pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
+pub async fn animal(id: &str, connection: &ConnectionDB) -> Result<AnimalFull> {
     let row = sqlx::query!(
         r#"
         SELECT A.*, 
@@ -94,7 +93,7 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
         WHERE A.id = $1"#,
         id
     )
-    .fetch_optional(pool)
+    .fetch_optional(&connection.pool)
     .await?;
     match row {
         Some(animal) => Ok(AnimalFull {
@@ -117,33 +116,33 @@ pub async fn animal(id: &str, pool: &Pool<Postgres>) -> Result<AnimalFull> {
     }
 }
 
-pub async fn litter_list(pool: &Pool<Postgres>) -> Result<Vec<LitterData>> {
+pub async fn litter_list(connection: &ConnectionDB) -> Result<Vec<LitterData>> {
     let litters = sqlx::query!("SELECT * FROM LITTER")
         .map(|row| LitterData {
             id: row.id,
             id_mother: row.mother,
             id_father: row.father,
         })
-        .fetch_all(pool)
+        .fetch_all(&connection.pool)
         .await?;
 
     Ok(litters)
 }
 
-pub async fn phenotype_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
+pub async fn phenotype_list(connection: &ConnectionDB) -> Result<Vec<Phenotype>> {
     let phenotypes = sqlx::query!("SELECT * FROM PHENOTYPE")
         .map(|row| Phenotype {
             phenotype: row.name,
             variant: row.variant,
             genes: AnimalGenes::new(HashMap::new()),
         })
-        .fetch_all(pool)
+        .fetch_all(&connection.pool)
         .await?;
 
     Ok(phenotypes)
 }
 
-pub async fn phenotype_genes_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype>> {
+pub async fn phenotype_genes_list(connection: &ConnectionDB) -> Result<Vec<Phenotype>> {
     let phenotypes = sqlx::query!(
         r#"
         SELECT 
@@ -167,12 +166,12 @@ pub async fn phenotype_genes_list(pool: &Pool<Postgres>) -> Result<Vec<Phenotype
             genes: AnimalGenes::new(genes),
         }
     })
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
     Ok(phenotypes)
 }
 
-pub async fn photos_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Photo>> {
+pub async fn photos_for_animal(id: &str, connection: &ConnectionDB) -> Result<Vec<Photo>> {
     let photos = sqlx::query!(
         "SELECT photo FROM ANIMAL_PHOTO
         WHERE animal = $1",
@@ -182,13 +181,13 @@ pub async fn photos_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Ph
         path: row.photo,
         author: None,
     })
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
 
     Ok(photos)
 }
 
-pub async fn photos_for_litter(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Photo>> {
+pub async fn photos_for_litter(id: &str, connection: &ConnectionDB) -> Result<Vec<Photo>> {
     let photos = sqlx::query!(
         "
         SELECT photo FROM LITTER_PHOTO
@@ -199,13 +198,13 @@ pub async fn photos_for_litter(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Ph
         path: row.photo,
         author: None,
     })
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
 
     Ok(photos)
 }
 
-pub async fn genes_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<AnimalGenes>> {
+pub async fn genes_for_animal(id: &str, connection: &ConnectionDB) -> Result<Vec<AnimalGenes>> {
     let rows = sqlx::query!(
         r#"
         SELECT G.genes as "genes?"
@@ -226,13 +225,13 @@ pub async fn genes_for_animal(id: &str, pool: &Pool<Postgres>) -> Result<Vec<Ani
             None => HashMap::new(),
         },
     })
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
 
     Ok(rows)
 }
 
-pub async fn animals_for_query(query: &str, pool: &Pool<Postgres>) -> Result<Vec<AnimalData>> {
+pub async fn animals_for_query(query: &str, connection: &ConnectionDB) -> Result<Vec<AnimalData>> {
     let animals = sqlx::query_as!(
         DBAnimal,
         r#"
@@ -250,7 +249,7 @@ pub async fn animals_for_query(query: &str, pool: &Pool<Postgres>) -> Result<Vec
         query
     )
     .map(db_to_animal)
-    .fetch_all(pool)
+    .fetch_all(&connection.pool)
     .await?;
 
     Ok(animals)

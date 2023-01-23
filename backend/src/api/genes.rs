@@ -44,14 +44,14 @@ pub fn genes_list() -> Json<Vec<String>> {
 
 #[get("/phenotype-list")]
 pub async fn get_phenotypes(state: &State<ConnectionDB>) -> Option<Json<Vec<Phenotype>>> {
-    let phenotypes = db::select::phenotype_genes_list(&state.pool).await.ok()?;
+    let phenotypes = db::select::phenotype_genes_list(&state).await.ok()?;
 
     Some(Json(phenotypes))
 }
 
 #[get("/simple-phenotype-list")]
 pub async fn get_simple_phenotypes(state: &State<ConnectionDB>) -> Option<Json<Vec<Phenotype>>> {
-    let phenotypes = db::select::phenotype_list(&state.pool).await.ok()?;
+    let phenotypes = db::select::phenotype_list(&state).await.ok()?;
 
     Some(Json(phenotypes))
 }

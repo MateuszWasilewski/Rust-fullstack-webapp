@@ -7,9 +7,9 @@ use rocket::State;
 use common::{AnimalData, AnimalFull};
 
 async fn fetch_animal(id: &str, state: &State<ConnectionDB>) -> Result<AnimalFull> {
-    let get_animal = db::select::animal(id, &state.pool);
-    let get_animal_photos = db::select::photos_for_animal(id, &state.pool);
-    let get_phenotypes = db::select::genes_for_animal(id, &state.pool);
+    let get_animal = db::select::animal(id, &state);
+    let get_animal_photos = db::select::photos_for_animal(id, &state);
+    let get_phenotypes = db::select::genes_for_animal(id, &state);
     let get_ancestry = plotter::generate_ancestry(id, &state);
     let result = future::join4(get_animal, get_animal_photos, get_phenotypes, get_ancestry).await;
 
@@ -25,7 +25,7 @@ async fn fetch_animal(id: &str, state: &State<ConnectionDB>) -> Result<AnimalFul
 
     animal.add_photos(animal_photos);
     if let Some(litter) = &animal.litter {
-        let litter_photos = db::select::photos_for_litter(litter, &state.pool).await?;
+        let litter_photos = db::select::photos_for_litter(litter, &state).await?;
         animal.add_photos(litter_photos);
     }
     animal.genes = phenotypes;
@@ -34,7 +34,7 @@ async fn fetch_animal(id: &str, state: &State<ConnectionDB>) -> Result<AnimalFul
 
 #[get("/animal-list")]
 pub async fn get_animal_list(state: &State<ConnectionDB>) -> Json<Option<Vec<AnimalData>>> {
-    let result = db::select::all_animal(&state.pool).await.ok();
+    let result = db::select::all_animal(&state).await.ok();
 
     Json(result)
 }
@@ -52,7 +52,7 @@ pub async fn post_animal(
     state: &State<ConnectionDB>,
 ) -> Json<Option<()>> {
     let animal = animal.into_inner();
-    let result = db::insert::animal(&animal, &state.pool).await.ok();
+    let result = db::insert::animal(&animal, &state).await.ok();
 
     Json(result)
 }
