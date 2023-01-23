@@ -1,7 +1,9 @@
 use common::animal::Gender;
 use common::AnimalData;
+use frontend_routing::Routes;
 use yew::platform::spawn_local;
 use yew::{function_component, html, Callback, Html};
+use yew_router::prelude::use_navigator;
 use yewdux::dispatch::Dispatch;
 use yewdux::prelude::use_selector;
 use yewdux::store::Store;
@@ -11,6 +13,7 @@ use crate::common::input::DropdownForm;
 use crate::common::input::TextInput;
 use anyhow::Result;
 use std::rc::Rc;
+use wasm_utils::log;
 
 async fn get_phenotypes() -> Result<Vec<String>> {
     Ok(backend_api::get::phenotypes()
@@ -48,7 +51,8 @@ async fn set_litters(dispatch: Dispatch<State>) {
 }
 
 async fn set_phenotypes(dispatch: Dispatch<State>) {
-    let phenotypes = get_phenotypes().await.unwrap_or_default();
+    let mut phenotypes = get_phenotypes().await.unwrap_or_default();
+    phenotypes.sort();
     dispatch.reduce_mut(|state| state.phenotypes = phenotypes)
 }
 
@@ -117,25 +121,35 @@ pub fn AddAnimalTemp() -> Html {
     });
 
     let onclick = Callback::from({
-        let state = dispatch.get();
+        let navigator = use_navigator().unwrap();
         move |_| {
-            if state.id.is_none() || state.phenotype.is_none() || state.gender.is_none() {
-                return;
+            let state = dispatch.get();
+            let navigator = navigator.clone();
+            if let (Some(id), Some(phenotype), Some(gender)) = (&state.id, &state.phenotype, &state.gender) {
+                let animal = AnimalData {
+                    id: id.clone(),
+                    fenotyp: phenotype.clone(),
+                    gender: gender.clone(),
+                    litter: state.litter.clone(),
+                    status: state.status.clone(),
+                    mother: None,
+                    father: None,
+                    eye_color: state.eye_color.clone(),
+                    hair: state.hair.clone(),
+                };
+                spawn_local(async move {
+                    if let Ok(()) = backend_api::animal::post_animal(&animal).await {
+                        navigator.push(&Routes::GoToAnimal { id: animal.id });
+                    }
+                    else {
+                        navigator.push(&Routes::ServerError)
+                    }
+                });
             }
-            let animal = AnimalData {
-                id: state.id.clone().unwrap(),
-                fenotyp: state.phenotype.clone().unwrap(),
-                gender: state.gender.clone().unwrap(),
-                litter: state.litter.clone(),
-                status: state.status.clone(),
-                mother: None,
-                father: None,
-                eye_color: state.eye_color.clone(),
-                hair: state.hair.clone(),
-            };
-            spawn_local(async move {
-                backend_api::animal::post_animal(&animal).await.unwrap();
-            });
+            else {
+                log(&format!("id: {:?}, phenotype: {:?}, gender: {:?}", state.id, state.phenotype, state.gender));
+                navigator.push(&Routes::NotFound)
+            }
         }
     });
 

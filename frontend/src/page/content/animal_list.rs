@@ -45,12 +45,9 @@ struct State {
 
 async fn fetch_data() {
     let dispatch = Dispatch::<State>::new();
-    let state = dispatch.get();
-    if let None = state.animals {
-        backend_api::get::all_animal().await.map(|animals| {
-            dispatch.reduce_mut(|state| state.animals = Some(animals));
-        }).ok();
-    }
+    backend_api::get::all_animal().await.map(|animals| {
+        dispatch.reduce_mut(|state| state.animals = Some(animals));
+    }).ok();
 }
 
 #[function_component]

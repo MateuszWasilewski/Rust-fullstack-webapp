@@ -5,10 +5,10 @@ use common::animal::genes::AnimalGenes;
 use common::animal::Gender;
 use common::{Phenotype, Photo};
 
+use crate::ConnectionDB;
 use common::litter::LitterData;
 use common::{AnimalData, AnimalFull};
 use types::AncestryNode;
-use crate::ConnectionDB;
 
 struct DBAnimal {
     id: String,
@@ -42,10 +42,15 @@ fn db_to_animal(row: DBAnimal) -> AnimalData {
 pub async fn all_animal(connection: &ConnectionDB) -> Result<Vec<AnimalData>> {
     let animals = sqlx::query_as!(
         DBAnimal,
-        "
-        SELECT A.*, L.mother, L.father FROM ANIMAL A
+        r#"
+        SELECT 
+            A.*,
+            L.mother as "mother?",
+            L.father as "father?"
+        FROM ANIMAL A
         LEFT JOIN LITTER L
-        ON A.litter = L.id"
+            ON A.litter = L.id
+            ORDER BY A.id ASC"#
     )
     .map(db_to_animal)
     .fetch_all(&connection.pool)
@@ -59,13 +64,7 @@ pub async fn animals_in_litter(litter: &str, connection: &ConnectionDB) -> Resul
         DBAnimal,
         r#"
         SELECT 
-            A.id,
-            A.phenotype,
-            A.gender_male,
-            A.status,
-            A.eye_color,
-            A.hair,
-            A.litter as "litter?",
+            A.*,
             L.mother as "mother?",
             L.father as "father?"
         FROM ANIMAL A
@@ -154,8 +153,8 @@ pub async fn phenotype_genes_list(connection: &ConnectionDB) -> Result<Vec<Pheno
         ON G.phenotype = P.name"#
     )
     .map(|row| {
-        let mut genes: HashMap<String, String> = HashMap::new();
-        let _ = row.genes.and_then(|value| {
+        let mut genes: AnimalGenes = AnimalGenes::new(HashMap::new());
+        row.genes.map(|value| {
             genes = serde_json::from_value(value).ok()?;
             Some(())
         });
@@ -163,7 +162,7 @@ pub async fn phenotype_genes_list(connection: &ConnectionDB) -> Result<Vec<Pheno
         Phenotype {
             phenotype: row.name,
             variant: row.variant,
-            genes: AnimalGenes::new(genes),
+            genes: genes,
         }
     })
     .fetch_all(&connection.pool)
@@ -216,14 +215,14 @@ pub async fn genes_for_animal(id: &str, connection: &ConnectionDB) -> Result<Vec
         WHERE A.id = $1"#,
         id
     )
-    .map(|row| AnimalGenes {
-        genes: match row
+    .map(|row| {
+        match row
             .genes
             .and_then(|value| serde_json::from_value(value).ok())
         {
             Some(genes) => genes,
-            None => HashMap::new(),
-        },
+            None => AnimalGenes::default(),
+        }
     })
     .fetch_all(&connection.pool)
     .await?;
@@ -245,6 +244,7 @@ pub async fn animals_for_query(query: &str, connection: &ConnectionDB) -> Result
             regexp_count(A.id, $1, 1, 'i') > 0
         OR 
             regexp_count(A.phenotype, $1, 1, 'i') > 0
+        ORDER BY A.id ASC
         "#,
         query
     )
@@ -255,7 +255,11 @@ pub async fn animals_for_query(query: &str, connection: &ConnectionDB) -> Result
     Ok(animals)
 }
 
-pub async fn ancestry(id: &str, max_depth: i32, connection: &ConnectionDB) -> Result<Vec<AncestryNode>> {
+pub async fn ancestry(
+    id: &str,
+    max_depth: i32,
+    connection: &ConnectionDB,
+) -> Result<Vec<AncestryNode>> {
     let ancestries = sqlx::query_as!(
         AncestryNode,
         r#"
@@ -279,8 +283,8 @@ pub async fn ancestry(id: &str, max_depth: i32, connection: &ConnectionDB) -> Re
             depth as "depth!"
         FROM ancestry
     "#,
-    id,
-    max_depth
+        id,
+        max_depth
     )
     .fetch_all(&connection.pool)
     .await?;

@@ -27,7 +27,7 @@ fn AnimalPage() -> Html {
     }
 
     let animal = state.animal.clone().unwrap();
-    let all_genes = state.genes.clone();
+    let all_genes = state.genes.as_ref();
 
     let photos = animal.photos.iter().map( |photo| {
         let image_path = format!("/{}", photo.path);
@@ -59,7 +59,7 @@ fn AnimalPage() -> Html {
         data.push(("matka".into(), get_animal_link(mother)));
     }
     animal.genes.iter().for_each(|genes| {
-        data.push(("możliwy genotyp".into(), genes.get_genotype(&all_genes).into()))
+        data.push(("możliwy genotyp".into(), genes.get_genotype(all_genes).into()))
     });
     
     let data = data.into_iter().map(|(name, value)| {

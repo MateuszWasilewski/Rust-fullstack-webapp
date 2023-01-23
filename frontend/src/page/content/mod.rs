@@ -40,6 +40,8 @@ fn switch(route: Routes) -> Html {
         Routes::Phenotypes => html! { <Phenotypes /> },
         Routes::Litters => html! { <LitterList /> },
         Routes::Add => html! { <AddContent /> },
-        Routes::Search { query } => html ! { <SearchResults {query} />}
+        Routes::Search { query } => html ! { <SearchResults {query} />},
+        Routes::NotFound => html! { "Page not found" },
+        Routes::ServerError => html! { "Nastąpił Błąd po stronie serwera" }
     }
 }

@@ -16,6 +16,8 @@ pub fn get_api_routes() -> Vec<Route> {
         litter::post_litter,
         animal::post_animal,
         litter::get_animal_litter_list,
-        search::get_search_results
+        search::get_search_results,
+        animal::put_animal,
+        animal::delete_animal
     ]
 }

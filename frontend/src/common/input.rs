@@ -78,8 +78,7 @@ pub fn DropdownForm(props: &DropdownFormTempProps) -> Html {
     let default = props.default.clone().and_then(|text| {
         let onclick = {
             let set_value = props.set_value.clone();
-            let text = text.clone();
-            Callback::from(move |_: MouseEvent| set_value.emit(Some(text.clone())))
+            Callback::from(move |_: MouseEvent| set_value.emit(None))
         };
         Some((text, onclick))
     });

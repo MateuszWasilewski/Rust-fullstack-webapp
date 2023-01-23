@@ -4,7 +4,9 @@ use anyhow::Result;
 
 pub mod select;
 pub mod insert;
-pub use sqlx::{Pool, Postgres};
+pub mod update;
+pub mod delete;
+use sqlx::{Pool, Postgres};
 
 #[cfg(debug_assertions)]
 static DB_URL: &str = dotenv!("DATABASE_URL");

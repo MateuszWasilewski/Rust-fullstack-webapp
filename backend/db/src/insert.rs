@@ -94,11 +94,15 @@ pub async fn photo(photo: &Photo, connection: &ConnectionDB) -> Result<()> {
     Ok(())
 }
 
-pub async fn link_litter_to_photo(litter: &str, photo: &str, connection: &ConnectionDB) -> Result<()> {
+pub async fn link_litter_to_photo(
+    litter: &str,
+    photo: &str,
+    connection: &ConnectionDB,
+) -> Result<()> {
     let result = sqlx::query!(
         "
-       INSERT INTO LITTER_PHOTO (litter, photo)
-       VALUES ($1, $2)",
+        INSERT INTO LITTER_PHOTO (litter, photo)
+        VALUES ($1, $2)",
         litter,
         photo
     )
