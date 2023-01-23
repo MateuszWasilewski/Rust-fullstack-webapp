@@ -29,6 +29,7 @@ RUN \
 FROM build as build_frontend
 
 RUN cargo install trunk
+RUN cargo install --locked wasm-bindgen-cli
 #RUN cargo install wasm-opt
 
 WORKDIR /usr/build
