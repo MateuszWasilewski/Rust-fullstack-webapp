@@ -1,8 +1,11 @@
 use common::AnimalData;
+use frontend_routing::Routes;
+use web_sys::MouseEvent;
 use yew::platform::spawn_local;
-use yew::{function_component, html, Html, Properties};
+use yew::{function_component, html, Html, Properties, Callback};
+use yew_router::prelude::use_navigator;
 use yewdux::dispatch::Dispatch;
-use yewdux::prelude::use_selector;
+use yewdux::prelude::use_store_value;
 use yewdux::store::Store;
 
 use crate::common::table::{RowProps, TableWithTags};
@@ -48,14 +51,45 @@ fn animal_to_row(animal: &AnimalData) -> RowProps {
 
 #[function_component]
 fn Page() -> Html {
-    let animal_list = use_selector(|state: &PageState| state.animals.clone());
+    let navigator = use_navigator().unwrap();
+    let state = use_store_value::<PageState>();
+    let animal_list = &state.animals;
 
-    let animal_list: Vec<RowProps> = animal_list.iter().map(animal_to_row).collect();
+    match animal_list.is_empty() {
+        false => {
+            let animal_list: Vec<RowProps> = animal_list.iter().map(animal_to_row).collect();
 
-    html! {
-      <div id="animal_list">
-        <TableWithTags tags={animal_tags()} data={animal_list} />
-      </div>
+            html! {
+            <>
+                <h2>{format!("Informacje o miocie: {}", state.litter_id)}</h2>
+                <div id="animal_list">
+                    <TableWithTags tags={animal_tags()} data={animal_list} />
+                </div>
+            </>
+            }
+        },
+        true => {
+            let id = state.litter_id.clone();
+            let onclick = Callback::from({
+                move |_: MouseEvent| {
+                    let navigator = navigator.clone();
+                    let id = id.clone();
+                    spawn_local(async move {
+                        match backend_api::delete::litter(&id).await {
+                            Ok(_) => navigator.push(&Routes::Home),
+                            Err(_) => navigator.push(&Routes::ServerError)
+                        }
+                    });
+                }
+            });
+            html! {
+            <>
+                <h2>{format!("Informacje o miocie: {}", state.litter_id)}</h2>
+                <h4>{"Miot jest pusty"}</h4>
+                <button type="button" class="btn btn-primary btn-sm" {onclick}>{"Usuń miot"}</button>
+            </>
+            }
+        }
     }
 }
 

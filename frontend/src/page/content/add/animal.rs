@@ -138,7 +138,7 @@ pub fn AddAnimalTemp() -> Html {
                     hair: state.hair.clone(),
                 };
                 spawn_local(async move {
-                    match backend_api::animal::post_animal(&animal).await {
+                    match backend_api::post::animal(&animal).await {
                         Ok(()) => navigator.push(&Routes::GoToAnimal { id: animal.id }),
                         Err(_) => navigator.push(&Routes::ServerError)
                     }

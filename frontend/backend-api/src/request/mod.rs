@@ -1,6 +1,7 @@
-
 mod base;
 
+pub mod delete;
 pub mod get;
+pub mod post;
 
-use base::request_get;
+use base::*;

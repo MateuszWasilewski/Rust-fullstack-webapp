@@ -1,8 +1,11 @@
+use frontend_routing::Routes;
+use web_sys::MouseEvent;
 use yew::platform::spawn_local;
-use yew::{html, Html, Properties, function_component};
+use yew::{html, Html, Properties, function_component, Callback};
 
 use common::AnimalFull;
 use common::animal::Gender;
+use yew_router::prelude::use_navigator;
 use yewdux::prelude::{Dispatch, use_store_value};
 use yewdux::store::Store;
 
@@ -21,6 +24,7 @@ fn get_animal_link(id: &str) -> Html {
 
 #[function_component]
 fn AnimalPage() -> Html {
+    let navigator = use_navigator().unwrap();
     let state = use_store_value::<State>();
     if let None = state.animal {
         return html!{}
@@ -35,6 +39,20 @@ fn AnimalPage() -> Html {
             <img src={image_path} class="col-md-6 float-md-end mb-3 ms-md-3" alt="..."/>
         }
     }).collect::<Html>();
+
+    let onclick = Callback::from( {
+        let id = animal.id.clone();
+        move |_: MouseEvent| {
+            let id = id.clone();
+            let navigator = navigator.clone();
+            spawn_local( async move {
+                match backend_api::delete::animal(&id).await {
+                    Ok(_) => navigator.push(&Routes::Home),
+                    Err(_) => navigator.push(&Routes::ServerError)
+                }
+            })
+        }
+    });
 
     let mut data = vec![
         (html!{"id"}, get_animal_link(&animal.id)),
@@ -81,6 +99,7 @@ fn AnimalPage() -> Html {
             <div class="clearfix">
                 { photos }
                 { data }
+                <button type="button" class="btn btn-primary btn-sm" {onclick}>{"Usuń mysz"}</button>
             </div>
         </>
     }

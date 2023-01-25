@@ -50,11 +50,11 @@ pub async fn post_animal(
     _id: &str,
     animal: Json<AnimalData>,
     state: &State<ConnectionDB>,
-) -> Option<()> {
+) -> Option<Json<()>> {
     let animal = animal.into_inner();
-    let result = db::insert::animal(&animal, &state).await.ok();
+    let result = db::insert::animal(&animal, &state).await.ok()?;
 
-    result
+    Some(Json(result))
 }
 
 #[put("/animal/<_id>", format = "json", data = "<animal>")]
@@ -70,8 +70,8 @@ pub async fn put_animal(
 }
 
 #[delete("/animal/<id>")]
-pub async fn delete_animal(id: &str, state: &State<ConnectionDB>) -> Option<()> {
-    let result = db::delete::animal(id, &state).await.ok();
+pub async fn delete_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<()>> {
+    let result = db::delete::animal(id, &state).await.ok()?;
 
-    result
+    Some(Json(result))
 }

@@ -45,7 +45,7 @@ pub fn AddLitter() -> Html {
         };
         let navigator = navigator.clone();
         spawn_local(async move {
-            match backend_api::litter::post_litter(&litter).await {
+            match backend_api::post::litter(&litter).await {
                 Ok(_) => navigator.push(&Routes::GoToLitter { id: litter.id }),
                 Err(_) => navigator.push(&Routes::ServerError)
             }

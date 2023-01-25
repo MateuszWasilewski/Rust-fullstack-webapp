@@ -15,11 +15,11 @@ pub async fn get_litter_list(state: &State<ConnectionDB>) -> Json<Option<Vec<Lit
 pub async fn post_litter(
     litter: Json<LitterData>,
     state: &State<ConnectionDB>,
-) -> Json<Option<()>> {
+) -> Option<Json<()>> {
     let litter = litter.into_inner();
-    let result = db::insert::litter(&litter, &state).await.ok();
+    let result = db::insert::litter(&litter, &state).await.ok()?;
 
-    Json(result)
+    Some(Json(result))
 }
 
 #[get("/animals-in-litter/<id>")]
@@ -30,4 +30,11 @@ pub async fn get_animal_litter_list(
     let animals = db::select::animals_in_litter(id, &state).await.ok();
 
     Json(animals)
+}
+
+#[delete("/litter/<id>")]
+pub async fn delete_litter(id: &str, state: &State<ConnectionDB>) -> Option<Json<()>> {
+    let result = db::delete::litter(id, state).await.ok()?;
+
+    Some(Json(result))
 }

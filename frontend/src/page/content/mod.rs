@@ -1,5 +1,5 @@
 use yew::{function_component, html, Html};
-use yew_router::prelude::Switch;
+use yew_router::{prelude::Switch, BrowserRouter};
 
 pub mod add;
 mod animal;
@@ -28,7 +28,9 @@ use error::Error;
 pub fn get_content() -> Html {
     html! {
         <div class="container">
+        <BrowserRouter>
             <Switch<Routes> render={switch} />
+        </BrowserRouter>
         </div>
     }
 }
