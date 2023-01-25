@@ -48,7 +48,7 @@ fn AnimalPage() -> Html {
             spawn_local( async move {
                 match backend_api::delete::animal(&id).await {
                     Ok(_) => navigator.push(&Routes::Home),
-                    Err(_) => navigator.push(&Routes::ServerError)
+                    Err(_) => navigator.push(&Routes::Error)
                 }
             })
         }
@@ -62,7 +62,7 @@ fn AnimalPage() -> Html {
                 Gender::Female => "F"
             }
         }),
-        (html!{"fenotyp"}, html!{ &animal.fenotyp }),
+        (html!{"fenotyp"}, animal.fenotyp.unwrap_or("nieznany".into()).into()),
         (html!{"kolor oka"}, animal.eye_color.clone().unwrap_or("nieznany".into()).into()),
         (html!{"włos"}, animal.hair.clone().unwrap_or("nieznany".into()).into()),
     ];
@@ -114,7 +114,7 @@ struct State {
 
 async fn fetch_animal(dispatch: Dispatch<State>) {
     let id = &dispatch.get().id;
-    let animal = backend_api::get::animal_by_id(id).await;
+    let animal = backend_api::get::full_animal_by_id(id).await;
     if let Ok(animal) = animal {
         dispatch.reduce_mut(|state| state.animal = Some(animal));
     }

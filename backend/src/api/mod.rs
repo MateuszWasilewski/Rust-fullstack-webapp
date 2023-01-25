@@ -12,6 +12,7 @@ pub fn get_api_routes() -> Vec<Route> {
         genes::get_simple_phenotypes,
         animal::get_animal_list,
         animal::get_animal,
+        animal::get_full_animal,
         animal::post_animal,
         animal::put_animal,
         animal::delete_animal,

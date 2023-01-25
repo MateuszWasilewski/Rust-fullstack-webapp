@@ -25,7 +25,7 @@ pub async fn get_search_results(
                         Gender::Male => "M",
                         Gender::Female => "F",
                     },
-                    animal.fenotyp
+                    animal.fenotyp.unwrap_or("nieznany".into())
                 ),
             })
             .collect();

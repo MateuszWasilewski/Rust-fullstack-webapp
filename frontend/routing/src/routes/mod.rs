@@ -24,7 +24,7 @@ pub enum Routes {
     #[at("/search/:query")]
     Search { query: String },
     #[at("/error")]
-    ServerError,
+    Error,
     #[not_found]
     #[at("/404")]
     NotFound,

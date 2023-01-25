@@ -25,7 +25,7 @@ fn animal_to_row(animal: &AnimalData) -> RowProps {
             Some(id) => get_litter_link(&id),
             None => "--".into()
         },
-        animal.fenotyp.clone().into(),
+        animal.fenotyp.clone().unwrap_or("nieznany".into()).into(),
         animal.status.clone().unwrap_or("nieznany".into()).into(),
         match &animal.father {
             Some(id) => get_animal_link(&id),

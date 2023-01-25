@@ -3,8 +3,12 @@ use common::{litter::LitterData, AnimalData, AnimalFull, Phenotype, SearchResult
 
 use super::request_get;
 
-pub async fn animal_by_id(id: &str) -> Result<AnimalFull> {
+pub async fn animal_by_id(id: &str) -> Result<AnimalData> {
     request_get(&format!("/api/animal/{id}")).await
+}
+
+pub async fn full_animal_by_id(id: &str) -> Result<AnimalFull> {
+    request_get(&format!("/api/animal-full/{id}")).await
 }
 
 pub async fn all_animal() -> Result<Vec<AnimalData>> {

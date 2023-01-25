@@ -125,10 +125,10 @@ pub fn AddAnimalTemp() -> Html {
         move |_| {
             let state = dispatch.get();
             let navigator = navigator.clone();
-            if let (Some(id), Some(phenotype), Some(gender)) = (&state.id, &state.phenotype, &state.gender) {
+            if let (Some(id), Some(gender)) = (&state.id, &state.gender) {
                 let animal = AnimalData {
                     id: id.clone(),
-                    fenotyp: phenotype.clone(),
+                    fenotyp: state.phenotype.clone(), 
                     gender: gender.clone(),
                     litter: state.litter.clone(),
                     status: state.status.clone(),
@@ -140,13 +140,13 @@ pub fn AddAnimalTemp() -> Html {
                 spawn_local(async move {
                     match backend_api::post::animal(&animal).await {
                         Ok(()) => navigator.push(&Routes::GoToAnimal { id: animal.id }),
-                        Err(_) => navigator.push(&Routes::ServerError)
+                        Err(_) => navigator.push(&Routes::Error)
                     }
                 });
             }
             else {
                 log(&format!("id: {:?}, phenotype: {:?}, gender: {:?}", state.id, state.phenotype, state.gender));
-                navigator.push(&Routes::ServerError)
+                navigator.push(&Routes::Error)
             }
         }
     });

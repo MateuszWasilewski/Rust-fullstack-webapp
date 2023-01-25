@@ -23,15 +23,13 @@ pub async fn litter(litter: &LitterData, connection: &ConnectionDB) -> Result<()
 }
 
 pub async fn animal(animal: &AnimalData, connection: &ConnectionDB) -> Result<()> {
-    let litter_id = animal.litter.clone();
-    // TODO
     let result = sqlx::query!(
         "
         INSERT INTO ANIMAL (id, phenotype, litter, gender_male, status, eye_color, hair)
         VALUES($1, $2, $3, $4, $5, $6, $7)",
-        &animal.id,
-        &animal.fenotyp,
-        litter_id,
+        animal.id,
+        animal.fenotyp,
+        animal.litter,
         animal.gender == Gender::Male,
         animal.status,
         animal.eye_color,

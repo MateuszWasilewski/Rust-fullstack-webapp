@@ -35,7 +35,7 @@ pub fn AddLitter() -> Html {
         let father = state.father.clone();
 
         if litter.is_none() || mother.is_none() || father.is_none() {
-            navigator.push(&Routes::ServerError);
+            navigator.push(&Routes::Error);
         }
 
         let litter = LitterData {
@@ -47,7 +47,7 @@ pub fn AddLitter() -> Html {
         spawn_local(async move {
             match backend_api::post::litter(&litter).await {
                 Ok(_) => navigator.push(&Routes::GoToLitter { id: litter.id }),
-                Err(_) => navigator.push(&Routes::ServerError)
+                Err(_) => navigator.push(&Routes::Error)
             }
         });
     });

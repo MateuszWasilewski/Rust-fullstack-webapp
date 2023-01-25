@@ -50,6 +50,6 @@ fn switch(route: Routes) -> Html {
         Routes::Add => html! { <AddContent /> },
         Routes::Search { query } => html ! { <SearchResults {query} />},
         Routes::NotFound => html! { <NotFound /> },
-        Routes::ServerError => html! { <Error /> }
+        Routes::Error => html! { <Error /> }
     }
 }

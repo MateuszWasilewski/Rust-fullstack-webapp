@@ -7,12 +7,12 @@ use common::{Phenotype, Photo};
 
 use crate::ConnectionDB;
 use common::litter::LitterData;
-use common::{AnimalData, AnimalFull};
+use common::AnimalData;
 use types::AncestryNode;
 
 struct DBAnimal {
     id: String,
-    phenotype: String,
+    phenotype: Option<String>,
     gender_male: bool,
     status: Option<String>,
     eye_color: Option<String>,
@@ -80,7 +80,7 @@ pub async fn animals_in_litter(litter: &str, connection: &ConnectionDB) -> Resul
     Ok(animals)
 }
 
-pub async fn animal(id: &str, connection: &ConnectionDB) -> Result<AnimalFull> {
+pub async fn animal(id: &str, connection: &ConnectionDB) -> Result<AnimalData> {
     let row = sqlx::query!(
         r#"
         SELECT A.*, 
@@ -95,7 +95,7 @@ pub async fn animal(id: &str, connection: &ConnectionDB) -> Result<AnimalFull> {
     .fetch_optional(&connection.pool)
     .await?;
     match row {
-        Some(animal) => Ok(AnimalFull {
+        Some(animal) => Ok(AnimalData {
             id: animal.id,
             fenotyp: animal.phenotype,
             gender: match animal.gender_male {
@@ -103,13 +103,11 @@ pub async fn animal(id: &str, connection: &ConnectionDB) -> Result<AnimalFull> {
                 false => common::animal::Gender::Female,
             },
             status: animal.status,
-            photos: vec![],
             litter: animal.litter,
             father: animal.father,
             mother: animal.mother,
             eye_color: animal.eye_color,
             hair: animal.hair,
-            genes: Vec::new(),
         }),
         None => Err(anyhow!("Animal is not present in db")),
     }

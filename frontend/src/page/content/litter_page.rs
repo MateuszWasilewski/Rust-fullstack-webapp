@@ -44,7 +44,7 @@ fn animal_to_row(animal: &AnimalData) -> RowProps {
     vec![
         get_animal_link(&animal.id),
         get_litter_link(&litter),
-        animal.fenotyp.clone().into(),
+        animal.fenotyp.clone().unwrap_or("nieznany".into()).into(),
         animal.status.clone().unwrap_or("nieznany".into()).into(),
     ]
 }
@@ -77,7 +77,7 @@ fn Page() -> Html {
                     spawn_local(async move {
                         match backend_api::delete::litter(&id).await {
                             Ok(_) => navigator.push(&Routes::Home),
-                            Err(_) => navigator.push(&Routes::ServerError)
+                            Err(_) => navigator.push(&Routes::Error)
                         }
                     });
                 }

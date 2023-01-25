@@ -17,7 +17,7 @@ pub async fn animal(animal: &AnimalData, connection: &ConnectionDB) -> Result<()
         eye_color = $5,
         hair = $6
       ",
-      &animal.fenotyp,
+      animal.fenotyp,
       litter_id,
       animal.gender == Gender::Male,
       animal.status,

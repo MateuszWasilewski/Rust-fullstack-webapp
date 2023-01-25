@@ -12,7 +12,7 @@ pub enum Gender {
 #[derive(PartialEq, Serialize, Deserialize, Clone)]
 pub struct AnimalFull {
     pub id: String,
-    pub fenotyp: String,
+    pub fenotyp: Option<String>,
     pub gender: Gender,
     pub status: Option<String>,
     pub eye_color: Option<String>,
@@ -27,7 +27,7 @@ pub struct AnimalFull {
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct AnimalData {
     pub id: String,
-    pub fenotyp: String,
+    pub fenotyp: Option<String>,
     pub gender: Gender,
     pub status: Option<String>,
     pub eye_color: Option<String>,
@@ -44,5 +44,23 @@ impl AnimalFull {
 
     pub fn add_photo(&mut self, photo: Photo) {
         self.photos.push(photo);
+    }
+}
+
+impl From<AnimalData> for AnimalFull {
+    fn from(animal: AnimalData) -> Self {
+        Self {
+            id: animal.id,
+            fenotyp: animal.fenotyp,
+            genes: vec![],
+            gender: animal.gender,
+            status: animal.status,
+            hair: animal.hair,
+            eye_color: animal.eye_color,
+            photos: vec![],
+            litter: animal.litter,
+            father: animal.father,
+            mother: animal.mother
+        }
     }
 }

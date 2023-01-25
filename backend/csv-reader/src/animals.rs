@@ -86,7 +86,7 @@ async fn parse_new() {
 
         let animal = AnimalData {
             id: record.numer_osobnika.clone(),
-            fenotyp: fenotyp,
+            fenotyp: Some(fenotyp),
             status: None,
             gender: match record.płeć == "M" {
                 true => Gender::Male,

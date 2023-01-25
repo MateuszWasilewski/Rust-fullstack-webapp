@@ -13,7 +13,7 @@ async fn fetch_animal(id: &str, state: &State<ConnectionDB>) -> Result<AnimalFul
     let get_ancestry = plotter::generate_ancestry(id, &state);
     let result = future::join4(get_animal, get_animal_photos, get_phenotypes, get_ancestry).await;
 
-    let mut animal = result.0?;
+    let mut animal: AnimalFull = result.0?.into();
     let animal_photos = result.1?;
     let phenotypes = result.2?;
     let ancestry = result.3;
@@ -38,9 +38,16 @@ pub async fn get_animal_list(state: &State<ConnectionDB>) -> Option<Json<Vec<Ani
     Some(Json(result))
 }
 
-#[get("/animal/<id>")]
-pub async fn get_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<AnimalFull>> {
+#[get("/animal-full/<id>")]
+pub async fn get_full_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<AnimalFull>> {
     let animal = fetch_animal(id, state).await.ok()?;
+
+    Some(Json(animal))
+}
+
+#[get("/animal/<id>")]
+pub async fn get_animal(id: &str, state: &State<ConnectionDB>) -> Option<Json<AnimalData>> {
+    let animal = db::select::animal(id, &state).await.ok()?;
 
     Some(Json(animal))
 }
