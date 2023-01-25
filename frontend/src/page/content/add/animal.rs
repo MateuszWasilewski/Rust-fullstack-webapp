@@ -138,17 +138,15 @@ pub fn AddAnimalTemp() -> Html {
                     hair: state.hair.clone(),
                 };
                 spawn_local(async move {
-                    if let Ok(()) = backend_api::animal::post_animal(&animal).await {
-                        navigator.push(&Routes::GoToAnimal { id: animal.id });
-                    }
-                    else {
-                        navigator.push(&Routes::ServerError)
+                    match backend_api::animal::post_animal(&animal).await {
+                        Ok(()) => navigator.push(&Routes::GoToAnimal { id: animal.id }),
+                        Err(_) => navigator.push(&Routes::ServerError)
                     }
                 });
             }
             else {
                 log(&format!("id: {:?}, phenotype: {:?}, gender: {:?}", state.id, state.phenotype, state.gender));
-                navigator.push(&Routes::NotFound)
+                navigator.push(&Routes::ServerError)
             }
         }
     });

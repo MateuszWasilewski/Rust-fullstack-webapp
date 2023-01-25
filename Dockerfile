@@ -14,10 +14,6 @@ RUN cargo install sqlx-cli
 WORKDIR /usr/build
 COPY . .
 
-RUN cd backend/db \
-    cargo sqlx prepare \
-    cd ../..
-
 ENV SQLX_OFFLINE=true
 
 #--target=aarch64-unknown-linux-gnu

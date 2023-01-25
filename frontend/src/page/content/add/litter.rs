@@ -1,5 +1,7 @@
 use common::litter::LitterData;
+use frontend_routing::Routes;
 use yew::{function_component, html, platform::spawn_local, Callback, Html};
+use yew_router::prelude::use_navigator;
 use yewdux::dispatch::Dispatch;
 use yewdux::store::Store;
 
@@ -25,15 +27,15 @@ pub fn AddLitter() -> Html {
         state.mother = event_to_text(event);
     });
 
+    let navigator = use_navigator().unwrap();
     let onclick = Callback::from(move |_| {
         let state = dispatch.get();
         let litter = state.litter.clone();
         let mother = state.mother.clone();
         let father = state.father.clone();
 
-        // TODO better error handling
         if litter.is_none() || mother.is_none() || father.is_none() {
-            return;
+            navigator.push(&Routes::ServerError);
         }
 
         let litter = LitterData {
@@ -41,10 +43,11 @@ pub fn AddLitter() -> Html {
             id_father: father.unwrap(),
             id_mother: mother.unwrap(),
         };
+        let navigator = navigator.clone();
         spawn_local(async move {
             match backend_api::litter::post_litter(&litter).await {
-                Ok(_) => (),
-                Err(_) => (),
+                Ok(_) => navigator.push(&Routes::GoToLitter { id: litter.id }),
+                Err(_) => navigator.push(&Routes::ServerError)
             }
         });
     });

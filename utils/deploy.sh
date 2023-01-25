@@ -7,6 +7,9 @@ APP_NAME=rust-server
 
 
 #sudo docker save $IMAGE | bzip2 | ssh -i $SSH_ID ubuntu@$VM_IP docker load
+pushd backend/db
+cargo sqlx prepare
+popd
 
 ./utils/zip.sh
 #sudo DOCKER_BUILDKIT=1 docker save -o /home/mateusz/Documents/Code/Rust/fullstack-webapp/$IMAGE $APP_NAME
