@@ -114,27 +114,39 @@ pub async fn animal(id: &str, connection: &ConnectionDB) -> Result<AnimalData> {
 }
 
 pub async fn litter_list(connection: &ConnectionDB) -> Result<Vec<LitterData>> {
-    let litters = sqlx::query!("SELECT * FROM LITTER")
-        .map(|row| LitterData {
-            id: row.id,
-            id_mother: row.mother,
-            id_father: row.father,
-        })
-        .fetch_all(&connection.pool)
-        .await?;
+    let litters = sqlx::query!(
+        "SELECT id, mother, father 
+        FROM LITTER
+        ORDER BY id"
+    )
+    .map(|row| LitterData {
+        id: row.id,
+        id_mother: row.mother,
+        id_father: row.father,
+    })
+    .fetch_all(&connection.pool)
+    .await?;
 
     Ok(litters)
 }
 
 pub async fn phenotype_list(connection: &ConnectionDB) -> Result<Vec<Phenotype>> {
-    let phenotypes = sqlx::query!("SELECT * FROM PHENOTYPE")
-        .map(|row| Phenotype {
-            phenotype: row.name,
-            variant: row.variant,
-            genes: AnimalGenes::new(HashMap::new()),
-        })
-        .fetch_all(&connection.pool)
-        .await?;
+    let phenotypes = sqlx::query!(
+        r#"
+        SELECT 
+        name,
+        variant
+        FROM PHENOTYPE
+        ORDER BY name
+        "#
+    )
+    .map(|row| Phenotype {
+        phenotype: row.name,
+        variant: row.variant,
+        genes: AnimalGenes::new(HashMap::new()),
+    })
+    .fetch_all(&connection.pool)
+    .await?;
 
     Ok(phenotypes)
 }
@@ -148,7 +160,8 @@ pub async fn phenotype_genes_list(connection: &ConnectionDB) -> Result<Vec<Pheno
         G.genes as "genes?"
         FROM PHENOTYPE P
         LEFT JOIN GENOTYPE G 
-        ON G.phenotype = P.name"#
+        ON G.phenotype = P.name
+        ORDER BY P.variant, P.name"#
     )
     .map(|row| {
         let mut genes: AnimalGenes = AnimalGenes::new(HashMap::new());

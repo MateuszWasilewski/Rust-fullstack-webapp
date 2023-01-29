@@ -45,14 +45,12 @@ struct State {
 }
 
 async fn set_litters(dispatch: Dispatch<State>) {
-    let mut litters = get_litters().await.unwrap_or_default();
-    litters.sort();
+    let litters = get_litters().await.unwrap_or_default();
     dispatch.reduce_mut(|state| state.litters = litters)
 }
 
 async fn set_phenotypes(dispatch: Dispatch<State>) {
-    let mut phenotypes = get_phenotypes().await.unwrap_or_default();
-    phenotypes.sort();
+    let phenotypes = get_phenotypes().await.unwrap_or_default();
     dispatch.reduce_mut(|state| state.phenotypes = phenotypes)
 }
 
