@@ -11,8 +11,8 @@ backend-api = { path = "backend-api"}
 yew = { version = "0.20.0", features = ["csr"] }
 yew-router = "0.17"
 anyhow = "1.0.66"
-web-sys = { version = "0.3.60", features = ["HtmlInputElement"] }
+web-sys = { version = "0.3.61", features = ["HtmlInputElement"] }
 wasm-utils = { path = "wasm_utils" }
-wasm-bindgen = "0.2.83"
+wasm-bindgen = "0.2.84"
 yewdux = "0.9.0"
 frontend-routing = { path = "routing" }
