@@ -1,9 +1,8 @@
-version: '0.1.0'
+version: '0.1.1'
 services:
   db-postgres:
     image: postgres
     restart: always
-    container_name: db-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
@@ -16,9 +15,11 @@ services:
         source: ./db/data
         target: /var/lib/postgresql/data
   server:
-    image: rust-server
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    image: mwasilewski12/mouse-server
     restart: always
-    container_name: server
     ports:
       - "80:8000"
     volumes:
@@ -28,5 +29,5 @@ services:
       - type: bind
         source: ./public
         target: /usr/bin/public
-    links:
+    depends_on:
       - db-postgres

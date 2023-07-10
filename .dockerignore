@@ -1,5 +1,8 @@
-target/
-.git/
-frontend/dist/
-photos/
-public/
+**/
+!backend/
+!common/
+!frontend/
+!Cargo.toml
+!Cargo.lock
+!.env
+
