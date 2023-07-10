@@ -1,45 +1,41 @@
-FROM rust:1.61.0 as build
+FROM rust:1.70.0 as build_base
 
 RUN apt update && apt upgrade -y
 RUN apt-get install \
     -y openssl libssl-dev 
-    #gcc-aarch64-linux-gnu libc6-dev-arm64-cross
 
 RUN rustup target add wasm32-unknown-unknown 
 
-FROM build as build_backend
-
-RUN cargo install sqlx-cli
+RUN cargo install \
+    sqlx-cli \
+    trunk \
+    wasm-bindgen-cli \
+    cargo-chef
 
 WORKDIR /usr/build
-COPY . .
-
 ENV SQLX_OFFLINE=true
 
-#--target=aarch64-unknown-linux-gnu
+from build_base as backend_planner 
+COPY . .
+RUN cargo chef prepare  --recipe-path recipe.json
+
+FROM build_base as build_backend
+COPY --from=backend_planner /usr/build/recipe.json recipe.json
+# Build dependencies - this is the caching Docker layer!
+RUN cargo chef cook --release --recipe-path recipe.json
+
 RUN \
-    --mount=type=cache,target=/usr/build/target \
     cargo build --release && \
     cp target/release/backend backend-app
 
-FROM build as build_frontend
-
-RUN cargo install trunk
-RUN cargo install --locked wasm-bindgen-cli
-#RUN cargo install wasm-opt
-
-WORKDIR /usr/build
+FROM build_base as build_frontend
 COPY . .
 
 # build frontend
 RUN \
-    --mount=type=cache,target=/usr/build/target \
     cd frontend && \
     trunk build --release
 
-#RUN wasm-opt -Oz -o dist/frontend-9878cf296e84afe_bg.wasm dist/frontend-9878cf296e84afe_bg.wasm
-
-#--platform=linux/aarch64
 FROM ubuntu:22.04 as release
 
 RUN apt update && apt upgrade -y

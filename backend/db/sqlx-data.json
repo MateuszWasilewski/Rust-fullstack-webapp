@@ -1,0 +1,580 @@
+{
+  "db": "PostgreSQL",
+  "2d13d05feb8935d340eb6609830c8b74d696a462f74c0588c7968753e1474aa6": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        INSERT INTO PHOTO (path)\n        VALUES ($1)"
+  },
+  "2e9c38f816335d5fa52ac193310a4b70c760188ab6964af987ca3fc943f6a349": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Bool",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        INSERT INTO ANIMAL (id, phenotype, litter, gender_male, status, eye_color, hair)\n        VALUES($1, $2, $3, $4, $5, $6, $7)"
+  },
+  "37541e80390502fba49e291471e5f3bdf6c37235f08f4ea26b3e9e03bf0403a1": {
+    "describe": {
+      "columns": [
+        {
+          "name": "photo",
+          "ordinal": 0,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT photo FROM ANIMAL_PHOTO\n        WHERE animal = $1"
+  },
+  "3c778f8f3c44445b3f09b312ed9afe574d52596ef7f16930cc2223bd498d5b45": {
+    "describe": {
+      "columns": [
+        {
+          "name": "photo",
+          "ordinal": 0,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT photo FROM LITTER_PHOTO\n        WHERE litter = $1"
+  },
+  "55030623178605ad2970dafcff06baf8509b4039c6e923a0b7741ccbc57a8961": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Json"
+        ]
+      }
+    },
+    "query": "\n        INSERT INTO GENOTYPE (phenotype, genes)\n        VALUES ($1, $2)"
+  },
+  "562e75845ae002d38ee470e52f942e70ca0aeb697e6727a6f8fc02a35e2db2f1": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "gender_male",
+          "ordinal": 1,
+          "type_info": "Bool"
+        },
+        {
+          "name": "status",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "eye_color",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "hair",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "phenotype",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "litter",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "mother?",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "father?",
+          "ordinal": 8,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n        SELECT \n            A.*,\n            L.mother as \"mother?\",\n            L.father as \"father?\"\n        FROM ANIMAL A\n        LEFT JOIN LITTER L\n            ON A.litter = L.id\n            ORDER BY A.id ASC"
+  },
+  "61a30cd86d68a0ce2ea3ff2f62f77639eb17286d52865ddea2eb648d4926f370": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        DELETE FROM ANIMAL\n        WHERE id = $1"
+  },
+  "6d37891e994fd3dc7201dd58a345e5145648cda7eb00617754f26b4d3577554a": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "gender_male",
+          "ordinal": 1,
+          "type_info": "Bool"
+        },
+        {
+          "name": "status",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "eye_color",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "hair",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "phenotype",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "litter",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "mother?",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "father?",
+          "ordinal": 8,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT \n            A.*,\n            L.mother as \"mother?\",\n            L.father as \"father?\"\n        FROM ANIMAL A\n        JOIN LITTER L\n            ON A.litter = L.id\n            WHERE A.litter = $1"
+  },
+  "79f6913f977396ef9dcd555973abbbf1e98199a003c9624fcb0da99b4542d204": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        DELETE FROM LITTER\n        WHERE id = $1"
+  },
+  "8d1f7202778a1ce17b63de2c96fad2f10144880ba5c30a6f9480ac3482b3bc3d": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        INSERT INTO PHENOTYPE (name, variant)\n        VALUES ($1, $2)"
+  },
+  "a0cfe3fa56aafe320de15d535069771075a8fa42c1ce9df25a9a8b977ac1bcc3": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id!",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "mother?",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "father?",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "depth!",
+          "ordinal": 3,
+          "type_info": "Int4"
+        }
+      ],
+      "nullable": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n        WITH RECURSIVE ancestry(id, mother, father, depth) AS (\n            SELECT A.id, L.mother, L.father, 0 as depth from ANIMAL A\n                LEFT JOIN LITTER L ON A.litter = L.id\n                WHERE A.id = $1\n            UNION ALL\n            SELECT \n                A.id, L.mother, L.father, AN.depth + 1\n            FROM ancestry AN\n            JOIN ANIMAL A ON \n                AN.mother = A.id OR AN.father = A.id\n            LEFT JOIN LITTER L ON A.litter = L.id\n            WHERE AN.depth + 1 < $2\n        )\n        SELECT \n            id as \"id!\",\n            mother as \"mother?\",\n            father as \"father?\",\n            depth as \"depth!\"\n        FROM ancestry\n    "
+  },
+  "ab55a6a5845873a7b43c6fac5d87e119b1b931a4ab85d5e5de9eafb005a5c0fe": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        INSERT INTO LITTER_PHOTO (litter, photo)\n        VALUES ($1, $2)"
+  },
+  "afcb164904ae759899f0b8049f0b639dadeadab2b2d1bb38b239764fd1ad8547": {
+    "describe": {
+      "columns": [
+        {
+          "name": "genes?",
+          "ordinal": 0,
+          "type_info": "Json"
+        }
+      ],
+      "nullable": [
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT G.genes as \"genes?\"\n            FROM ANIMAL A\n        JOIN PHENOTYPE P\n            ON A.phenotype = P.name\n        LEFT JOIN GENOTYPE G\n            ON P.name = G.phenotype\n        WHERE A.id = $1"
+  },
+  "c28716abe9ee6d5903f03bdf5e9a27615ec33583434dfa93d0541f6549117ae0": {
+    "describe": {
+      "columns": [
+        {
+          "name": "name",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "variant",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n        SELECT \n        name,\n        variant\n        FROM PHENOTYPE\n        ORDER BY name\n        "
+  },
+  "cb4770fb604f903d461fec35fdad54f2e6d8f849d6d403cc2ddeae50383ec696": {
+    "describe": {
+      "columns": [
+        {
+          "name": "name!",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "variant!",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "genes?",
+          "ordinal": 2,
+          "type_info": "Json"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n        SELECT \n        P.name as \"name!\",\n        P.variant as \"variant!\",\n        G.genes as \"genes?\"\n        FROM PHENOTYPE P\n        LEFT JOIN GENOTYPE G \n        ON G.phenotype = P.name\n        ORDER BY P.variant, P.name"
+  },
+  "cb50df08d6076e293e3cc1904ec452669b54e2e4737a6079720848302ef33fd3": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "mother",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "father",
+          "ordinal": 2,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "SELECT id, mother, father \n        FROM LITTER\n        ORDER BY id"
+  },
+  "d02a6593335486082d1db86e9066c41f28fc0065ccccf92d301f70909972d8dc": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        INSERT INTO LITTER (id, mother, father)\n        VALUES($1, $2, $3)"
+  },
+  "e27199f6068f940c9f498face75e499b93c4ec151e53917fd2a2c374de577950": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "gender_male",
+          "ordinal": 1,
+          "type_info": "Bool"
+        },
+        {
+          "name": "status",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "eye_color",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "hair",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "phenotype",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "litter",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "mother?",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "father?",
+          "ordinal": 8,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT A.*, \n        L.mother as \"mother?\", \n        L.father as \"father?\"\n        FROM ANIMAL A\n        LEFT JOIN LITTER L\n        ON A.litter = L.id\n        WHERE A.id = $1"
+  },
+  "f7f5e582ccce28ffd83e6ffc529803fe4a33c76d957c218c6cfbfa8fd0776f17": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Bool",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n      UPDATE ANIMAL SET \n        phenotype = $1,\n        litter = $2,\n        gender_male = $3,\n        status = $4,\n        eye_color = $5,\n        hair = $6\n      "
+  },
+  "f8740d0af2423460bbaf7b109176b52447bddbf6468f2e2a8244860103f58327": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "gender_male",
+          "ordinal": 1,
+          "type_info": "Bool"
+        },
+        {
+          "name": "status",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "eye_color",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "hair",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "phenotype",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "litter",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "mother?",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "father?",
+          "ordinal": 8,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT A.*, \n        L.mother as \"mother?\", \n        L.father as \"father?\"\n        FROM ANIMAL A\n        LEFT JOIN LITTER L\n        ON A.litter = L.id\n        WHERE \n            regexp_count(A.id, $1, 1, 'i') > 0\n        OR \n            regexp_count(A.phenotype, $1, 1, 'i') > 0\n        ORDER BY A.id ASC\n        "
+  }
+}
