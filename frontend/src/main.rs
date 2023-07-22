@@ -1,8 +1,11 @@
-use yew::Renderer;
+// use yew::Renderer;
+use leptos::*;
 
-mod common;
+// mod common;
 mod page;
 
+use page::App;
+
 fn main() {
-    Renderer::<page::App>::new().render();
+    leptos::mount_to_body(|cx| view! { cx, <App/> });
 }

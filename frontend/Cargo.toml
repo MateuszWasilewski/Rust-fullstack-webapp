@@ -6,13 +6,15 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-common = { path = "../common"}
-backend-api = { path = "backend-api"}
-yew = { version = "0.20.0", features = ["csr"] }
-yew-router = "0.17"
-anyhow = "1.0.66"
-web-sys = { version = "0.3.61", features = ["HtmlInputElement"] }
-wasm-utils = { path = "wasm_utils" }
-wasm-bindgen = "0.2.84"
-yewdux = "0.9.0"
-frontend-routing = { path = "routing" }
+leptos = { version = "0.4.5", features = ["csr", "nightly"] }
+leptos_router = { version = "0.4.5", features = ["csr", "nightly"] }
+# common = { path = "../common"}
+# backend-api = { path = "backend-api"}
+# yew = { version = "0.20.0", features = ["csr"] }
+# yew-router = "0.17"
+# anyhow = "1.0.66"
+# web-sys = { version = "0.3.61", features = ["HtmlInputElement"] }
+# wasm-utils = { path = "wasm_utils" }
+# wasm-bindgen = "0.2.84"
+# yewdux = "0.9.0"
+# frontend-routing = { path = "routing" }

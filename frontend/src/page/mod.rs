@@ -1,20 +1,34 @@
-use yew::{function_component, html, Html};
-use yew_router::BrowserRouter;
+use leptos::*;
+use leptos_router::Router;
 
 mod content;
-mod navbar;
+mod navigation;
 
-use content::Content;
-use navbar::Navbar;
+pub use navigation::paths;
 
-#[function_component(App)]
-pub fn get_app() -> Html {
-    html! {
-        <>
-            <BrowserRouter>
-                <Navbar />
-                <Content />
-            </BrowserRouter>
-        </>
+use content::PageContent;
+use navigation::Navbar;
+
+#[component]
+fn Home(cx: Scope) -> impl IntoView {
+    view!(cx,
+    <a>"Some text"</a>
+      )
+}
+
+#[component]
+fn AnimalList(cx: Scope) -> impl IntoView {
+    view!(cx,
+    <a>"Some Animal text"</a>
+      )
+}
+
+#[component]
+pub fn App(cx: Scope) -> impl IntoView {
+    view! { cx,
+        <Router>
+            <Navbar/>
+            <PageContent/>
+        </Router>
     }
 }
