@@ -1,4 +1,7 @@
 use crate::common::table::{List, Listable, RowView};
+use crate::page::navigation::links::{
+    get_animal_link, get_optional_animal_link, get_optional_litter_link,
+};
 use backend_api::AnimalData;
 use leptos::*;
 
@@ -8,20 +11,14 @@ async fn fetch_data() -> Option<Vec<AnimalData>> {
 
 struct AnimalListData {}
 
-impl AnimalListData {
-    fn new() -> AnimalListData {
-        AnimalListData {}
-    }
-}
-
 fn animal_to_row(cx: Scope, animal: AnimalData) -> RowView {
     vec![
-        animal.id.into_view(cx),
-        animal.litter.into_view(cx),
+        get_animal_link(cx, animal.id).into_view(cx),
+        get_optional_litter_link(cx, animal.litter).into_view(cx),
         animal.fenotyp.into_view(cx),
         animal.status.into_view(cx),
-        animal.father.into_view(cx),
-        animal.mother.into_view(cx),
+        get_optional_animal_link(cx, animal.father).into_view(cx),
+        get_optional_animal_link(cx, animal.mother).into_view(cx),
     ]
 }
 
@@ -61,7 +58,7 @@ impl Listable for AnimalListData {
 
 #[component]
 pub fn AnimalList(cx: Scope) -> impl IntoView {
-    let data = AnimalListData::new();
+    let data = AnimalListData {};
 
     view!(cx,
         <List data={data} />

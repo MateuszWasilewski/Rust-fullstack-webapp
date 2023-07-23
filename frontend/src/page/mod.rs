@@ -7,7 +7,7 @@ mod navigation;
 pub use navigation::paths;
 
 use content::PageContent;
-use navigation::Navbar;
+use navigation::navbar::Navbar;
 
 #[component]
 fn Home(cx: Scope) -> impl IntoView {
