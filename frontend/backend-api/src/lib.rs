@@ -2,4 +2,6 @@ mod request;
 
 pub use request::*;
 
-pub use common::{litter::LitterData, AnimalData, AnimalFull, Phenotype, SearchResult};
+pub use common::{
+    animal::Gender, litter::LitterData, AnimalData, AnimalFull, Phenotype, SearchResult,
+};

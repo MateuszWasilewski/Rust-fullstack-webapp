@@ -60,11 +60,13 @@ use leptos_router::{Route, Routes};
 
 mod home;
 mod list;
+mod unique_id;
 
 use home::Home;
 use list::animal::AnimalList;
 use list::litter::LitterList;
 use list::phenotype::PhenotypeList;
+use unique_id::animal::Animal;
 
 #[component]
 pub fn PageContent(cx: Scope) -> impl IntoView {
@@ -76,6 +78,7 @@ pub fn PageContent(cx: Scope) -> impl IntoView {
                 <Route path={paths::ANIMAL_LIST} view=AnimalList/>
                 <Route path={paths::LITTER_LIST} view=LitterList/>
                 <Route path={paths::PHENOTYPE_LIST} view=PhenotypeList/>
+                <Route path={paths::ANIMAL} view=Animal/>
             </Routes>
         </div>
     }

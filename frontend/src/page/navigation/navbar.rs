@@ -45,7 +45,6 @@ pub fn Navbar(cx: Scope) -> impl IntoView {
                     <ul class="dropdown-menu">
                         <DropdownLink href="/litter" text="Miot"/>
                         <DropdownLink href="/animal" text="Mysz"/>
-                        <DropdownLink href="/phenotype" text="Fenotyp"/>
                     </ul>
                 </div>
                 </li>
