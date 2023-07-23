@@ -35,7 +35,7 @@ pub fn Navbar(cx: Scope) -> impl IntoView {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <NavLink href={paths::ANIMAL_LIST} text="Lista Myszy"/>
-                <NavLink href="/phenotypes" text="Lista Fenotypów"/>
+                <NavLink href={paths::PHENOTYPE_LIST} text="Lista Fenotypów"/>
                 <NavLink href={paths::LITTER_LIST} text="Lista Miotów"/>
                 <li class="nav-item dropdown">
                 <div class="btn-group">

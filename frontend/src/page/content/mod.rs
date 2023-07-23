@@ -64,6 +64,7 @@ mod list;
 use home::Home;
 use list::animal::AnimalList;
 use list::litter::LitterList;
+use list::phenotype::PhenotypeList;
 
 #[component]
 pub fn PageContent(cx: Scope) -> impl IntoView {
@@ -74,6 +75,7 @@ pub fn PageContent(cx: Scope) -> impl IntoView {
                 <Route path={paths::HOME} view=Home/>
                 <Route path={paths::ANIMAL_LIST} view=AnimalList/>
                 <Route path={paths::LITTER_LIST} view=LitterList/>
+                <Route path={paths::PHENOTYPE_LIST} view=PhenotypeList/>
             </Routes>
         </div>
     }
