@@ -1,7 +1,6 @@
-// use yew::Renderer;
-use leptos::*;
+use leptos::view;
 
-// mod common;
+mod common;
 mod page;
 
 use page::App;

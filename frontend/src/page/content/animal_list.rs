@@ -1,76 +1,69 @@
-use yew::platform::spawn_local;
-use yew::{html, Html, function_component};
-use yewdux::prelude::{use_store_value, Dispatch};
-use yewdux::store::Store;
+use crate::common::table::{List, Listable, RowView};
+use backend_api::AnimalData;
+use leptos::*;
 
-use crate::common::table::{RowProps, TableWithTags};
-use frontend_routing::links::{get_animal_link, get_litter_link};
-use common::AnimalData;
-
-fn animal_tags() -> RowProps {
-    vec![
-        "id osobnika".into(),
-        "nr miotu".into(),
-        "fenotyp".into(),
-        "status".into(),
-        "ojciec".into(),
-        "matka".into(),
-    ]
+async fn fetch_data() -> Option<Vec<AnimalData>> {
+    backend_api::get::all_animal().await.ok()
 }
 
-fn animal_to_row(animal: &AnimalData) -> RowProps {
-    vec![
-        get_animal_link(&animal.id),
-        match &animal.litter {
-            Some(id) => get_litter_link(&id),
-            None => "--".into()
-        },
-        animal.fenotyp.clone().unwrap_or("nieznany".into()).into(),
-        animal.status.clone().unwrap_or("nieznany".into()).into(),
-        match &animal.father {
-            Some(id) => get_animal_link(&id),
-            None => "--".into(),
-        },
-        match &animal.mother {
-            Some(id) => get_animal_link(&id),
-            None => "--".into(),
-        },
-    ]
-}
+struct AnimalListData {}
 
-#[derive(PartialEq, Default, Store, Clone)]
-struct State {
-    animals: Option<Vec<AnimalData>>,
-}
-
-async fn fetch_data() {
-    let dispatch = Dispatch::<State>::new();
-    backend_api::get::all_animal().await.map(|animals| {
-        dispatch.reduce_mut(|state| state.animals = Some(animals));
-    }).ok();
-}
-
-#[function_component]
-fn Page() -> Html {
-    let state = use_store_value::<State>();
-    let animal_list: Vec<RowProps> = state.animals.clone().unwrap_or_default().iter()
-        .map(animal_to_row).collect();
-    let tags = animal_tags();
-    html! {
-        <>
-            <h2>{ "Lista Myszy" }</h2>
-            <div id="animal_list">
-                <TableWithTags tags={tags} data={animal_list} />
-            </div>
-        </>
-        }
-}
-
-#[function_component]
-pub fn AnimalList() -> Html {
-    spawn_local(fetch_data());
-
-    html! {
-        <Page />
+impl AnimalListData {
+    fn new() -> AnimalListData {
+        AnimalListData {}
     }
+}
+
+fn animal_to_row(cx: Scope, animal: AnimalData) -> RowView {
+    vec![
+        animal.id.into_view(cx),
+        animal.litter.into_view(cx),
+        animal.fenotyp.into_view(cx),
+        animal.status.into_view(cx),
+        animal.father.into_view(cx),
+        animal.mother.into_view(cx),
+    ]
+}
+
+impl Listable for AnimalListData {
+    fn get_column_tags(&self, cx: Scope) -> ReadSignal<RowView> {
+        let (result, _) = create_signal(
+            cx,
+            vec![
+                "id osobnika".into_view(cx),
+                "nr miotu".into_view(cx),
+                "fenotyp".into_view(cx),
+                "status".into_view(cx),
+                "ojciec".into_view(cx),
+                "matka".into_view(cx),
+            ],
+        );
+        return result;
+    }
+
+    fn get_rows(&self, cx: Scope) -> ReadSignal<Vec<RowView>> {
+        let animals_resource = create_resource(cx, || (), |_| async move { fetch_data().await });
+        let (read, write) = create_signal(cx, vec![]);
+        create_effect(cx, move |_| {
+            write.set(
+                animals_resource
+                    .read(cx)
+                    .unwrap_or_default()
+                    .unwrap_or_default()
+                    .into_iter()
+                    .map(|animal| animal_to_row(cx, animal))
+                    .collect(),
+            )
+        });
+        return read;
+    }
+}
+
+#[component]
+pub fn AnimalList(cx: Scope) -> impl IntoView {
+    let data = AnimalListData::new();
+
+    view!(cx,
+        <List data={data} />
+    )
 }

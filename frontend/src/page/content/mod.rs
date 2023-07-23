@@ -58,17 +58,21 @@ use super::paths;
 use leptos::*;
 use leptos_router::{Route, Routes};
 
+mod animal_list;
 mod home;
 
+use animal_list::AnimalList;
 use home::Home;
 
 #[component]
 pub fn PageContent(cx: Scope) -> impl IntoView {
     view! {
         cx,
-        <Routes>
-            <Route path={paths::HOME} view=Home/>
-            // <Route path={paths::ANIMAL_LIST} view=AnimalList/>
-        </Routes>
+        <div class="container">
+            <Routes>
+                <Route path={paths::HOME} view=Home/>
+                <Route path={paths::ANIMAL_LIST} view=AnimalList/>
+            </Routes>
+        </div>
     }
 }

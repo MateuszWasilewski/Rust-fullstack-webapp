@@ -11,7 +11,7 @@ use rocket::fs::FileServer;
 #[rocket::main]
 async fn main() -> Result<()> {
     let db_connection = db::connect_db().await?;
-    //csv_reader::run().await;
+    csv_reader::run().await;
 
     let _rocket = rocket::build()
         .mount("/", web::get_routes())
