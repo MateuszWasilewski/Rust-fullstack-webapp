@@ -9,7 +9,7 @@ edition = "2021"
 common = { path = "../common"}
 backend-api = { path = "backend-api"}
 yew = { version = "0.20.0", features = ["csr"] }
-yew-router = "0.17"
+yew-router = "0.18"
 anyhow = "1.0.66"
 web-sys = { version = "0.3.61", features = ["HtmlInputElement"] }
 wasm-utils = { path = "wasm_utils" }
