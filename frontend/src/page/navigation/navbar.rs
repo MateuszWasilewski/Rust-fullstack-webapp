@@ -3,9 +3,9 @@ use crate::page::navigation::paths;
 use leptos::*;
 
 #[component]
-fn NavLink(cx: Scope, href: &'static str, text: &'static str) -> impl IntoView {
+fn NavLink(href: &'static str, text: &'static str) -> impl IntoView {
     view! {
-        cx,
+
         <li class="nav-item dropdown">
             <Link href={href.to_owned()} text={text.to_owned()}/>
         </li>
@@ -13,9 +13,9 @@ fn NavLink(cx: Scope, href: &'static str, text: &'static str) -> impl IntoView {
 }
 
 #[component]
-fn DropdownLink(cx: Scope, href: &'static str, text: &'static str) -> impl IntoView {
+fn DropdownLink(href: &'static str, text: &'static str) -> impl IntoView {
     view! {
-        cx,
+
         <li class="dropdown-item">
             <Link href={href.to_owned()} text={text.to_owned()}/>
         </li>
@@ -23,9 +23,8 @@ fn DropdownLink(cx: Scope, href: &'static str, text: &'static str) -> impl IntoV
 }
 
 #[component]
-pub fn Navbar(cx: Scope) -> impl IntoView {
+pub fn Navbar() -> impl IntoView {
     view! {
-        cx,
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href={paths::HOME}>"Baza Myszy"</a>

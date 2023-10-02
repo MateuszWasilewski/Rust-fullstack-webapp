@@ -7,42 +7,38 @@ use leptos::*;
 
 struct LitterListData {}
 
-fn litter_to_row_view(cx: Scope, litter: LitterData) -> RowView {
+fn litter_to_row_view(litter: LitterData) -> RowView {
     vec![
-        get_litter_link(cx, litter.id).into_view(cx),
-        get_animal_link(cx, litter.id_father).into_view(cx),
-        get_animal_link(cx, litter.id_mother).into_view(cx),
+        get_litter_link(litter.id).into_view(),
+        get_animal_link(litter.id_father).into_view(),
+        get_animal_link(litter.id_mother).into_view(),
     ]
 }
 
 impl Listable for LitterListData {
-    fn get_column_tags(&self, cx: Scope) -> ReadSignal<RowView> {
-        let (read, _) = create_signal(
-            cx,
-            vec![
-                "id miotu".into_view(cx),
-                "id ojca".into_view(cx),
-                "id matki".into_view(cx),
-            ],
-        );
+    fn get_column_tags(&self) -> ReadSignal<RowView> {
+        let (read, _) = create_signal(vec![
+            "id miotu".into_view(),
+            "id ojca".into_view(),
+            "id matki".into_view(),
+        ]);
         return read;
     }
 
-    fn get_rows(&self, cx: Scope) -> ReadSignal<Vec<RowView>> {
-        let (read, write) = create_signal(cx, vec![]);
+    fn get_rows(&self) -> ReadSignal<Vec<RowView>> {
+        let (read, write) = create_signal(vec![]);
         let resource = create_resource(
-            cx,
             || (),
             |_| async move { backend_api::get::litter_list().await.ok() },
         );
-        create_effect(cx, move |_| {
+        create_effect(move |_| {
             write.set(
                 resource
-                    .read(cx)
+                    .get()
                     .unwrap_or_default()
                     .unwrap_or_default()
                     .into_iter()
-                    .map(|litter| litter_to_row_view(cx, litter))
+                    .map(|litter| litter_to_row_view(litter))
                     .collect(),
             );
         });
@@ -51,10 +47,10 @@ impl Listable for LitterListData {
 }
 
 #[component]
-pub fn LitterList(cx: Scope) -> impl IntoView {
+pub fn LitterList() -> impl IntoView {
     let data = LitterListData {};
 
-    view!(cx,
+    view!(,
         <List data={data} />
     )
 }

@@ -1,36 +1,35 @@
 use crate::common::table::{List, Listable, RowView};
 use leptos::*;
 
-fn phenotype_to_row(cx: Scope, phenotype: backend_api::Phenotype) -> RowView {
+fn phenotype_to_row(phenotype: backend_api::Phenotype) -> RowView {
     vec![
-        phenotype.variant.clone().into_view(cx),
-        phenotype.phenotype.clone().into_view(cx),
+        phenotype.variant.clone().into_view(),
+        phenotype.phenotype.clone().into_view(),
     ]
 }
 
 struct PhenotypeListData {}
 
 impl Listable for PhenotypeListData {
-    fn get_column_tags(&self, cx: Scope) -> ReadSignal<RowView> {
-        let (read, _) = create_signal(cx, vec!["wariant".into_view(cx), "fenotyp".into_view(cx)]);
+    fn get_column_tags(&self) -> ReadSignal<RowView> {
+        let (read, _) = create_signal(vec!["wariant".into_view(), "fenotyp".into_view()]);
         return read;
     }
 
-    fn get_rows(&self, cx: Scope) -> ReadSignal<Vec<RowView>> {
+    fn get_rows(&self) -> ReadSignal<Vec<RowView>> {
         let resource = create_resource(
-            cx,
             || (),
             |_| async move { backend_api::get::phenotypes().await.ok() },
         );
-        let (read, write) = create_signal(cx, vec![]);
-        create_effect(cx, move |_| {
+        let (read, write) = create_signal(vec![]);
+        create_effect(move |_| {
             write.set(
                 resource
-                    .read(cx)
+                    .get()
                     .unwrap_or_default()
                     .unwrap_or_default()
                     .into_iter()
-                    .map(|phenotype| phenotype_to_row(cx, phenotype))
+                    .map(|phenotype| phenotype_to_row(phenotype))
                     .collect(),
             );
         });
@@ -38,10 +37,10 @@ impl Listable for PhenotypeListData {
     }
 }
 #[component]
-pub fn PhenotypeList(cx: Scope) -> impl IntoView {
+pub fn PhenotypeList() -> impl IntoView {
     let data = PhenotypeListData {};
 
-    view!(cx,
+    view!(
         <List data={data}/>
     )
 }

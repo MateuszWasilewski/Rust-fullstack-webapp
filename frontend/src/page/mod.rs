@@ -10,22 +10,22 @@ use content::PageContent;
 use navigation::navbar::Navbar;
 
 #[component]
-fn Home(cx: Scope) -> impl IntoView {
-    view!(cx,
+fn Home() -> impl IntoView {
+    view!(
     <a>"Some text"</a>
       )
 }
 
 #[component]
-fn AnimalList(cx: Scope) -> impl IntoView {
-    view!(cx,
+fn AnimalList() -> impl IntoView {
+    view!(
     <a>"Some Animal text"</a>
       )
 }
 
 #[component]
-pub fn App(cx: Scope) -> impl IntoView {
-    view! { cx,
+pub fn App() -> impl IntoView {
+    view! {
         <Router>
             <Navbar/>
             <PageContent/>

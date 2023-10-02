@@ -11,44 +11,41 @@ async fn fetch_data() -> Option<Vec<AnimalData>> {
 
 struct AnimalListData {}
 
-fn animal_to_row(cx: Scope, animal: AnimalData) -> RowView {
+fn animal_to_row(animal: AnimalData) -> RowView {
     vec![
-        get_animal_link(cx, animal.id).into_view(cx),
-        get_optional_litter_link(cx, animal.litter).into_view(cx),
-        animal.fenotyp.into_view(cx),
-        animal.status.into_view(cx),
-        get_optional_animal_link(cx, animal.father).into_view(cx),
-        get_optional_animal_link(cx, animal.mother).into_view(cx),
+        get_animal_link(animal.id).into_view(),
+        get_optional_litter_link(animal.litter).into_view(),
+        animal.fenotyp.into_view(),
+        animal.status.into_view(),
+        get_optional_animal_link(animal.father).into_view(),
+        get_optional_animal_link(animal.mother).into_view(),
     ]
 }
 
 impl Listable for AnimalListData {
-    fn get_column_tags(&self, cx: Scope) -> ReadSignal<RowView> {
-        let (result, _) = create_signal(
-            cx,
-            vec![
-                "id osobnika".into_view(cx),
-                "nr miotu".into_view(cx),
-                "fenotyp".into_view(cx),
-                "status".into_view(cx),
-                "ojciec".into_view(cx),
-                "matka".into_view(cx),
-            ],
-        );
+    fn get_column_tags(&self) -> ReadSignal<RowView> {
+        let (result, _) = create_signal(vec![
+            "id osobnika".into_view(),
+            "nr miotu".into_view(),
+            "fenotyp".into_view(),
+            "status".into_view(),
+            "ojciec".into_view(),
+            "matka".into_view(),
+        ]);
         return result;
     }
 
-    fn get_rows(&self, cx: Scope) -> ReadSignal<Vec<RowView>> {
-        let animals_resource = create_resource(cx, || (), |_| async move { fetch_data().await });
-        let (read, write) = create_signal(cx, vec![]);
-        create_effect(cx, move |_| {
+    fn get_rows(&self) -> ReadSignal<Vec<RowView>> {
+        let animals_resource = create_resource(|| (), |_| async move { fetch_data().await });
+        let (read, write) = create_signal(vec![]);
+        create_effect(move |_| {
             write.set(
                 animals_resource
-                    .read(cx)
+                    .get()
                     .unwrap_or_default()
                     .unwrap_or_default()
                     .into_iter()
-                    .map(|animal| animal_to_row(cx, animal))
+                    .map(|animal| animal_to_row(animal))
                     .collect(),
             )
         });
@@ -57,10 +54,10 @@ impl Listable for AnimalListData {
 }
 
 #[component]
-pub fn AnimalList(cx: Scope) -> impl IntoView {
+pub fn AnimalList() -> impl IntoView {
     let data = AnimalListData {};
 
-    view!(cx,
+    view!(
         <List data={data} />
     )
 }

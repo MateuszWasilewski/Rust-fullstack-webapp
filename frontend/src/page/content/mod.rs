@@ -55,7 +55,7 @@
 //     }
 // }
 use super::paths;
-use leptos::{component, view, IntoView, Scope};
+use leptos::{component, view, IntoView};
 use leptos_router::{Route, Routes};
 
 mod home;
@@ -69,9 +69,8 @@ use list::phenotype::PhenotypeList;
 use unique_id::animal::Animal;
 
 #[component]
-pub fn PageContent(cx: Scope) -> impl IntoView {
+pub fn PageContent() -> impl IntoView {
     view! {
-        cx,
         <div class="container">
             <Routes>
                 <Route path={paths::HOME} view=Home/>

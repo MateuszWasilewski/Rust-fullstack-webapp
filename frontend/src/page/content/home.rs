@@ -1,9 +1,8 @@
 use leptos::*;
 
 #[component]
-pub fn Home(cx: Scope) -> impl IntoView {
+pub fn Home() -> impl IntoView {
     view! {
-      cx,
       <>
       <h2>{"Witamy na stronie!"} </h2>
       <p>{"Strona stanowi interfejs graficzny do bazy myszy kolorowych, należacej oraz zarządzanej przez studentów z Sekcji Genetycznej Koła Naukowego Zoologów SGGW"}</p>
@@ -13,4 +12,3 @@ pub fn Home(cx: Scope) -> impl IntoView {
       </>
     }
 }
-

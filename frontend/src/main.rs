@@ -6,5 +6,5 @@ mod page;
 use page::App;
 
 fn main() {
-    leptos::mount_to_body(|cx| view! { cx, <App/> });
+    leptos::mount_to_body(|| view! { <App/> });
 }
