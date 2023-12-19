@@ -14,5 +14,5 @@ anyhow = "1.0.66"
 web-sys = { version = "0.3.61", features = ["HtmlInputElement"] }
 wasm-utils = { path = "wasm_utils" }
 wasm-bindgen = "0.2.84"
-yewdux = "0.9.0"
+yewdux = "0.10.0"
 frontend-routing = { path = "routing" }
